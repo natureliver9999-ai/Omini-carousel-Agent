@@ -34,3 +34,6 @@ carousels/
 # OS
 .DS_Store
 Thumbs.db
+
+# Drag-and-drop deploy bundle (generated, never committed)
+omni-carousel-site.zip
