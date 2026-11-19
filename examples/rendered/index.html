@@ -1,0 +1,288 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>omni-carousel · rendered decks</title>
+<style>
+  :root {
+    --bg: #0b0c0e; --panel: #14161a; --line: #262a31; --text: #f4f1ea; --dim: #9aa1ad;
+    --accent: #c8ff32; --serif: ui-serif, Georgia, 'Times New Roman', serif;
+    --sans: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif;
+    --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--text); font-family: var(--sans); }
+  a { color: inherit; }
+  header.hero { padding: 72px clamp(20px, 5vw, 72px) 40px; border-bottom: 1px solid var(--line); }
+  .eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .18em; text-transform: uppercase; color: var(--accent); }
+  h1 { font-family: var(--serif); font-weight: 700; font-size: clamp(34px, 5vw, 64px); line-height: 1.02; margin: 18px 0 16px; max-width: 22ch; }
+  .lede { color: var(--dim); max-width: 62ch; line-height: 1.55; font-size: 17px; }
+  .stats { display: flex; flex-wrap: wrap; gap: 32px; margin-top: 34px; }
+  .stat b { display: block; font-family: var(--serif); font-size: 34px; }
+  .stat span { font-family: var(--mono); font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--dim); }
+  main { padding: 44px clamp(20px, 5vw, 72px) 96px; display: grid; gap: 40px; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); }
+  .deck { background: var(--panel); border: 1px solid var(--line); border-radius: 18px; overflow: hidden; display: flex; flex-direction: column; }
+  .cover { position: relative; display: block; padding: 0; border: 0; background: #000; cursor: zoom-in; }
+  .cover img { width: 100%; display: block; transition: transform .5s ease, opacity .3s ease; }
+  .cover:hover img { transform: scale(1.02); }
+  .cover-badge { position: absolute; left: 14px; bottom: 14px; font-family: var(--mono); font-size: 11px; letter-spacing: .1em; text-transform: uppercase; background: rgba(11,12,14,.82); color: var(--accent); padding: 6px 10px; border-radius: 999px; }
+  .meta { padding: 18px 20px 22px; display: flex; flex-direction: column; gap: 10px; }
+  .meta h3 { margin: 0; font-family: var(--serif); font-size: 22px; line-height: 1.2; }
+  .sub { margin: 0; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+  .pill { font-family: var(--mono); font-size: 10px; letter-spacing: .12em; text-transform: uppercase; border: 1px solid var(--line); border-radius: 999px; padding: 4px 9px; color: var(--dim); }
+  .dim { color: var(--dim); font-family: var(--mono); font-size: 11px; }
+  .patterns { margin: 0; display: flex; flex-wrap: wrap; gap: 6px; }
+  .patterns span { font-size: 11px; color: var(--accent); border-bottom: 1px solid rgba(200,255,50,.35); padding-bottom: 1px; }
+  .strip { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; }
+  .strip img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; border-radius: 6px; opacity: .82; }
+  .links { margin: 4px 0 0; display: flex; flex-wrap: wrap; gap: 14px; font-family: var(--mono); font-size: 11px; letter-spacing: .06em; text-transform: uppercase; }
+  .links a { color: var(--dim); text-decoration: none; border-bottom: 1px solid var(--line); padding-bottom: 2px; }
+  .links a:hover { color: var(--accent); border-color: var(--accent); }
+  .lightbox { position: fixed; inset: 0; background: rgba(4,5,7,.94); z-index: 10; overflow: auto; }
+  .lightbox[hidden] { display: none; }
+  .lb-inner { max-width: 1280px; margin: 0 auto; padding: 28px clamp(16px, 4vw, 48px) 64px; }
+  .lb-inner header { display: flex; justify-content: space-between; align-items: center; gap: 16px; position: sticky; top: 0; background: rgba(4,5,7,.92); padding: 10px 0 18px; backdrop-filter: blur(6px); }
+  .lb-inner h4 { font-family: var(--serif); font-size: 24px; margin: 0; }
+  .lb-inner button { background: transparent; color: var(--text); border: 1px solid var(--line); border-radius: 999px; padding: 8px 16px; cursor: pointer; font-family: var(--mono); font-size: 11px; text-transform: uppercase; letter-spacing: .1em; }
+  .lb-slides { display: grid; gap: 22px; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); }
+  .lb-slides figure { margin: 0; }
+  .lb-slides img { width: 100%; border-radius: 10px; display: block; }
+  .lb-slides figcaption { font-family: var(--mono); font-size: 11px; color: var(--dim); margin-top: 8px; }
+  footer { border-top: 1px solid var(--line); padding: 28px clamp(20px, 5vw, 72px) 64px; color: var(--dim); font-family: var(--mono); font-size: 11px; letter-spacing: .06em; display: flex; flex-wrap: wrap; gap: 18px; justify-content: space-between; }
+  @media (prefers-reduced-motion: reduce) { .cover img { transition: none; } }
+</style>
+</head>
+<body>
+<header class="hero">
+  <p class="eyebrow">omni-carousel-agent · gallery</p>
+  <h1>Every deck here was written as JSON and rendered by the engine.</h1>
+  <p class="lede">No design tool, no browser renderer, no stock-template. Copy budgets, WCAG contrast and panorama geometry are enforced by the linter before a single pixel is drawn — then the same spec renders the PNG slides, the multi-page PDF, the printable HTML deck and the caption.</p>
+  <div class="stats">
+    <div class="stat"><b>8</b><span>decks</span></div>
+    <div class="stat"><b>59</b><span>slides</span></div>
+    <div class="stat"><b>11</b><span>layouts used</span></div>
+    <div class="stat"><b>4</b><span>themes</span></div>
+    <div class="stat"><b>resvg</b><span>renderer</span></div>
+  </div>
+</header>
+<main>
+      <article class="deck" data-platform="instagram" data-theme="editorial">
+        <button class="cover" data-open="ig-all-layouts" aria-label="Open Eleven Layouts, One Deck">
+          <img loading="lazy" src="ig-all-layouts/slides/slide-01.png" alt="Cover of Eleven Layouts, One Deck" />
+          <span class="cover-badge">11 slides</span>
+        </button>
+        <div class="meta">
+          <h3>Eleven Layouts, One Deck</h3>
+          <p class="sub"><span class="pill">instagram</span><span class="pill">editorial</span><span class="dim">2.74s</span></p>
+          <p class="patterns"><span>hook</span><span>contrast</span><span>system</span><span>playbook</span><span>framework</span><span>evidence</span><span>open loop</span><span>human</span><span>authority</span><span>recap</span><span>conversion</span></p>
+          <div class="strip"><img loading="lazy" src="ig-all-layouts/slides/slide-02.png" alt="contrast_split slide" /><img loading="lazy" src="ig-all-layouts/slides/slide-03.png" alt="layer_stack slide" /><img loading="lazy" src="ig-all-layouts/slides/slide-04.png" alt="steps slide" /><img loading="lazy" src="ig-all-layouts/slides/slide-05.png" alt="bento_grid slide" /><img loading="lazy" src="ig-all-layouts/slides/slide-06.png" alt="data_chart slide" /></div>
+          <p class="links"><a href="ig-all-layouts/ig-all-layouts.pdf">PDF</a><a href="ig-all-layouts/deck.html">HTML deck</a><a href="ig-all-layouts/spec.json">spec.json</a><a href="ig-all-layouts/caption.md">caption.md</a></p>
+        </div>
+      </article>
+      <article class="deck" data-platform="instagram" data-theme="brutal-bento">
+        <button class="cover" data-open="ig-bento-agent-stack" aria-label="Open The 2026 Creator Agent Stack">
+          <img loading="lazy" src="ig-bento-agent-stack/slides/slide-01.png" alt="Cover of The 2026 Creator Agent Stack" />
+          <span class="cover-badge">6 slides</span>
+        </button>
+        <div class="meta">
+          <h3>The 2026 Creator Agent Stack</h3>
+          <p class="sub"><span class="pill">instagram</span><span class="pill">brutal-bento</span><span class="dim">1.29s</span></p>
+          <p class="patterns"><span>hook</span><span>framework</span><span>playbook</span><span>recap</span><span>conversion</span></p>
+          <div class="strip"><img loading="lazy" src="ig-bento-agent-stack/slides/slide-02.png" alt="bento_grid slide" /><img loading="lazy" src="ig-bento-agent-stack/slides/slide-03.png" alt="steps slide" /><img loading="lazy" src="ig-bento-agent-stack/slides/slide-04.png" alt="bento_grid slide" /><img loading="lazy" src="ig-bento-agent-stack/slides/slide-05.png" alt="summary slide" /><img loading="lazy" src="ig-bento-agent-stack/slides/slide-06.png" alt="cta slide" /></div>
+          <p class="links"><a href="ig-bento-agent-stack/ig-bento-agent-stack.pdf">PDF</a><a href="ig-bento-agent-stack/deck.html">HTML deck</a><a href="ig-bento-agent-stack/spec.json">spec.json</a><a href="ig-bento-agent-stack/caption.md">caption.md</a></p>
+        </div>
+      </article>
+      <article class="deck" data-platform="instagram" data-theme="editorial">
+        <button class="cover" data-open="ig-contrast-myths" aria-label="Open Three Carousel Myths, Measured">
+          <img loading="lazy" src="ig-contrast-myths/slides/slide-01.png" alt="Cover of Three Carousel Myths, Measured" />
+          <span class="cover-badge">7 slides</span>
+        </button>
+        <div class="meta">
+          <h3>Three Carousel Myths, Measured</h3>
+          <p class="sub"><span class="pill">instagram</span><span class="pill">editorial</span><span class="dim">1.55s</span></p>
+          <p class="patterns"><span>hook</span><span>contrast</span><span>authority</span><span>recap</span><span>conversion</span></p>
+          <div class="strip"><img loading="lazy" src="ig-contrast-myths/slides/slide-02.png" alt="contrast_split slide" /><img loading="lazy" src="ig-contrast-myths/slides/slide-03.png" alt="contrast_split slide" /><img loading="lazy" src="ig-contrast-myths/slides/slide-04.png" alt="contrast_split slide" /><img loading="lazy" src="ig-contrast-myths/slides/slide-05.png" alt="proof slide" /><img loading="lazy" src="ig-contrast-myths/slides/slide-06.png" alt="summary slide" /></div>
+          <p class="links"><a href="ig-contrast-myths/ig-contrast-myths.pdf">PDF</a><a href="ig-contrast-myths/deck.html">HTML deck</a><a href="ig-contrast-myths/spec.json">spec.json</a><a href="ig-contrast-myths/caption.md">caption.md</a></p>
+        </div>
+      </article>
+      <article class="deck" data-platform="instagram" data-theme="brutal-bento">
+        <button class="cover" data-open="ig-layer-stack-architecture" aria-label="Open Anatomy of an Agent-Made Carousel">
+          <img loading="lazy" src="ig-layer-stack-architecture/slides/slide-01.png" alt="Cover of Anatomy of an Agent-Made Carousel" />
+          <span class="cover-badge">7 slides</span>
+        </button>
+        <div class="meta">
+          <h3>Anatomy of an Agent-Made Carousel</h3>
+          <p class="sub"><span class="pill">instagram</span><span class="pill">brutal-bento</span><span class="dim">1.52s</span></p>
+          <p class="patterns"><span>hook</span><span>system</span><span>framework</span><span>recap</span><span>conversion</span></p>
+          <div class="strip"><img loading="lazy" src="ig-layer-stack-architecture/slides/slide-02.png" alt="layer_stack slide" /><img loading="lazy" src="ig-layer-stack-architecture/slides/slide-03.png" alt="layer_stack slide" /><img loading="lazy" src="ig-layer-stack-architecture/slides/slide-04.png" alt="layer_stack slide" /><img loading="lazy" src="ig-layer-stack-architecture/slides/slide-05.png" alt="bento_grid slide" /><img loading="lazy" src="ig-layer-stack-architecture/slides/slide-06.png" alt="summary slide" /></div>
+          <p class="links"><a href="ig-layer-stack-architecture/ig-layer-stack-architecture.pdf">PDF</a><a href="ig-layer-stack-architecture/deck.html">HTML deck</a><a href="ig-layer-stack-architecture/spec.json">spec.json</a><a href="ig-layer-stack-architecture/caption.md">caption.md</a></p>
+        </div>
+      </article>
+      <article class="deck" data-platform="instagram" data-theme="brutal-bento">
+        <button class="cover" data-open="ig-panorama-retention" aria-label="Open The Six-Swipe Playbook">
+          <img loading="lazy" src="ig-panorama-retention/slides/slide-01.png" alt="Cover of The Six-Swipe Playbook" />
+          <span class="cover-badge">8 slides</span>
+        </button>
+        <div class="meta">
+          <h3>The Six-Swipe Playbook</h3>
+          <p class="sub"><span class="pill">instagram</span><span class="pill">brutal-bento</span><span class="dim">1.92s</span></p>
+          <p class="patterns"><span>hook</span><span>playbook</span><span>evidence</span><span>framework</span><span>recap</span><span>conversion</span></p>
+          <div class="strip"><img loading="lazy" src="ig-panorama-retention/slides/slide-02.png" alt="steps slide" /><img loading="lazy" src="ig-panorama-retention/slides/slide-03.png" alt="steps slide" /><img loading="lazy" src="ig-panorama-retention/slides/slide-04.png" alt="steps slide" /><img loading="lazy" src="ig-panorama-retention/slides/slide-05.png" alt="data_chart slide" /><img loading="lazy" src="ig-panorama-retention/slides/slide-06.png" alt="bento_grid slide" /></div>
+          <p class="links"><a href="ig-panorama-retention/ig-panorama-retention.pdf">PDF</a><a href="ig-panorama-retention/deck.html">HTML deck</a><a href="ig-panorama-retention/spec.json">spec.json</a><a href="ig-panorama-retention/caption.md">caption.md</a></p>
+        </div>
+      </article>
+      <article class="deck" data-platform="instagram" data-theme="editorial">
+        <button class="cover" data-open="ig-reveal-hold-diagnostic" aria-label="Open Why Your Carousel Dies On Slide Two">
+          <img loading="lazy" src="ig-reveal-hold-diagnostic/slides/slide-01.png" alt="Cover of Why Your Carousel Dies On Slide Two" />
+          <span class="cover-badge">6 slides</span>
+        </button>
+        <div class="meta">
+          <h3>Why Your Carousel Dies On Slide Two</h3>
+          <p class="sub"><span class="pill">instagram</span><span class="pill">editorial</span><span class="dim">1.46s</span></p>
+          <p class="patterns"><span>hook</span><span>open loop</span><span>contrast</span><span>evidence</span><span>recap</span><span>conversion</span></p>
+          <div class="strip"><img loading="lazy" src="ig-reveal-hold-diagnostic/slides/slide-02.png" alt="reveal_hold slide" /><img loading="lazy" src="ig-reveal-hold-diagnostic/slides/slide-03.png" alt="contrast_split slide" /><img loading="lazy" src="ig-reveal-hold-diagnostic/slides/slide-04.png" alt="data_chart slide" /><img loading="lazy" src="ig-reveal-hold-diagnostic/slides/slide-05.png" alt="summary slide" /><img loading="lazy" src="ig-reveal-hold-diagnostic/slides/slide-06.png" alt="cta slide" /></div>
+          <p class="links"><a href="ig-reveal-hold-diagnostic/ig-reveal-hold-diagnostic.pdf">PDF</a><a href="ig-reveal-hold-diagnostic/deck.html">HTML deck</a><a href="ig-reveal-hold-diagnostic/spec.json">spec.json</a><a href="ig-reveal-hold-diagnostic/caption.md">caption.md</a></p>
+        </div>
+      </article>
+      <article class="deck" data-platform="instagram" data-theme="scrapbook">
+        <button class="cover" data-open="ig-scrapbook-founder-note" aria-label="Open I Deleted 40 Carousels">
+          <img loading="lazy" src="ig-scrapbook-founder-note/slides/slide-01.png" alt="Cover of I Deleted 40 Carousels" />
+          <span class="cover-badge">6 slides</span>
+        </button>
+        <div class="meta">
+          <h3>I Deleted 40 Carousels</h3>
+          <p class="sub"><span class="pill">instagram</span><span class="pill">scrapbook</span><span class="dim">1.54s</span></p>
+          <p class="patterns"><span>hook</span><span>human</span><span>contrast</span><span>evidence</span><span>recap</span><span>conversion</span></p>
+          <div class="strip"><img loading="lazy" src="ig-scrapbook-founder-note/slides/slide-02.png" alt="scrapbook slide" /><img loading="lazy" src="ig-scrapbook-founder-note/slides/slide-03.png" alt="contrast_split slide" /><img loading="lazy" src="ig-scrapbook-founder-note/slides/slide-04.png" alt="data_chart slide" /><img loading="lazy" src="ig-scrapbook-founder-note/slides/slide-05.png" alt="summary slide" /><img loading="lazy" src="ig-scrapbook-founder-note/slides/slide-06.png" alt="cta slide" /></div>
+          <p class="links"><a href="ig-scrapbook-founder-note/ig-scrapbook-founder-note.pdf">PDF</a><a href="ig-scrapbook-founder-note/deck.html">HTML deck</a><a href="ig-scrapbook-founder-note/spec.json">spec.json</a><a href="ig-scrapbook-founder-note/caption.md">caption.md</a></p>
+        </div>
+      </article>
+      <article class="deck" data-platform="linkedin" data-theme="linkedin-executive">
+        <button class="cover" data-open="li-executive-ai-adoption" aria-label="Open AI Adoption: What the 2026 Data Actually Shows">
+          <img loading="lazy" src="li-executive-ai-adoption/slides/slide-01.png" alt="Cover of AI Adoption: What the 2026 Data Actually Shows" />
+          <span class="cover-badge">8 slides</span>
+        </button>
+        <div class="meta">
+          <h3>AI Adoption: What the 2026 Data Actually Shows</h3>
+          <p class="sub"><span class="pill">linkedin</span><span class="pill">linkedin-executive</span><span class="dim">1.75s</span></p>
+          <p class="patterns"><span>hook</span><span>authority</span><span>evidence</span><span>framework</span><span>playbook</span><span>recap</span><span>conversion</span></p>
+          <div class="strip"><img loading="lazy" src="li-executive-ai-adoption/slides/slide-02.png" alt="proof slide" /><img loading="lazy" src="li-executive-ai-adoption/slides/slide-03.png" alt="data_chart slide" /><img loading="lazy" src="li-executive-ai-adoption/slides/slide-04.png" alt="proof slide" /><img loading="lazy" src="li-executive-ai-adoption/slides/slide-05.png" alt="bento_grid slide" /><img loading="lazy" src="li-executive-ai-adoption/slides/slide-06.png" alt="steps slide" /></div>
+          <p class="links"><a href="li-executive-ai-adoption/li-executive-ai-adoption.pdf">PDF</a><a href="li-executive-ai-adoption/deck.html">HTML deck</a><a href="li-executive-ai-adoption/spec.json">spec.json</a><a href="li-executive-ai-adoption/caption.md">caption.md</a></p>
+        </div>
+      </article></main>
+
+      <div class="lightbox" id="lb-ig-all-layouts" hidden>
+        <div class="lb-inner">
+          <header>
+            <h4>Eleven Layouts, One Deck</h4>
+            <button data-close>Close</button>
+          </header>
+          <div class="lb-slides">
+            <figure><img loading="lazy" src="ig-all-layouts/slides/slide-01.png" alt="cover_hook" /><figcaption>1. cover_hook</figcaption></figure><figure><img loading="lazy" src="ig-all-layouts/slides/slide-02.png" alt="contrast_split" /><figcaption>2. contrast_split</figcaption></figure><figure><img loading="lazy" src="ig-all-layouts/slides/slide-03.png" alt="layer_stack" /><figcaption>3. layer_stack</figcaption></figure><figure><img loading="lazy" src="ig-all-layouts/slides/slide-04.png" alt="steps" /><figcaption>4. steps</figcaption></figure><figure><img loading="lazy" src="ig-all-layouts/slides/slide-05.png" alt="bento_grid" /><figcaption>5. bento_grid</figcaption></figure><figure><img loading="lazy" src="ig-all-layouts/slides/slide-06.png" alt="data_chart" /><figcaption>6. data_chart</figcaption></figure><figure><img loading="lazy" src="ig-all-layouts/slides/slide-07.png" alt="reveal_hold" /><figcaption>7. reveal_hold</figcaption></figure><figure><img loading="lazy" src="ig-all-layouts/slides/slide-08.png" alt="scrapbook" /><figcaption>8. scrapbook</figcaption></figure><figure><img loading="lazy" src="ig-all-layouts/slides/slide-09.png" alt="proof" /><figcaption>9. proof</figcaption></figure><figure><img loading="lazy" src="ig-all-layouts/slides/slide-10.png" alt="summary" /><figcaption>10. summary</figcaption></figure><figure><img loading="lazy" src="ig-all-layouts/slides/slide-11.png" alt="cta" /><figcaption>11. cta</figcaption></figure>
+          </div>
+        </div>
+      </div>
+      <div class="lightbox" id="lb-ig-bento-agent-stack" hidden>
+        <div class="lb-inner">
+          <header>
+            <h4>The 2026 Creator Agent Stack</h4>
+            <button data-close>Close</button>
+          </header>
+          <div class="lb-slides">
+            <figure><img loading="lazy" src="ig-bento-agent-stack/slides/slide-01.png" alt="cover_hook" /><figcaption>1. cover_hook</figcaption></figure><figure><img loading="lazy" src="ig-bento-agent-stack/slides/slide-02.png" alt="bento_grid" /><figcaption>2. bento_grid</figcaption></figure><figure><img loading="lazy" src="ig-bento-agent-stack/slides/slide-03.png" alt="steps" /><figcaption>3. steps</figcaption></figure><figure><img loading="lazy" src="ig-bento-agent-stack/slides/slide-04.png" alt="bento_grid" /><figcaption>4. bento_grid</figcaption></figure><figure><img loading="lazy" src="ig-bento-agent-stack/slides/slide-05.png" alt="summary" /><figcaption>5. summary</figcaption></figure><figure><img loading="lazy" src="ig-bento-agent-stack/slides/slide-06.png" alt="cta" /><figcaption>6. cta</figcaption></figure>
+          </div>
+        </div>
+      </div>
+      <div class="lightbox" id="lb-ig-contrast-myths" hidden>
+        <div class="lb-inner">
+          <header>
+            <h4>Three Carousel Myths, Measured</h4>
+            <button data-close>Close</button>
+          </header>
+          <div class="lb-slides">
+            <figure><img loading="lazy" src="ig-contrast-myths/slides/slide-01.png" alt="cover_hook" /><figcaption>1. cover_hook</figcaption></figure><figure><img loading="lazy" src="ig-contrast-myths/slides/slide-02.png" alt="contrast_split" /><figcaption>2. contrast_split</figcaption></figure><figure><img loading="lazy" src="ig-contrast-myths/slides/slide-03.png" alt="contrast_split" /><figcaption>3. contrast_split</figcaption></figure><figure><img loading="lazy" src="ig-contrast-myths/slides/slide-04.png" alt="contrast_split" /><figcaption>4. contrast_split</figcaption></figure><figure><img loading="lazy" src="ig-contrast-myths/slides/slide-05.png" alt="proof" /><figcaption>5. proof</figcaption></figure><figure><img loading="lazy" src="ig-contrast-myths/slides/slide-06.png" alt="summary" /><figcaption>6. summary</figcaption></figure><figure><img loading="lazy" src="ig-contrast-myths/slides/slide-07.png" alt="cta" /><figcaption>7. cta</figcaption></figure>
+          </div>
+        </div>
+      </div>
+      <div class="lightbox" id="lb-ig-layer-stack-architecture" hidden>
+        <div class="lb-inner">
+          <header>
+            <h4>Anatomy of an Agent-Made Carousel</h4>
+            <button data-close>Close</button>
+          </header>
+          <div class="lb-slides">
+            <figure><img loading="lazy" src="ig-layer-stack-architecture/slides/slide-01.png" alt="cover_hook" /><figcaption>1. cover_hook</figcaption></figure><figure><img loading="lazy" src="ig-layer-stack-architecture/slides/slide-02.png" alt="layer_stack" /><figcaption>2. layer_stack</figcaption></figure><figure><img loading="lazy" src="ig-layer-stack-architecture/slides/slide-03.png" alt="layer_stack" /><figcaption>3. layer_stack</figcaption></figure><figure><img loading="lazy" src="ig-layer-stack-architecture/slides/slide-04.png" alt="layer_stack" /><figcaption>4. layer_stack</figcaption></figure><figure><img loading="lazy" src="ig-layer-stack-architecture/slides/slide-05.png" alt="bento_grid" /><figcaption>5. bento_grid</figcaption></figure><figure><img loading="lazy" src="ig-layer-stack-architecture/slides/slide-06.png" alt="summary" /><figcaption>6. summary</figcaption></figure><figure><img loading="lazy" src="ig-layer-stack-architecture/slides/slide-07.png" alt="cta" /><figcaption>7. cta</figcaption></figure>
+          </div>
+        </div>
+      </div>
+      <div class="lightbox" id="lb-ig-panorama-retention" hidden>
+        <div class="lb-inner">
+          <header>
+            <h4>The Six-Swipe Playbook</h4>
+            <button data-close>Close</button>
+          </header>
+          <div class="lb-slides">
+            <figure><img loading="lazy" src="ig-panorama-retention/slides/slide-01.png" alt="cover_hook" /><figcaption>1. cover_hook</figcaption></figure><figure><img loading="lazy" src="ig-panorama-retention/slides/slide-02.png" alt="steps" /><figcaption>2. steps</figcaption></figure><figure><img loading="lazy" src="ig-panorama-retention/slides/slide-03.png" alt="steps" /><figcaption>3. steps</figcaption></figure><figure><img loading="lazy" src="ig-panorama-retention/slides/slide-04.png" alt="steps" /><figcaption>4. steps</figcaption></figure><figure><img loading="lazy" src="ig-panorama-retention/slides/slide-05.png" alt="data_chart" /><figcaption>5. data_chart</figcaption></figure><figure><img loading="lazy" src="ig-panorama-retention/slides/slide-06.png" alt="bento_grid" /><figcaption>6. bento_grid</figcaption></figure><figure><img loading="lazy" src="ig-panorama-retention/slides/slide-07.png" alt="summary" /><figcaption>7. summary</figcaption></figure><figure><img loading="lazy" src="ig-panorama-retention/slides/slide-08.png" alt="cta" /><figcaption>8. cta</figcaption></figure>
+          </div>
+        </div>
+      </div>
+      <div class="lightbox" id="lb-ig-reveal-hold-diagnostic" hidden>
+        <div class="lb-inner">
+          <header>
+            <h4>Why Your Carousel Dies On Slide Two</h4>
+            <button data-close>Close</button>
+          </header>
+          <div class="lb-slides">
+            <figure><img loading="lazy" src="ig-reveal-hold-diagnostic/slides/slide-01.png" alt="cover_hook" /><figcaption>1. cover_hook</figcaption></figure><figure><img loading="lazy" src="ig-reveal-hold-diagnostic/slides/slide-02.png" alt="reveal_hold" /><figcaption>2. reveal_hold</figcaption></figure><figure><img loading="lazy" src="ig-reveal-hold-diagnostic/slides/slide-03.png" alt="contrast_split" /><figcaption>3. contrast_split</figcaption></figure><figure><img loading="lazy" src="ig-reveal-hold-diagnostic/slides/slide-04.png" alt="data_chart" /><figcaption>4. data_chart</figcaption></figure><figure><img loading="lazy" src="ig-reveal-hold-diagnostic/slides/slide-05.png" alt="summary" /><figcaption>5. summary</figcaption></figure><figure><img loading="lazy" src="ig-reveal-hold-diagnostic/slides/slide-06.png" alt="cta" /><figcaption>6. cta</figcaption></figure>
+          </div>
+        </div>
+      </div>
+      <div class="lightbox" id="lb-ig-scrapbook-founder-note" hidden>
+        <div class="lb-inner">
+          <header>
+            <h4>I Deleted 40 Carousels</h4>
+            <button data-close>Close</button>
+          </header>
+          <div class="lb-slides">
+            <figure><img loading="lazy" src="ig-scrapbook-founder-note/slides/slide-01.png" alt="cover_hook" /><figcaption>1. cover_hook</figcaption></figure><figure><img loading="lazy" src="ig-scrapbook-founder-note/slides/slide-02.png" alt="scrapbook" /><figcaption>2. scrapbook</figcaption></figure><figure><img loading="lazy" src="ig-scrapbook-founder-note/slides/slide-03.png" alt="contrast_split" /><figcaption>3. contrast_split</figcaption></figure><figure><img loading="lazy" src="ig-scrapbook-founder-note/slides/slide-04.png" alt="data_chart" /><figcaption>4. data_chart</figcaption></figure><figure><img loading="lazy" src="ig-scrapbook-founder-note/slides/slide-05.png" alt="summary" /><figcaption>5. summary</figcaption></figure><figure><img loading="lazy" src="ig-scrapbook-founder-note/slides/slide-06.png" alt="cta" /><figcaption>6. cta</figcaption></figure>
+          </div>
+        </div>
+      </div>
+      <div class="lightbox" id="lb-li-executive-ai-adoption" hidden>
+        <div class="lb-inner">
+          <header>
+            <h4>AI Adoption: What the 2026 Data Actually Shows</h4>
+            <button data-close>Close</button>
+          </header>
+          <div class="lb-slides">
+            <figure><img loading="lazy" src="li-executive-ai-adoption/slides/slide-01.png" alt="cover_hook" /><figcaption>1. cover_hook</figcaption></figure><figure><img loading="lazy" src="li-executive-ai-adoption/slides/slide-02.png" alt="proof" /><figcaption>2. proof</figcaption></figure><figure><img loading="lazy" src="li-executive-ai-adoption/slides/slide-03.png" alt="data_chart" /><figcaption>3. data_chart</figcaption></figure><figure><img loading="lazy" src="li-executive-ai-adoption/slides/slide-04.png" alt="proof" /><figcaption>4. proof</figcaption></figure><figure><img loading="lazy" src="li-executive-ai-adoption/slides/slide-05.png" alt="bento_grid" /><figcaption>5. bento_grid</figcaption></figure><figure><img loading="lazy" src="li-executive-ai-adoption/slides/slide-06.png" alt="steps" /><figcaption>6. steps</figcaption></figure><figure><img loading="lazy" src="li-executive-ai-adoption/slides/slide-07.png" alt="summary" /><figcaption>7. summary</figcaption></figure><figure><img loading="lazy" src="li-executive-ai-adoption/slides/slide-08.png" alt="cta" /><figcaption>8. cta</figcaption></figure>
+          </div>
+        </div>
+      </div>
+<footer>
+  <span>Generated by <code>node core-engine/dist/cli.js gallery</code></span>
+  <span>2026-11-19</span>
+</footer>
+<script>
+  document.querySelectorAll('[data-open]').forEach((button) => {
+    button.addEventListener('click', () => {
+      const box = document.getElementById('lb-' + button.dataset.open);
+      if (box) box.hidden = false;
+      document.body.style.overflow = 'hidden';
+    });
+  });
+  document.querySelectorAll('[data-close]').forEach((button) => {
+    button.addEventListener('click', () => {
+      button.closest('.lightbox').hidden = true;
+      document.body.style.overflow = '';
+    });
+  });
+  document.addEventListener('keydown', (event) => {
+    if (event.key !== 'Escape') return;
+    document.querySelectorAll('.lightbox').forEach((box) => { box.hidden = true; });
+    document.body.style.overflow = '';
+  });
+</script>
+</body>
+</html>

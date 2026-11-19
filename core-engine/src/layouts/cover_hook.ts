@@ -69,8 +69,9 @@ export function coverHookLayout(ctx: SlideContext): Node[] {
     cursor += sub.height + 34;
   }
 
-  // Bottom rail: sits just under the copy so the page never reads bottom-heavy.
-  const railY = Math.min(CONTENT_BOTTOM - 90, cursor + 86);
+  // Bottom rail: pinned to the foot of the safe area, so a short cover does not
+  // leave a void under the copy (and a long one still clears it).
+  const railY = Math.min(CONTENT_BOTTOM - 96, Math.max(cursor + 86, CONTENT_BOTTOM - 196));
   if (slide.icon) {
     nodes.push(rect(M, railY, 96, 96, p.accent, { rx: 26 }));
     nodes.push(...drawIcon(M + 24, railY + 24, 48, slide.icon, { color: p.accentText, strokeWidth: 2 }));

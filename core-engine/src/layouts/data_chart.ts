@@ -28,10 +28,12 @@ export function dataChartLayout(ctx: SlideContext): Node[] {
   nodes.push(...panel(ctx, {
     x: M, y: chartTop, w: CW, h: chartH, fill: p.surface, stroke: withAlpha(p.text, 0.1), rx: 24, shadow: false,
   }));
+  // The y-axis labels are end-anchored left of the plot box, so the box needs a
+  // gutter wide enough for "100%" or they hang outside the card.
   nodes.push(...drawChart(slide.chart, {
     palette: p,
     theme: ctx.theme,
-    box: { x: M + 40, y: chartTop + 36, w: CW - 80, h: chartH - 72 },
+    box: { x: M + 104, y: chartTop + 36, w: CW - 104 - 36, h: chartH - 72 },
   }));
 
   if (slide.takeaway) {

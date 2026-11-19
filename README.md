@@ -16,6 +16,11 @@ One deterministic engine. Nine tools. Thirteen host integrations. Four themes. E
 
 <p align="center"><sub>Rendered by this repo — no Figma, no browser, ~1.8 s for an eight-slide deck.</sub></p>
 
+<p align="center">
+  <a href="examples/rendered/index.html"><b>▸ Open the gallery</b></a> — 8 decks, 59 slides, every artefact one click away.
+  <br /><sub><code>npm run serve-gallery</code> then visit <code>localhost:4173</code></sub>
+</p>
+
 ---
 
 ## Why this exists
@@ -34,8 +39,9 @@ git clone https://github.com/natureliver9999-ai/Omini-carousel-Agent.git
 cd Omini-carousel-Agent
 npm install && npm run build
 
-# Render every example deck into examples/rendered/
+# Render every example deck into examples/rendered/, then build the gallery page
 npm run render:examples
+npm run serve-gallery        # → http://localhost:4173
 
 # Validate and render your own
 node core-engine/dist/cli.js validate examples/specs/ig-contrast-myths.json --strict
@@ -186,7 +192,7 @@ sdks/
   python-sdk/          omni_carousel: Pydantic models, tools, runner, CLI
 skills/carousel-architect/   SKILL.md + references + starter specs, for host skills
 connectors/            13 hosts + a merge-safe installer
-examples/              7 pattern specs and their committed rendered output
+examples/              8 pattern specs, committed rendered output, and a generated gallery page
 docs/research/         5-part research corpus behind every rule
 .github/workflows/     lint, golden images, MCP conformance, connectors, release
 ```
@@ -204,15 +210,16 @@ Remote rendering means untrusted input reaching a file system and a network. The
 
 ## Testing
 
-112 tests across five suites:
+118 tests across five suites:
 
 ```bash
-npm test                                    # engine: lint, schema, panorama, golden (38)
+npm test                                    # engine: lint, schema, panorama, golden, gallery (44)
 npm test --workspace=omni-carousel-mcp      # MCP contract, signed URLs, traversal (26)
 npm test --workspace=omni-carousel          # SDK tool dialects, MCP fragments (8)
 pytest sdks/python-sdk                      # models, tools, runner (32)
 pytest mcp-server/python                    # FastMCP conformance (8)
 
+npm run gallery                             # rebuild examples/rendered/index.html
 node scripts/check-parity.mjs               # layouts/tools/budgets/themes across languages
 node scripts/validate-connectors.mjs        # 13 connector configs + OpenAPI sync
 node scripts/smoke-connectors.mjs           # installer: merge safety, idempotency, uninstall

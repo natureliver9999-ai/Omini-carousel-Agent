@@ -27,13 +27,18 @@ interface ChartDeps {
   box: ChartBox;
 }
 
-function niceMax(value: number): number {
-  if (value <= 0) return 1;
-  const exp = Math.floor(Math.log10(value));
-  const base = Math.pow(10, exp);
-  const scaled = value / base;
-  const nice = scaled <= 1 ? 1 : scaled <= 2 ? 2 : scaled <= 2.5 ? 2.5 : scaled <= 5 ? 5 : 10;
-  return nice * base;
+/**
+ * Ceiling for a chart with three gridlines. The old ladder jumped 63 -> 100 and
+ * wasted the top third of the plot; choosing the step first keeps the data tall
+ * and the tick labels round (63 -> step 25 -> 75).
+ */
+function niceMax(value: number, steps = 3): number {
+  if (!Number.isFinite(value) || value <= 0) return 1;
+  const raw = value / steps;
+  const exp = Math.pow(10, Math.floor(Math.log10(raw)));
+  const fraction = raw / exp;
+  const niceFraction = fraction <= 1 ? 1 : fraction <= 2 ? 2 : fraction <= 2.5 ? 2.5 : fraction <= 5 ? 5 : 10;
+  return niceFraction * exp * steps;
 }
 
 function formatValue(value: number, unit?: string): string {

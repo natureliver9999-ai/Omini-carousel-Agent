@@ -13,6 +13,7 @@ import { formatLintReport, lintSpec } from './lint.js';
 import { listThemes, loadTheme, themeDir, auditThemeContrast } from './themes.js';
 import { renderCarousel, renderSlidePreview, defaultOutputRoot, sanitizeSlug } from './render.js';
 import { renderExamples, examplesDir } from './examples.js';
+import { defaultRenderedRoot, writeGallery } from './gallery.js';
 import { buildFullPlaybook, buildPlaybook, PLAYBOOK_TOPICS, type PlaybookTopic } from './playbook.js';
 import { renderChartPng, parseChart } from './assets/quickchart.js';
 import { renderDiagramSvg } from './assets/mermaid.js';
@@ -62,7 +63,12 @@ Usage
   omni-carousel chart <chart.json> [--out file.png] [--theme id]
   omni-carousel diagram <file.mmd> [--out file.svg] [--theme id]
   omni-carousel examples [--out dir] [--only id,id]
+  omni-carousel gallery [--rendered dir] [--out index.html]
   omni-carousel doctor [--json]
+
+Gallery
+  --rendered <dir>        tree of rendered decks (default: examples/rendered)
+  --out <file>            output page (default: <rendered>/index.html)
 
 Render options
   --theme <id>            editorial | brutal-bento | scrapbook | linkedin-executive | <path.json>
@@ -224,6 +230,15 @@ async function main(): Promise<number> {
       fs.mkdirSync(path.dirname(out), { recursive: true });
       fs.writeFileSync(out, svg);
       console.log(`wrote ${out}`);
+      return 0;
+    }
+
+    case 'gallery': {
+      const renderedRoot = typeof flags.rendered === 'string' ? path.resolve(flags.rendered) : defaultRenderedRoot();
+      const outFile = typeof flags.out === 'string' ? path.resolve(flags.out) : path.join(renderedRoot, 'index.html');
+      const { decks } = writeGallery({ renderedRoot, outFile });
+      if (flags.json === true) json({ ok: true, outFile, decks: decks.map((deck) => deck.id) });
+      else console.log(`Gallery: ${decks.length} decks, ${decks.reduce((sum, deck) => sum + deck.slides.length, 0)} slides -> ${outFile}`);
       return 0;
     }
 

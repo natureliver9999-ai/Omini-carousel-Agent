@@ -1,0 +1,258 @@
+{
+  "version": "1.0",
+  "id": "ig-all-layouts",
+  "title": "Eleven Layouts, One Deck",
+  "platform": "instagram",
+  "goal": "saves",
+  "theme": "editorial",
+  "brand": {
+    "name": "Omni Carousel",
+    "handle": "omnicarousel",
+    "mark": "OC"
+  },
+  "caption": {
+    "text": "Every layout in this engine, at the edge of its copy budget, in a single deck.\n\nThis is the QA deck: if a headline collides with a number, a tile overflows or a chart axis leaves its card, it shows up here first — and the golden-image test fails before it ships.",
+    "hashtags": [
+      "carousels",
+      "design"
+    ]
+  },
+  "slides": [
+    {
+      "eyebrow": "STRESS TEST 2026",
+      "headline": "Eleven layouts, eleven ways to break a deck",
+      "alt_text": "Cover: eleven layouts, eleven ways to break a deck.",
+      "layout": "cover_hook",
+      "sub": "Maximal copy, longest labels, five steps and nine tiles — all in one deck.",
+      "badge": "QA",
+      "icon": "grid",
+      "kicker": "Every layout, worst case:"
+    },
+    {
+      "headline": "Two claims, one variable flipped",
+      "alt_text": "Split slide: the old way versus the new way, with a verdict underneath.",
+      "layout": "contrast_split",
+      "mode": "split",
+      "left": {
+        "label": "THE OLD WAY",
+        "text": "Write the deck first and fix the layout later.",
+        "items": [
+          "Guess the hierarchy",
+          "Crop in the app",
+          "Retype on mobile"
+        ]
+      },
+      "right": {
+        "label": "THE NEW WAY",
+        "text": "Declare the spec, then render the pixels.",
+        "items": [
+          "Typed layouts",
+          "Fixed geometry",
+          "Same bytes twice"
+        ]
+      },
+      "verdict": "The variable is who owns the pixels."
+    },
+    {
+      "headline": "Five layers, four active",
+      "alt_text": "Five stacked layers, four active, with the spec layer highlighted.",
+      "layout": "layer_stack",
+      "layers": [
+        {
+          "label": "Intent",
+          "detail": "Platform, goal, audience."
+        },
+        {
+          "label": "Playbook",
+          "detail": "Benchmarks and hooks."
+        },
+        {
+          "label": "Spec",
+          "detail": "A typed contract."
+        },
+        {
+          "label": "Render",
+          "detail": "Deterministic raster."
+        },
+        {
+          "label": "Bundle",
+          "detail": "Slides, PDF, caption."
+        }
+      ],
+      "active_layers": 4,
+      "total_layers": 5
+    },
+    {
+      "headline": "Five steps with two-line details",
+      "alt_text": "Five numbered steps with two-line details.",
+      "layout": "steps",
+      "steps": [
+        {
+          "title": "Freeze the fonts",
+          "detail": "Bundle the TTFs so text cannot reflow on another machine."
+        },
+        {
+          "title": "Pin the renderer",
+          "detail": "Resvg only in CI."
+        },
+        {
+          "title": "Hash the slides",
+          "detail": "sha256 per PNG."
+        },
+        {
+          "title": "Re-render examples",
+          "detail": "Commit the output."
+        },
+        {
+          "title": "Read the pixels",
+          "detail": "The only test that catches collisions."
+        }
+      ],
+      "emphasis": "numbered"
+    },
+    {
+      "headline": "Nine tiles, six with numbers",
+      "alt_text": "Nine-tile bento grid, one accent tile, three tiles carrying numbers.",
+      "layout": "bento_grid",
+      "tiles": [
+        {
+          "label": "Host",
+          "value": "Model",
+          "text": "Plans the narrative",
+          "accent": true,
+          "icon": "brain"
+        },
+        {
+          "label": "Skill",
+          "value": "Rules",
+          "text": "Benchmarks in context",
+          "icon": "book"
+        },
+        {
+          "label": "MCP",
+          "value": "Tools",
+          "text": "Nine endpoints",
+          "icon": "cpu"
+        },
+        {
+          "label": "Engine",
+          "value": "Pixels",
+          "text": "Deterministic raster",
+          "icon": "layers"
+        },
+        {
+          "label": "Storage",
+          "value": "Files",
+          "text": "Slides and PDF",
+          "icon": "database"
+        },
+        {
+          "label": "Proof",
+          "value": "Source",
+          "text": "Every number cited",
+          "icon": "shield-check"
+        },
+        {
+          "label": "Budget",
+          "value": "70",
+          "text": "Words per slide"
+        },
+        {
+          "label": "Span",
+          "value": "6",
+          "text": "Slides max",
+          "span": 2
+        },
+        {
+          "label": "Themes",
+          "value": "4",
+          "text": "Audited"
+        }
+      ]
+    },
+    {
+      "headline": "Eight points on one line",
+      "alt_text": "Line chart of retention across eight slides, rising to 63 percent.",
+      "layout": "data_chart",
+      "chart": {
+        "kind": "line",
+        "labels": [
+          "S1",
+          "S2",
+          "S3",
+          "S4",
+          "S5",
+          "S6",
+          "S7",
+          "S8"
+        ],
+        "values": [
+          18,
+          26,
+          24,
+          38,
+          44,
+          41,
+          56,
+          63
+        ],
+        "unit": "%"
+      },
+      "takeaway": "Retention climbs through slide eight.",
+      "source": "Omni internal QA harness, 2026"
+    },
+    {
+      "headline": "Then the deck has to pay it back immediately",
+      "footer_hook": "Next frame: the rule",
+      "alt_text": "Open-loop slide with body copy and a bleeding teaser card.",
+      "layout": "reveal_hold",
+      "body": "A frame that only sets context asks the reader to invest before giving them a reason. The next slide has to pay that investment back instantly.",
+      "teaser_label": "The fix is one rule"
+    },
+    {
+      "headline": "A note with every optional field filled",
+      "alt_text": "Taped note card with a marker highlight and a save prompt.",
+      "layout": "scrapbook",
+      "note": "Scrapbook is the layout where imperfection is the point, but the imperfection has to be the same every time — that is what makes it reproducible.",
+      "callout": "Same jitter, every run",
+      "sticker": "v0.1",
+      "underline_word": "reproducible"
+    },
+    {
+      "headline": "A metric with a long label and a distinct credit",
+      "alt_text": "Proof slide: 12.4x faster to a rendered deck, with a named source.",
+      "layout": "proof",
+      "metric_value": "12.4×",
+      "metric_label": "Faster to a rendered deck than a design tool",
+      "finding": "Measuring render time against a comparable manual workflow, including the export and the resize.",
+      "source": "Omni QA harness, internal benchmark, 2026",
+      "attribution": "Omni engineering"
+    },
+    {
+      "headline": "What to remember",
+      "alt_text": "Six-bullet recap with a save prompt.",
+      "layout": "summary",
+      "bullets": [
+        "Every layout has a copy budget",
+        "Long labels shrink, never overflow",
+        "Footers clear the counter",
+        "Numbers get measured room",
+        "Panoramas span three to five",
+        "One CTA, always last"
+      ],
+      "save_prompt": "Save the stress deck"
+    },
+    {
+      "headline": "Comment STRESS for the QA deck",
+      "alt_text": "Comment CTA asking for the keyword STRESS.",
+      "layout": "cta",
+      "action": "comment",
+      "keyword": "STRESS",
+      "text": "Comment STRESS and I will send the full stress deck with every spec file included.",
+      "handle": "@omnicarousel"
+    }
+  ],
+  "meta": {
+    "language": "en"
+  }
+}

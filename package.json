@@ -23,10 +23,11 @@
     "export:schema": "npm run export-schema --workspace=@omni-carousel/engine",
     "test": "npm run test --workspaces --if-present",
     "lint": "npm run typecheck --workspaces --if-present",
-    "render:examples": "node core-engine/dist/cli.js examples --out examples/rendered",
+    "render:examples": "node core-engine/dist/cli.js examples --out examples/rendered && node core-engine/dist/cli.js gallery",
     "studio": "node mcp-server/rest-facade/dist/server.js --host 0.0.0.0 --port 8765 --allow-unauthenticated",
     "test:py": "pytest sdks/python-sdk mcp-server/python",
-    "golden": "UPDATE_GOLDEN=1 npx vitest run --root core-engine test/golden.test.ts"
+    "golden": "UPDATE_GOLDEN=1 npx vitest run --root core-engine test/golden.test.ts",
+    "gallery": "node core-engine/dist/cli.js gallery"
   },
   "devDependencies": {
     "@types/node": "22.15.3",

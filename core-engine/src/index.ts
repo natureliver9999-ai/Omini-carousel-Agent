@@ -20,3 +20,4 @@ export * from './http-auth.js';
 export { fontFiles as bundledFontFiles } from './fontmetrics.js';
 export { buildPlaybook, buildFullPlaybook, playbookPath, PLAYBOOK_TOPICS, type PlaybookTopic } from './playbook.js';
 export { renderExamples, EXAMPLE_IDS } from './examples.js';
+export { collectDecks, buildGalleryHtml, writeGallery, defaultRenderedRoot, type GalleryDeck } from './gallery.js';

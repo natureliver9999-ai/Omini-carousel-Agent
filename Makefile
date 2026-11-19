@@ -1,4 +1,4 @@
-.PHONY: install build schema test test-ts test-py golden examples studio clean
+.PHONY: install build schema test test-ts test-py golden examples gallery serve-gallery studio clean
 
 install:
 	npm install
@@ -23,6 +23,12 @@ test: test-ts test-py
 
 examples:
 	npm run render:examples
+
+gallery:
+	npm run gallery
+
+serve-gallery:
+	python3 -m http.server 4173 --directory examples/rendered --bind 0.0.0.0
 
 studio:
 	npm run studio

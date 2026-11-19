@@ -14,20 +14,82 @@ const GAP = 16;
 interface Placement { tile: BentoGridSlideT['tiles'][number]; col: number; span: number; row: number }
 
 /** Deterministic 6-column packing: no ragged orphan cells, no randomness. */
-function packTiles(tiles: BentoGridSlideT['tiles']): { placements: Placement[]; rows: number } {
-  const defaultSpan = tiles.length <= 4 ? 3 : 2;
-  const placements: Placement[] = [];
-  let row = 0;
-  let col = 0;
-  for (const tile of tiles) {
-    const span = tile.span === 2 ? 3 : tile.span === 1 ? 2 : defaultSpan;
-    if (col + span > COLS) { row += 1; col = 0; }
-    placements.push({ tile, col, span, row });
-    col += span;
-    if (col >= COLS) { row += 1; col = 0; }
+/** Even distribution: `rows` rows that differ by at most one tile, every row flush. */
+function balancedRows(count: number): number[] {
+  const rows = Math.max(1, Math.ceil(count / 3));
+  const base = Math.floor(count / rows);
+  const remainder = count % rows;
+  return Array.from({ length: rows }, (_, i) => base + (i < remainder ? 1 : 0));
+}
+
+function flushSpans(count: number): number[] {
+  const spans = Array.from({ length: count }, () => Math.max(1, Math.floor(COLS / count)));
+  let leftover = COLS - spans.reduce((sum, span) => sum + span, 0);
+  let index = 0;
+  while (leftover > 0) {
+    spans[index % spans.length] += 1;
+    leftover -= 1;
+    index += 1;
   }
-  const rows = placements.reduce((max, p) => Math.max(max, p.row), 0) + 1;
-  return { placements, rows };
+  return spans;
+}
+
+/**
+ * Deterministic 6-column packing. Explicit `span` hints are honoured while they
+ * keep the grid balanced; if greedy packing would strand a tile alone on the last
+ * row (nine tiles used to do exactly that), the grid reflows into even rows.
+ */
+function packTiles(tiles: BentoGridSlideT['tiles']): { placements: Placement[]; rows: number } {
+  const spanFor = (tile: BentoGridSlideT['tiles'][number]) =>
+    tile.span === 2 ? 3 : tile.span === 1 ? 2 : tiles.length <= 4 ? 3 : 2;
+
+  type Tile = BentoGridSlideT['tiles'][number];
+  const greedy: Tile[][] = [];
+  let current: Tile[] = [];
+  let used = 0;
+  for (const tile of tiles) {
+    const span = spanFor(tile);
+    if (used + span > COLS && current.length > 0) {
+      greedy.push(current);
+      current = [];
+      used = 0;
+    }
+    current.push(tile);
+    used += span;
+  }
+  if (current.length > 0) greedy.push(current);
+
+  const stranded = greedy.length > 1 && greedy[greedy.length - 1].length === 1 && tiles.length >= 4;
+  const rows: Tile[][] = stranded
+    ? balancedRows(tiles.length).reduce<Tile[][]>((acc, count) => {
+      const start = acc.reduce((sum, row) => sum + row.length, 0);
+      acc.push(tiles.slice(start, start + count));
+      return acc;
+    }, [])
+    : greedy;
+
+  const placements: Placement[] = [];
+  rows.forEach((rowTiles, row) => {
+    const spans: number[] = stranded
+      ? flushSpans(rowTiles.length)
+      : (() => {
+        const base: number[] = rowTiles.map((tile) => spanFor(tile));
+        let leftover = COLS - base.reduce((sum, span) => sum + span, 0);
+        let index = 0;
+        while (leftover > 0) {
+          base[index % base.length] += 1;
+          leftover -= 1;
+          index += 1;
+        }
+        return base;
+      })();
+    let col = 0;
+    rowTiles.forEach((tile, i) => {
+      placements.push({ tile, col, span: spans[i], row });
+      col += spans[i];
+    });
+  });
+  return { placements, rows: rows.length };
 }
 
 export function bentoGridLayout(ctx: SlideContext): Node[] {

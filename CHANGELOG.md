@@ -26,11 +26,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Merge-safe one-click installer (`omni-carousel-mcp setup`) + ready-made configs for Claude Desktop, Claude Code, ChatGPT, Google Antigravity, OpenCode, OpenAI Codex CLI, VS Code, Cursor, Windsurf, and LibreChat.
 - **SDKs (`sdks/python-sdk`, `sdks/node-sdk`)**: Native tool definitions and local/remote runners for Anthropic SDK, OpenAI Responses/Chat SDKs, and Vercel AI SDK v5+.
 - **Examples & CI (`examples/`, `.github/workflows/`)**: Full specs and rendered outputs across patterns plus automated test & conformance workflows.
-- **Tests (112)**: engine lint/schema/panorama/golden (38), MCP contract + signed-URL tamper/expiry + path traversal (26), Node SDK tool dialects (8), Python models/tools/runner (32), FastMCP conformance (8).
+- **Gallery (`core-engine/src/gallery.ts`, `cli.ts gallery`)**: generates a self-contained `examples/rendered/index.html` — deck cards, per-slide lightboxes, artefact links, coverage stats — with no CDN, framework or network call, plus `npm run gallery` / `npm run serve-gallery`.
+- **`examples/specs/ig-all-layouts.json`**: an eleven-slide QA deck that exercises every layout at its copy limit and fails the golden test first if a collision returns.
+- **Tests (118)**: engine lint/schema/panorama/golden (38), MCP contract + signed-URL tamper/expiry + path traversal (26), Node SDK tool dialects (8), Python models/tools/runner (32), FastMCP conformance (8).
 - **CI**: `ci.yml` (build, typecheck, schema reproducibility, TS + Python matrices, cross-language parity), `golden.yml` (deterministic hashes on Linux/macOS + font licensing), `mcp-conformance.yml` (stdio handshake, HTTP signed artifacts, traversal), `connectors.yml` (13 configs, installer matrix on three OSes), `release.yml` (npm + PyPI + GitHub release assets).
 - **Parity tooling**: `scripts/check-parity.mjs` (layouts/tools/copy budgets/themes across Zod, JSON Schema, TypeScript and Pydantic), `scripts/validate-connectors.mjs`, `scripts/smoke-connectors.mjs` (merge safety, idempotency, uninstall).
 
 ### Fixed
+- `bento_grid`: with nine tiles the last row held a single full-width tile. Rows are now flushed and reflow into an even grid when greedy packing would strand a tile.
+- `data_chart`: the y-scale used a coarse power-of-ten ceiling (63 → 100%), wasting a third of the plot; ticks now come from a chosen step (75 / 50 / 25 / 0) and the plot box leaves a gutter so axis labels stay inside the card.
+- `scrapbook`: the note card had a fixed 720px height regardless of copy, leaving half the card blank and a hole above the aside; the card is now sized to its content and the aside sits under it. `underline_word` also works when the word appears in the note rather than the headline.
+- `cover_hook`: the icon/swipe rail floated mid-page on short covers; it is pinned to the foot of the safe area and still clears long copy.
 - `contrast_split`: a `verdict` label was drawn at a fixed y and collided with the card border on tall headlines. The panel now reserves the verdict's height and the label is positioned from the panel's measured bottom.
 - `bento_grid`: hero values (`Pixels`, `Source`) overflowed their tile at large row heights. Values are measured and scaled down to fit the tile's inner width.
 - Python runner: `layouts`/`themes` returned bare arrays from the CLI, so `handle_tool_call` saw `None` data; both now normalise to the `{layouts|themes: [...]}` shape the MCP tools return.
