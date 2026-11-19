@@ -22,6 +22,8 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    outputs:
+      pages: ${{ steps.pages.outcome == 'success' }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -33,15 +35,24 @@ jobs:
       - name: Render decks, gallery and art atlas
         run: node site/build.mjs
       - name: Configure Pages (enables it if the repository has none)
+        id: pages
         uses: actions/configure-pages@v5
         with:
           enablement: true
+        continue-on-error: true
+      - name: Explain the one manual step when Pages is off
+        if: ${{ steps.pages.outcome != 'success' }}
+        run: |
+          echo "::notice title=Enable Pages::Settings → Pages → Source: GitHub Actions, then re-run this workflow."
+          echo "The site was built into site/out; it needs Pages to be enabled once by a repository admin."
       - uses: actions/upload-pages-artifact@v3
+        if: ${{ steps.pages.outcome == 'success' }}
         with:
           path: site/out
 
   deploy:
     needs: build
+    if: ${{ needs.build.outputs.pages == 'true' }}
     runs-on: ubuntu-latest
     environment:
       name: github-pages
