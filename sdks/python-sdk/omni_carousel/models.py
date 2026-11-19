@@ -25,6 +25,7 @@ SlideLayout = Literal[
     "proof",
     "summary",
     "cta",
+    "generative",
 ]
 
 Platform = Literal["instagram", "linkedin", "generic"]
@@ -45,6 +46,28 @@ class Panorama(_Model):
     index: Optional[int] = Field(default=None, ge=0)
 
 
+ArtStyle = Literal[
+    "topography",
+    "orbital",
+    "halftone",
+    "isometric",
+    "flowfield",
+    "constellation",
+    "moire",
+    "ribbon",
+]
+
+
+class Art(_Model):
+    """Deterministic generative art. Same seed + style always draws the same thing."""
+
+    style: Optional[ArtStyle] = Field(default=None, description="Composition to plot; omitted means the engine picks from the seed.")
+    seed: Optional[str] = Field(default=None, min_length=1, max_length=64)
+    density: Optional[float] = Field(default=None, ge=0, le=1)
+    opacity: Optional[float] = Field(default=None, ge=0, le=1)
+    backdrop: Optional[bool] = Field(default=None, description="Plot a faint field behind a non-generative layout.")
+
+
 class SlideBase(_Model):
     id: Optional[str] = Field(default=None, pattern=r"^[a-z0-9][a-z0-9-]{0,40}$")
     eyebrow: Optional[str] = Field(default=None, max_length=48)
@@ -55,6 +78,7 @@ class SlideBase(_Model):
     alt_text: Optional[str] = Field(default=None, max_length=280)
     notes: Optional[str] = Field(default=None, max_length=400)
     panorama: Optional[Panorama] = None
+    art: Optional[Art] = None
 
 
 class CoverHookSlide(SlideBase):
@@ -180,6 +204,13 @@ class CtaSlide(SlideBase):
     handle: Optional[str] = Field(default=None, max_length=40)
 
 
+class GenerativeSlide(SlideBase):
+    layout: Literal["generative"]
+    sub: Optional[str] = Field(default=None, max_length=180)
+    figure_label: Optional[str] = Field(default=None, max_length=48)
+    annotations: Optional[list[str]] = Field(default=None, min_length=1, max_length=3)
+
+
 Slide = Annotated[
     Union[
         CoverHookSlide,
@@ -193,6 +224,7 @@ Slide = Annotated[
         ProofSlide,
         SummarySlide,
         CtaSlide,
+        GenerativeSlide,
     ],
     Field(discriminator="layout"),
 ]
@@ -237,6 +269,7 @@ class CarouselSpec(_Model):
     brand: Optional[Brand] = None
     caption: Optional[Caption] = None
     cta_link: Optional[str] = Field(default=None, max_length=200)
+    art: Optional[Art] = None
     slides: list[Slide] = Field(min_length=2, max_length=20)
     meta: Meta = Field(default_factory=Meta)
 
@@ -258,6 +291,9 @@ __all__ = [
     "CtaAction",
     "ChartKind",
     "Panorama",
+    "ArtStyle",
+    "Art",
+    "GenerativeSlide",
     "CoverHookSlide",
     "ContrastSide",
     "ContrastSplitSlide",

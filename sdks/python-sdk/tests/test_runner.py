@@ -80,7 +80,8 @@ def test_render_carousel_writes_a_bundle(tmp_path: Path) -> None:
 def test_list_layouts_and_themes() -> None:
     layouts = handle_tool_call("list_layouts", {})
     themes = handle_tool_call("list_themes", {})
-    assert len(layouts.data["layouts"]) == 11
+    assert len(layouts.data["layouts"]) == 12
+    assert any(l["id"] == "generative" for l in layouts.data["layouts"])
     assert {theme["id"] for theme in themes.data["themes"]} >= {"editorial", "brutal-bento", "scrapbook"}
 
 

@@ -57,7 +57,7 @@
       "headline": "What you give up, what you get",
       "tiles": [
         { "label": "Give up", "value": "Freeform", "text": "No raw HTML per slide" },
-        { "label": "Get", "value": "Consistency", "text": "Eleven typed layouts", "accent": true },
+        { "label": "Get", "value": "Consistency", "text": "Twelve typed layouts", "accent": true },
         { "label": "Give up", "value": "Luck", "text": "No missing fonts" },
         { "label": "Get", "value": "Speed", "text": "Half a second per deck" }
       ],

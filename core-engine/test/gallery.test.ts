@@ -3,13 +3,14 @@ import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { buildGalleryHtml, collectDecks, writeGallery } from '../src/gallery.js';
+import { SLIDE_LAYOUTS } from '../src/schema.js';
 
 const renderedRoot = path.resolve(__dirname, '..', '..', 'examples', 'rendered');
 
 describe('gallery', () => {
   it('collects every committed deck with its artefacts', () => {
     const decks = collectDecks(renderedRoot);
-    expect(decks.length).toBeGreaterThanOrEqual(8);
+    expect(decks.length).toBeGreaterThanOrEqual(9);
     for (const deck of decks) {
       expect(deck.slides.length).toBeGreaterThanOrEqual(2);
       expect(deck.files.spec).toBeTruthy();
@@ -18,9 +19,14 @@ describe('gallery', () => {
     }
   });
 
-  it('covers all eleven layouts across the shipped examples', () => {
+  it('covers every layout the engine ships across the examples', () => {
     const layouts = new Set(collectDecks(renderedRoot).flatMap((deck) => deck.slides.map((slide) => slide.layout)));
-    expect(layouts.size).toBe(11);
+    for (const layout of SLIDE_LAYOUTS) expect(layouts.has(layout)).toBe(true);
+  });
+
+  it('links the art atlas from the gallery header', () => {
+    const html = buildGalleryHtml(collectDecks(renderedRoot));
+    expect(html).toContain('href="atlas.html"');
   });
 
   it('renders a self-contained page with no external requests', () => {

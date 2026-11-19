@@ -140,6 +140,49 @@
           "maxLength": 200,
           "description": "Destination URL for the caption/CTA (never printed inside LinkedIn slide art)."
         },
+        "art": {
+          "type": "object",
+          "properties": {
+            "style": {
+              "type": "string",
+              "enum": [
+                "topography",
+                "orbital",
+                "halftone",
+                "isometric",
+                "flowfield",
+                "constellation",
+                "moire",
+                "ribbon"
+              ],
+              "description": "Composition to plot. Omit to let the engine choose deterministically from the slide seed."
+            },
+            "seed": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 64,
+              "description": "Stable seed. Same seed + style always renders the same drawing."
+            },
+            "density": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1,
+              "description": "How much ink the composition spends (0 sparse .. 1 dense)."
+            },
+            "opacity": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1,
+              "description": "Global alpha multiplier for the composition."
+            },
+            "backdrop": {
+              "type": "boolean",
+              "description": "Also plot a low-opacity field behind a sparse layout. Default true where it is safe."
+            }
+          },
+          "additionalProperties": false,
+          "description": "Deterministic generative art (topography, orbital, halftone, isometric, flowfield, constellation, moire, ribbon)."
+        },
         "slides": {
           "type": "array",
           "items": {
@@ -213,6 +256,49 @@
                     ],
                     "additionalProperties": false,
                     "description": "Declares this slide as part of a seamless panorama span."
+                  },
+                  "art": {
+                    "type": "object",
+                    "properties": {
+                      "style": {
+                        "type": "string",
+                        "enum": [
+                          "topography",
+                          "orbital",
+                          "halftone",
+                          "isometric",
+                          "flowfield",
+                          "constellation",
+                          "moire",
+                          "ribbon"
+                        ],
+                        "description": "Composition to plot. Omit to let the engine choose deterministically from the slide seed."
+                      },
+                      "seed": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 64,
+                        "description": "Stable seed. Same seed + style always renders the same drawing."
+                      },
+                      "density": {
+                        "type": "number",
+                        "minimum": 0,
+                        "maximum": 1,
+                        "description": "How much ink the composition spends (0 sparse .. 1 dense)."
+                      },
+                      "opacity": {
+                        "type": "number",
+                        "minimum": 0,
+                        "maximum": 1,
+                        "description": "Global alpha multiplier for the composition."
+                      },
+                      "backdrop": {
+                        "type": "boolean",
+                        "description": "Also plot a low-opacity field behind a sparse layout. Default true where it is safe."
+                      }
+                    },
+                    "additionalProperties": false,
+                    "description": "Deterministic generative art (topography, orbital, halftone, isometric, flowfield, constellation, moire, ribbon)."
                   },
                   "layout": {
                     "type": "string",
@@ -314,6 +400,49 @@
                     ],
                     "additionalProperties": false,
                     "description": "Declares this slide as part of a seamless panorama span."
+                  },
+                  "art": {
+                    "type": "object",
+                    "properties": {
+                      "style": {
+                        "type": "string",
+                        "enum": [
+                          "topography",
+                          "orbital",
+                          "halftone",
+                          "isometric",
+                          "flowfield",
+                          "constellation",
+                          "moire",
+                          "ribbon"
+                        ],
+                        "description": "Composition to plot. Omit to let the engine choose deterministically from the slide seed."
+                      },
+                      "seed": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 64,
+                        "description": "Stable seed. Same seed + style always renders the same drawing."
+                      },
+                      "density": {
+                        "type": "number",
+                        "minimum": 0,
+                        "maximum": 1,
+                        "description": "How much ink the composition spends (0 sparse .. 1 dense)."
+                      },
+                      "opacity": {
+                        "type": "number",
+                        "minimum": 0,
+                        "maximum": 1,
+                        "description": "Global alpha multiplier for the composition."
+                      },
+                      "backdrop": {
+                        "type": "boolean",
+                        "description": "Also plot a low-opacity field behind a sparse layout. Default true where it is safe."
+                      }
+                    },
+                    "additionalProperties": false,
+                    "description": "Deterministic generative art (topography, orbital, halftone, isometric, flowfield, constellation, moire, ribbon)."
                   },
                   "layout": {
                     "type": "string",
@@ -480,6 +609,49 @@
                     "additionalProperties": false,
                     "description": "Declares this slide as part of a seamless panorama span."
                   },
+                  "art": {
+                    "type": "object",
+                    "properties": {
+                      "style": {
+                        "type": "string",
+                        "enum": [
+                          "topography",
+                          "orbital",
+                          "halftone",
+                          "isometric",
+                          "flowfield",
+                          "constellation",
+                          "moire",
+                          "ribbon"
+                        ],
+                        "description": "Composition to plot. Omit to let the engine choose deterministically from the slide seed."
+                      },
+                      "seed": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 64,
+                        "description": "Stable seed. Same seed + style always renders the same drawing."
+                      },
+                      "density": {
+                        "type": "number",
+                        "minimum": 0,
+                        "maximum": 1,
+                        "description": "How much ink the composition spends (0 sparse .. 1 dense)."
+                      },
+                      "opacity": {
+                        "type": "number",
+                        "minimum": 0,
+                        "maximum": 1,
+                        "description": "Global alpha multiplier for the composition."
+                      },
+                      "backdrop": {
+                        "type": "boolean",
+                        "description": "Also plot a low-opacity field behind a sparse layout. Default true where it is safe."
+                      }
+                    },
+                    "additionalProperties": false,
+                    "description": "Deterministic generative art (topography, orbital, halftone, isometric, flowfield, constellation, moire, ribbon)."
+                  },
                   "layout": {
                     "type": "string",
                     "const": "layer_stack"
@@ -596,6 +768,49 @@
                     ],
                     "additionalProperties": false,
                     "description": "Declares this slide as part of a seamless panorama span."
+                  },
+                  "art": {
+                    "type": "object",
+                    "properties": {
+                      "style": {
+                        "type": "string",
+                        "enum": [
+                          "topography",
+                          "orbital",
+                          "halftone",
+                          "isometric",
+                          "flowfield",
+                          "constellation",
+                          "moire",
+                          "ribbon"
+                        ],
+                        "description": "Composition to plot. Omit to let the engine choose deterministically from the slide seed."
+                      },
+                      "seed": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 64,
+                        "description": "Stable seed. Same seed + style always renders the same drawing."
+                      },
+                      "density": {
+                        "type": "number",
+                        "minimum": 0,
+                        "maximum": 1,
+                        "description": "How much ink the composition spends (0 sparse .. 1 dense)."
+                      },
+                      "opacity": {
+                        "type": "number",
+                        "minimum": 0,
+                        "maximum": 1,
+                        "description": "Global alpha multiplier for the composition."
+                      },
+                      "backdrop": {
+                        "type": "boolean",
+                        "description": "Also plot a low-opacity field behind a sparse layout. Default true where it is safe."
+                      }
+                    },
+                    "additionalProperties": false,
+                    "description": "Deterministic generative art (topography, orbital, halftone, isometric, flowfield, constellation, moire, ribbon)."
                   },
                   "layout": {
                     "type": "string",
@@ -724,6 +939,49 @@
                     "additionalProperties": false,
                     "description": "Declares this slide as part of a seamless panorama span."
                   },
+                  "art": {
+                    "type": "object",
+                    "properties": {
+                      "style": {
+                        "type": "string",
+                        "enum": [
+                          "topography",
+                          "orbital",
+                          "halftone",
+                          "isometric",
+                          "flowfield",
+                          "constellation",
+                          "moire",
+                          "ribbon"
+                        ],
+                        "description": "Composition to plot. Omit to let the engine choose deterministically from the slide seed."
+                      },
+                      "seed": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 64,
+                        "description": "Stable seed. Same seed + style always renders the same drawing."
+                      },
+                      "density": {
+                        "type": "number",
+                        "minimum": 0,
+                        "maximum": 1,
+                        "description": "How much ink the composition spends (0 sparse .. 1 dense)."
+                      },
+                      "opacity": {
+                        "type": "number",
+                        "minimum": 0,
+                        "maximum": 1,
+                        "description": "Global alpha multiplier for the composition."
+                      },
+                      "backdrop": {
+                        "type": "boolean",
+                        "description": "Also plot a low-opacity field behind a sparse layout. Default true where it is safe."
+                      }
+                    },
+                    "additionalProperties": false,
+                    "description": "Deterministic generative art (topography, orbital, halftone, isometric, flowfield, constellation, moire, ribbon)."
+                  },
                   "layout": {
                     "type": "string",
                     "const": "reveal_hold"
@@ -824,6 +1082,49 @@
                     ],
                     "additionalProperties": false,
                     "description": "Declares this slide as part of a seamless panorama span."
+                  },
+                  "art": {
+                    "type": "object",
+                    "properties": {
+                      "style": {
+                        "type": "string",
+                        "enum": [
+                          "topography",
+                          "orbital",
+                          "halftone",
+                          "isometric",
+                          "flowfield",
+                          "constellation",
+                          "moire",
+                          "ribbon"
+                        ],
+                        "description": "Composition to plot. Omit to let the engine choose deterministically from the slide seed."
+                      },
+                      "seed": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 64,
+                        "description": "Stable seed. Same seed + style always renders the same drawing."
+                      },
+                      "density": {
+                        "type": "number",
+                        "minimum": 0,
+                        "maximum": 1,
+                        "description": "How much ink the composition spends (0 sparse .. 1 dense)."
+                      },
+                      "opacity": {
+                        "type": "number",
+                        "minimum": 0,
+                        "maximum": 1,
+                        "description": "Global alpha multiplier for the composition."
+                      },
+                      "backdrop": {
+                        "type": "boolean",
+                        "description": "Also plot a low-opacity field behind a sparse layout. Default true where it is safe."
+                      }
+                    },
+                    "additionalProperties": false,
+                    "description": "Deterministic generative art (topography, orbital, halftone, isometric, flowfield, constellation, moire, ribbon)."
                   },
                   "layout": {
                     "type": "string",
@@ -927,6 +1228,49 @@
                     ],
                     "additionalProperties": false,
                     "description": "Declares this slide as part of a seamless panorama span."
+                  },
+                  "art": {
+                    "type": "object",
+                    "properties": {
+                      "style": {
+                        "type": "string",
+                        "enum": [
+                          "topography",
+                          "orbital",
+                          "halftone",
+                          "isometric",
+                          "flowfield",
+                          "constellation",
+                          "moire",
+                          "ribbon"
+                        ],
+                        "description": "Composition to plot. Omit to let the engine choose deterministically from the slide seed."
+                      },
+                      "seed": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 64,
+                        "description": "Stable seed. Same seed + style always renders the same drawing."
+                      },
+                      "density": {
+                        "type": "number",
+                        "minimum": 0,
+                        "maximum": 1,
+                        "description": "How much ink the composition spends (0 sparse .. 1 dense)."
+                      },
+                      "opacity": {
+                        "type": "number",
+                        "minimum": 0,
+                        "maximum": 1,
+                        "description": "Global alpha multiplier for the composition."
+                      },
+                      "backdrop": {
+                        "type": "boolean",
+                        "description": "Also plot a low-opacity field behind a sparse layout. Default true where it is safe."
+                      }
+                    },
+                    "additionalProperties": false,
+                    "description": "Deterministic generative art (topography, orbital, halftone, isometric, flowfield, constellation, moire, ribbon)."
                   },
                   "layout": {
                     "type": "string",
@@ -1074,6 +1418,49 @@
                     "additionalProperties": false,
                     "description": "Declares this slide as part of a seamless panorama span."
                   },
+                  "art": {
+                    "type": "object",
+                    "properties": {
+                      "style": {
+                        "type": "string",
+                        "enum": [
+                          "topography",
+                          "orbital",
+                          "halftone",
+                          "isometric",
+                          "flowfield",
+                          "constellation",
+                          "moire",
+                          "ribbon"
+                        ],
+                        "description": "Composition to plot. Omit to let the engine choose deterministically from the slide seed."
+                      },
+                      "seed": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 64,
+                        "description": "Stable seed. Same seed + style always renders the same drawing."
+                      },
+                      "density": {
+                        "type": "number",
+                        "minimum": 0,
+                        "maximum": 1,
+                        "description": "How much ink the composition spends (0 sparse .. 1 dense)."
+                      },
+                      "opacity": {
+                        "type": "number",
+                        "minimum": 0,
+                        "maximum": 1,
+                        "description": "Global alpha multiplier for the composition."
+                      },
+                      "backdrop": {
+                        "type": "boolean",
+                        "description": "Also plot a low-opacity field behind a sparse layout. Default true where it is safe."
+                      }
+                    },
+                    "additionalProperties": false,
+                    "description": "Deterministic generative art (topography, orbital, halftone, isometric, flowfield, constellation, moire, ribbon)."
+                  },
                   "layout": {
                     "type": "string",
                     "const": "steps"
@@ -1185,6 +1572,49 @@
                     ],
                     "additionalProperties": false,
                     "description": "Declares this slide as part of a seamless panorama span."
+                  },
+                  "art": {
+                    "type": "object",
+                    "properties": {
+                      "style": {
+                        "type": "string",
+                        "enum": [
+                          "topography",
+                          "orbital",
+                          "halftone",
+                          "isometric",
+                          "flowfield",
+                          "constellation",
+                          "moire",
+                          "ribbon"
+                        ],
+                        "description": "Composition to plot. Omit to let the engine choose deterministically from the slide seed."
+                      },
+                      "seed": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 64,
+                        "description": "Stable seed. Same seed + style always renders the same drawing."
+                      },
+                      "density": {
+                        "type": "number",
+                        "minimum": 0,
+                        "maximum": 1,
+                        "description": "How much ink the composition spends (0 sparse .. 1 dense)."
+                      },
+                      "opacity": {
+                        "type": "number",
+                        "minimum": 0,
+                        "maximum": 1,
+                        "description": "Global alpha multiplier for the composition."
+                      },
+                      "backdrop": {
+                        "type": "boolean",
+                        "description": "Also plot a low-opacity field behind a sparse layout. Default true where it is safe."
+                      }
+                    },
+                    "additionalProperties": false,
+                    "description": "Deterministic generative art (topography, orbital, halftone, isometric, flowfield, constellation, moire, ribbon)."
                   },
                   "layout": {
                     "type": "string",
@@ -1299,6 +1729,49 @@
                     "additionalProperties": false,
                     "description": "Declares this slide as part of a seamless panorama span."
                   },
+                  "art": {
+                    "type": "object",
+                    "properties": {
+                      "style": {
+                        "type": "string",
+                        "enum": [
+                          "topography",
+                          "orbital",
+                          "halftone",
+                          "isometric",
+                          "flowfield",
+                          "constellation",
+                          "moire",
+                          "ribbon"
+                        ],
+                        "description": "Composition to plot. Omit to let the engine choose deterministically from the slide seed."
+                      },
+                      "seed": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 64,
+                        "description": "Stable seed. Same seed + style always renders the same drawing."
+                      },
+                      "density": {
+                        "type": "number",
+                        "minimum": 0,
+                        "maximum": 1,
+                        "description": "How much ink the composition spends (0 sparse .. 1 dense)."
+                      },
+                      "opacity": {
+                        "type": "number",
+                        "minimum": 0,
+                        "maximum": 1,
+                        "description": "Global alpha multiplier for the composition."
+                      },
+                      "backdrop": {
+                        "type": "boolean",
+                        "description": "Also plot a low-opacity field behind a sparse layout. Default true where it is safe."
+                      }
+                    },
+                    "additionalProperties": false,
+                    "description": "Deterministic generative art (topography, orbital, halftone, isometric, flowfield, constellation, moire, ribbon)."
+                  },
                   "layout": {
                     "type": "string",
                     "const": "summary"
@@ -1396,6 +1869,49 @@
                     "additionalProperties": false,
                     "description": "Declares this slide as part of a seamless panorama span."
                   },
+                  "art": {
+                    "type": "object",
+                    "properties": {
+                      "style": {
+                        "type": "string",
+                        "enum": [
+                          "topography",
+                          "orbital",
+                          "halftone",
+                          "isometric",
+                          "flowfield",
+                          "constellation",
+                          "moire",
+                          "ribbon"
+                        ],
+                        "description": "Composition to plot. Omit to let the engine choose deterministically from the slide seed."
+                      },
+                      "seed": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 64,
+                        "description": "Stable seed. Same seed + style always renders the same drawing."
+                      },
+                      "density": {
+                        "type": "number",
+                        "minimum": 0,
+                        "maximum": 1,
+                        "description": "How much ink the composition spends (0 sparse .. 1 dense)."
+                      },
+                      "opacity": {
+                        "type": "number",
+                        "minimum": 0,
+                        "maximum": 1,
+                        "description": "Global alpha multiplier for the composition."
+                      },
+                      "backdrop": {
+                        "type": "boolean",
+                        "description": "Also plot a low-opacity field behind a sparse layout. Default true where it is safe."
+                      }
+                    },
+                    "additionalProperties": false,
+                    "description": "Deterministic generative art (topography, orbital, halftone, isometric, flowfield, constellation, moire, ribbon)."
+                  },
                   "layout": {
                     "type": "string",
                     "const": "cta"
@@ -1431,6 +1947,151 @@
                   "layout",
                   "action",
                   "text"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "pattern": "^[a-z0-9][a-z0-9-]{0,40}$",
+                    "description": "Optional stable slide id (used for deterministic scrapbook jitter and alt text)."
+                  },
+                  "eyebrow": {
+                    "type": "string",
+                    "maxLength": 48,
+                    "description": "Small kicker line above the headline, e.g. \"RETENTION 101\" or \"SLIDE 04\"."
+                  },
+                  "headline": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 180,
+                    "description": "The single dominant line of the slide."
+                  },
+                  "footer_hook": {
+                    "type": "string",
+                    "maxLength": 64,
+                    "description": "Micro-hook (<= 7 words) teasing the next slide."
+                  },
+                  "bg": {
+                    "type": "string",
+                    "enum": [
+                      "primary",
+                      "secondary",
+                      "surface",
+                      "elevated",
+                      "accent"
+                    ],
+                    "description": "Background token override for this slide."
+                  },
+                  "accent": {
+                    "type": "boolean",
+                    "description": "Render this slide on the theme accent surface for emphasis."
+                  },
+                  "alt_text": {
+                    "type": "string",
+                    "maxLength": 280,
+                    "description": "Accessibility description used in captions and the HTML deck."
+                  },
+                  "notes": {
+                    "type": "string",
+                    "maxLength": 400,
+                    "description": "Private production/speaker notes. Never rendered."
+                  },
+                  "panorama": {
+                    "type": "object",
+                    "properties": {
+                      "span": {
+                        "type": "integer",
+                        "minimum": 2,
+                        "maximum": 6,
+                        "description": "Number of consecutive slides sharing one continuous wide canvas (2-6)."
+                      },
+                      "index": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "description": "Optional 0-based position inside the span. Inferred from slide order when omitted."
+                      }
+                    },
+                    "required": [
+                      "span"
+                    ],
+                    "additionalProperties": false,
+                    "description": "Declares this slide as part of a seamless panorama span."
+                  },
+                  "art": {
+                    "type": "object",
+                    "properties": {
+                      "style": {
+                        "type": "string",
+                        "enum": [
+                          "topography",
+                          "orbital",
+                          "halftone",
+                          "isometric",
+                          "flowfield",
+                          "constellation",
+                          "moire",
+                          "ribbon"
+                        ],
+                        "description": "Composition to plot. Omit to let the engine choose deterministically from the slide seed."
+                      },
+                      "seed": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 64,
+                        "description": "Stable seed. Same seed + style always renders the same drawing."
+                      },
+                      "density": {
+                        "type": "number",
+                        "minimum": 0,
+                        "maximum": 1,
+                        "description": "How much ink the composition spends (0 sparse .. 1 dense)."
+                      },
+                      "opacity": {
+                        "type": "number",
+                        "minimum": 0,
+                        "maximum": 1,
+                        "description": "Global alpha multiplier for the composition."
+                      },
+                      "backdrop": {
+                        "type": "boolean",
+                        "description": "Also plot a low-opacity field behind a sparse layout. Default true where it is safe."
+                      }
+                    },
+                    "additionalProperties": false,
+                    "description": "Deterministic generative art (topography, orbital, halftone, isometric, flowfield, constellation, moire, ribbon)."
+                  },
+                  "layout": {
+                    "type": "string",
+                    "const": "generative"
+                  },
+                  "sub": {
+                    "type": "string",
+                    "maxLength": 180,
+                    "description": "One supporting line under the headline."
+                  },
+                  "figure_label": {
+                    "type": "string",
+                    "maxLength": 48,
+                    "description": "Caption printed above the plot, e.g. \"FIG. 03 — SHA256 DRIFT\"."
+                  },
+                  "annotations": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 90
+                    },
+                    "minItems": 1,
+                    "maxItems": 3,
+                    "description": "Up to three plotter-style legend rows read as data, not body copy."
+                  }
+                },
+                "required": [
+                  "headline",
+                  "layout"
                 ],
                 "additionalProperties": false
               }

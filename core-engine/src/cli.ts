@@ -14,6 +14,7 @@ import { listThemes, loadTheme, themeDir, auditThemeContrast } from './themes.js
 import { renderCarousel, renderSlidePreview, defaultOutputRoot, sanitizeSlug } from './render.js';
 import { renderExamples, examplesDir } from './examples.js';
 import { defaultRenderedRoot, writeGallery } from './gallery.js';
+import { writeAtlas } from './atlas.js';
 import { buildFullPlaybook, buildPlaybook, PLAYBOOK_TOPICS, type PlaybookTopic } from './playbook.js';
 import { renderChartPng, parseChart } from './assets/quickchart.js';
 import { renderDiagramSvg } from './assets/mermaid.js';
@@ -64,11 +65,17 @@ Usage
   omni-carousel diagram <file.mmd> [--out file.svg] [--theme id]
   omni-carousel examples [--out dir] [--only id,id]
   omni-carousel gallery [--rendered dir] [--out index.html]
+  omni-carousel canvas [--compact] [--themes a,b] [--out atlas.html] [--json]
   omni-carousel doctor [--json]
 
 Gallery
   --rendered <dir>        tree of rendered decks (default: examples/rendered)
   --out <file>            output page (default: <rendered>/index.html)
+
+Canvas (art atlas)
+  --compact               two themes, small cards, deployable single file
+  --themes <ids>          comma-separated theme ids (default: all)
+  --out <file>            output page (default: examples/rendered/atlas.html)
 
 Render options
   --theme <id>            editorial | brutal-bento | scrapbook | linkedin-executive | <path.json>
@@ -239,6 +246,21 @@ async function main(): Promise<number> {
       const { decks } = writeGallery({ renderedRoot, outFile });
       if (flags.json === true) json({ ok: true, outFile, decks: decks.map((deck) => deck.id) });
       else console.log(`Gallery: ${decks.length} decks, ${decks.reduce((sum, deck) => sum + deck.slides.length, 0)} slides -> ${outFile}`);
+      return 0;
+    }
+
+    case 'canvas':
+    case 'atlas': {
+      const outFile = typeof flags.out === 'string' ? path.resolve(flags.out) : path.resolve('examples/rendered/atlas.html');
+      const themeIds = typeof flags.themes === 'string' ? flags.themes.split(',').map((id) => id.trim()).filter(Boolean) : undefined;
+      const result = writeAtlas({
+        out: outFile,
+        themeIds,
+        compact: flags.compact === true,
+        seed: typeof flags.seed === 'string' ? flags.seed : undefined,
+      });
+      if (flags.json === true) json(result);
+      else console.log(`Atlas: ${result.styles} styles x ${result.themes} themes = ${result.cards} plots, ${(result.bytes / 1024).toFixed(1)} KB -> ${result.out}`);
       return 0;
     }
 

@@ -1,0 +1,46 @@
+{
+  "id": "plotter-night",
+  "name": "Plotter Night",
+  "description": "Deep ink field, paper-white type and a mint plotter pen — built for generative plots, instrument panels and technical decks that should look drawn rather than designed.",
+  "style": "editorial",
+  "colors": {
+    "bg_primary": "#07080C",
+    "bg_secondary": "#0C0E14",
+    "bg_surface": "#11141B",
+    "bg_elevated": "#171B24",
+    "text_primary": "#F3F1EA",
+    "text_secondary": "#C8CAC3",
+    "text_muted": "#8E949D",
+    "accent": "#6CFFC2",
+    "accent_soft": "#103326",
+    "accent_text": "#04120C",
+    "border": "#242A35",
+    "border_strong": "#6CFFC2",
+    "success": "#7DF3B0",
+    "success_soft": "#0F2A1E",
+    "danger": "#FF7A93",
+    "danger_soft": "#331018",
+    "chart_palette": ["#6CFFC2", "#8FA6FF", "#FFB86B", "#F27AC0", "#C9F27A", "#63D8E8"]
+  },
+  "typography": {
+    "display_font": "Space Grotesk",
+    "body_font": "Inter",
+    "mono_font": "JetBrains Mono",
+    "headline_px": 88,
+    "subhead_px": 46,
+    "body_px": 38,
+    "footer_px": 26,
+    "eyebrow_px": 24
+  },
+  "radii": {
+    "card": 4,
+    "pill": 999,
+    "tile": 3
+  },
+  "decoration": {
+    "grid_opacity": 0.03,
+    "grain": false,
+    "border_width": 1,
+    "shadow": "none"
+  }
+}

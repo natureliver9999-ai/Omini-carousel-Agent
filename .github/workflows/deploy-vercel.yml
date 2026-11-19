@@ -1,0 +1,49 @@
+name: Deploy gallery
+
+# The site is the engine's own output: render the examples, build the gallery and
+# the art atlas, then upload the static directory. No server, no runtime.
+#
+# Repository secrets required (Settings → Secrets and variables → Actions):
+#   VERCEL_TOKEN        https://vercel.com/account/tokens
+#   VERCEL_ORG_ID       team_… (optional, from .vercel/project.json after `vercel link`)
+#   VERCEL_PROJECT_ID   prj_… (optional)
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-vercel
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    name: Build site and deploy
+    runs-on: ubuntu-latest
+    if: ${{ github.event_name == 'workflow_dispatch' || github.ref == 'refs/heads/main' }}
+    env:
+      # `secrets` is not available in step-level `if:`; promote it to env first.
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - name: Render decks, gallery and art atlas
+        run: node site/build.mjs
+      - name: Upload the static site
+        if: ${{ env.VERCEL_TOKEN != '' }}
+        env:
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+        run: npx --yes vercel@latest deploy site/out --prod --yes --token "$VERCEL_TOKEN"
+      - name: Note when the token is missing
+        if: ${{ env.VERCEL_TOKEN == '' }}
+        run: echo "::warning::VERCEL_TOKEN is not set — the site was built into site/out but not deployed."

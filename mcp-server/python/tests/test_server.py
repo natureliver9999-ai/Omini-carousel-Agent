@@ -71,7 +71,8 @@ async def test_call_list_layouts() -> None:
     async with Client(mcp) as client:
         result = await client.call_tool("list_layouts", {})
     payload = json.loads(result.content[0].text)
-    assert len(payload["layouts"]) == 11
+    assert len(payload["layouts"]) == 12
+    assert any(l["id"] == "generative" for l in payload["layouts"])
 
 
 @pytest.mark.asyncio

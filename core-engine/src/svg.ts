@@ -79,6 +79,8 @@ export interface ImageNode extends BaseNode {
 export interface GroupNode extends BaseNode {
   type: 'group';
   transform?: string;
+  /** Rectangular clip, emitted as a <clipPath>. Used by generative plots. */
+  clip?: { x: number; y: number; w: number; h: number };
   children: Node[];
 }
 
@@ -149,7 +151,12 @@ function rotationAttributes(node: BaseNode, fallbackCx: number, fallbackCy: numb
   return { transform: `rotate(${round(node.rotate)} ${round(cx)} ${round(cy)})` };
 }
 
-export function nodeToSvg(node: Node): string {
+export interface SvgContext {
+  defs: string[];
+  id: number;
+}
+
+export function nodeToSvg(node: Node, ctx?: SvgContext): string {
   const common: Record<string, string | number | undefined> = {
     opacity: node.opacity !== undefined && node.opacity !== 1 ? node.opacity : undefined,
   };
@@ -189,7 +196,15 @@ export function nodeToSvg(node: Node): string {
     case 'group': {
       const rot = rotationAttributes(node, 0, 0);
       const transform = [node.transform, rot.transform].filter(Boolean).join(' ');
-      return `<g${attrs({ ...common, transform })}>${node.children.map(nodeToSvg).join('')}</g>`;
+      let clipPath: string | undefined;
+      if (node.clip) {
+        const { x, y, w, h } = node.clip;
+        // Deterministic ids: same scene in, same SVG out (goldens depend on it).
+        const id = `clip${ctx ? ctx.id++ : 0}-${Math.round(x)}x${Math.round(y)}-${Math.round(w)}x${Math.round(h)}`;
+        clipPath = `url(#${id})`;
+        ctx?.defs.push(`<clipPath id="${id}"><rect x="${round(x)}" y="${round(y)}" width="${round(w)}" height="${round(h)}"/></clipPath>`);
+      }
+      return `<g${attrs({ ...common, transform, 'clip-path': clipPath })}>${node.children.map((child) => nodeToSvg(child, ctx)).join('')}</g>`;
     }
   }
 }
@@ -212,10 +227,13 @@ export function sceneToSvg(scene: Scene, portion?: { x: number; width: number; h
     : `viewBox="0 0 ${scene.width} ${scene.height}"`;
   const width = portion ? portion.width : scene.width;
   const height = portion ? (portion.height ?? scene.height) : scene.height;
+  const ctx: SvgContext = { defs: [], id: 0 };
+  const body = scene.nodes.map((node) => nodeToSvg(node, ctx)).join('');
   return [
     `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="${width}" height="${height}" ${vb}>`,
     `<rect x="0" y="0" width="${scene.width}" height="${scene.height}" fill="${scene.background}"/>`,
-    scene.nodes.map(nodeToSvg).join(''),
+    ctx.defs.length > 0 ? `<defs>${ctx.defs.join('')}</defs>` : '',
+    body,
     '</svg>',
   ].join('');
 }

@@ -63,6 +63,13 @@
     "useWhen": "One number plus a named, checkable source."
   },
   {
+    "id": "generative",
+    "name": "Generative Plot",
+    "role": "Visual proof / data as texture",
+    "density": "sparse",
+    "useWhen": "When the idea deserves an image the stock libraries do not have: a seeded plotter composition plus one line."
+  },
+  {
     "id": "summary",
     "name": "Summary",
     "role": "Saveable recap",

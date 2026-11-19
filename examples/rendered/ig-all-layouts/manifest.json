@@ -75,15 +75,22 @@
     {
       "index": 10,
       "id": "slide-10",
-      "layout": "summary",
+      "layout": "generative",
       "file": "slides/slide-10.png",
       "panorama": null
     },
     {
       "index": 11,
       "id": "slide-11",
-      "layout": "cta",
+      "layout": "summary",
       "file": "slides/slide-11.png",
+      "panorama": null
+    },
+    {
+      "index": 12,
+      "id": "slide-12",
+      "layout": "cta",
+      "file": "slides/slide-12.png",
       "panorama": null
     }
   ],
@@ -93,5 +100,5 @@
     "warnings": 0
   },
   "warnings": [],
-  "duration_ms": 2744
+  "duration_ms": 3228
 }

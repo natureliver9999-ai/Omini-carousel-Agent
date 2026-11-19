@@ -7,9 +7,10 @@ import { makeSpec } from './fixtures.js';
 const root = path.resolve(__dirname, '..');
 
 describe('carousel schema', () => {
-  it('declares eleven layouts', () => {
-    expect(SLIDE_LAYOUTS).toHaveLength(11);
-    expect(new Set(SLIDE_LAYOUTS).size).toBe(11);
+  it('declares twelve layouts', () => {
+    expect(SLIDE_LAYOUTS).toHaveLength(12);
+    expect(new Set(SLIDE_LAYOUTS).size).toBe(12);
+    expect(SLIDE_LAYOUTS).toContain('generative');
   });
 
   it('parses a well-formed spec', () => {

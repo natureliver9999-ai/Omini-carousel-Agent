@@ -8,7 +8,7 @@ The knowledge layer of `omni-carousel-agent`. An agent reads this, then writes a
 2. [`linkedin.md`](./linkedin.md) — why native PDFs win, page counts, no-link rule
 3. [`patterns.md`](./patterns.md) — the six viral mechanics and when to use each
 4. [`hooks.md`](./hooks.md) — six hook formulas, anti-patterns, a pre-publish score
-5. [`layouts.md`](./layouts.md) — the eleven typed layouts and their exact fields
+5. [`layouts.md`](./layouts.md) — the twelve typed layouts and their exact fields
 
 ## The 60-second version
 

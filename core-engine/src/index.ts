@@ -21,3 +21,8 @@ export { fontFiles as bundledFontFiles } from './fontmetrics.js';
 export { buildPlaybook, buildFullPlaybook, playbookPath, PLAYBOOK_TOPICS, type PlaybookTopic } from './playbook.js';
 export { renderExamples, EXAMPLE_IDS } from './examples.js';
 export { collectDecks, buildGalleryHtml, writeGallery, defaultRenderedRoot, type GalleryDeck } from './gallery.js';
+export { buildAtlasHtml, writeAtlas, type AtlasOptions, type AtlasResult } from './atlas.js';
+export {
+  ART_STYLES, ART_LABELS, ART_NOTES, pickArtStyle, artSignature, renderArt, framedArt,
+  type ArtStyle, type ArtOptions, type ArtZone,
+} from './generative.js';

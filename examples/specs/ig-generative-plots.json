@@ -1,0 +1,178 @@
+{
+  "version": "1.0",
+  "id": "ig-generative-plots",
+  "title": "Generated, Not Assumed",
+  "platform": "instagram",
+  "goal": "saves",
+  "theme": "plotter-night",
+  "brand": {
+    "handle": "omnicarousel",
+    "name": "omni-carousel"
+  },
+  "caption": {
+    "text": "Stock art is why your carousel looks like everyone else's.\n\nThis deck was not drawn in Figma. Every plot here is vector geometry generated from the spec you are reading \u2014 seeded from the deck id and the slide id, so it is identical on your machine and mine.\n\nFour of the eight styles are on the slides. The engine ships eight: topography, orbital, halftone, isometric, flowfield, constellation, moire, ribbon.\n\nSave this if your next deck should look like it came from an instrument, not a template library.",
+    "hashtags": [
+      "#generativedesign",
+      "#carousels",
+      "#designengineering",
+      "#dataviz"
+    ]
+  },
+  "meta": {
+    "language": "en",
+    "sources": [
+      "omni-carousel 0.1.0 \u2014 core-engine/src/generative.ts"
+    ]
+  },
+  "slides": [
+    {
+      "layout": "cover_hook",
+      "id": "cover",
+      "eyebrow": "GENERATIVE DECKS",
+      "kicker": "The eighth slide is the point:",
+      "headline": "Every frame here drew itself",
+      "sub": "Eight plotter styles, one seed, zero stock photos.",
+      "badge": "NO STOCK",
+      "icon": "pen-tool",
+      "footer_hook": "Start with terrain",
+      "alt_text": "Dark cover with paper-white type reading Every frame here drew itself, a mint badge reading NO STOCK, and a row of plot ticks."
+    },
+    {
+      "layout": "generative",
+      "id": "terrain",
+      "eyebrow": "01 \u2014 TEXTURE",
+      "headline": "Terrain is just data with a horizon",
+      "sub": "Contour rings walked out of a hash of the slide id. Nothing here was traced.",
+      "figure_label": "FIG. 01 \u2014 CONTOUR DRIFT",
+      "art": {
+        "style": "topography",
+        "density": 0.62
+      },
+      "annotations": [
+        "seed = deck id + slide id",
+        "no network requests at render time",
+        "identical bytes on every machine"
+      ],
+      "footer_hook": "Next: motion",
+      "alt_text": "Framed contour-ring plot in mint and grey, captioned FIG. 01 CONTOUR DRIFT, above the headline Terrain is just data with a horizon."
+    },
+    {
+      "layout": "generative",
+      "id": "momentum",
+      "eyebrow": "02 \u2014 MOMENTUM",
+      "headline": "Momentum you can trace back",
+      "sub": "Streamlines follow a smooth field, so the eye has somewhere to go that is not a decorative swoosh.",
+      "figure_label": "FIG. 02 \u2014 FLOW FIELD",
+      "art": {
+        "style": "flowfield",
+        "density": 0.58
+      },
+      "footer_hook": "Then compare",
+      "alt_text": "Framed flow-field plot of mint streamlines curving to the right, above the headline Momentum you can trace back."
+    },
+    {
+      "layout": "contrast_split",
+      "id": "stock-vs-seed",
+      "eyebrow": "THE DIFFERENCE",
+      "headline": "Stock says \"business\". A seed says this slide.",
+      "left": {
+        "label": "STOCK LIBRARY",
+        "text": "Same gradient, same whiteboard, same deck as forty other accounts.",
+        "items": [
+          "licensed, not owned",
+          "identical across accounts"
+        ]
+      },
+      "right": {
+        "label": "GENERATIVE PLOT",
+        "text": "Geometry computed from this deck's own id: owned, reproducible, unrecognisable from someone else's post.",
+        "items": [
+          "deterministic and diffable",
+          "nothing to license"
+        ]
+      },
+      "verdict": "One is a mood. The other is evidence you can re-run.",
+      "footer_hook": "Next: print",
+      "alt_text": "Two-column contrast: STOCK LIBRARY versus GENERATIVE PLOT, with the verdict One is a mood. The other is evidence you can re-run."
+    },
+    {
+      "layout": "generative",
+      "id": "dots",
+      "eyebrow": "03 \u2014 PRINT",
+      "headline": "Halftone, without the photograph",
+      "sub": "Dot mass falls off from a focus point: photo texture, generated from one number.",
+      "figure_label": "FIG. 03 \u2014 DOT MASS",
+      "art": {
+        "style": "halftone",
+        "density": 0.78
+      },
+      "annotations": [
+        "dot radius = distance falloff",
+        "no image asset in the bundle"
+      ],
+      "footer_hook": "How to run it",
+      "alt_text": "Framed halftone dot field shading from grey edges into a dense mint core, above the headline Halftone, without the photograph."
+    },
+    {
+      "layout": "steps",
+      "id": "how",
+      "eyebrow": "PLAYBOOK",
+      "headline": "Three fields and the deck draws itself",
+      "steps": [
+        {
+          "detail": "One slide with layout: generative needs only a headline.",
+          "title": "Add the block"
+        },
+        {
+          "detail": "art.style picks topography, orbital, halftone, isometric, flowfield, constellation, moire or ribbon.",
+          "title": "Name a style"
+        },
+        {
+          "detail": "art.seed locks the look; the caption can cite the fingerprint on the frame.",
+          "title": "Print the seed"
+        }
+      ],
+      "footer_hook": "Next: cycles",
+      "alt_text": "Three-step playbook explaining the art block, the style field and the seed field."
+    },
+    {
+      "layout": "generative",
+      "id": "cycles",
+      "eyebrow": "04 \u2014 SYSTEMS",
+      "headline": "Every cycle gets a compass",
+      "sub": "Arcs, satellites and graduations: a cadence you can read at thumbnail size.",
+      "figure_label": "FIG. 04 \u2014 ORBITAL CADENCE",
+      "art": {
+        "style": "orbital",
+        "density": 0.7
+      },
+      "footer_hook": "The recap",
+      "alt_text": "Framed orbital dial of mint arcs, satellites and tick marks, above the headline Every cycle gets a compass."
+    },
+    {
+      "layout": "summary",
+      "id": "recap",
+      "eyebrow": "SAVE THIS",
+      "headline": "What a template cannot do",
+      "bullets": [
+        "Seeded from spec id: byte-identical re-renders",
+        "Eight styles behind one field, art.style",
+        "Art clips to frame, copy keeps its space",
+        "The seed is printed on the slide",
+        "Same spec, any theme, re-inked palette"
+      ],
+      "footer_hook": "One action",
+      "alt_text": "Recap slide listing five capabilities of the generative engine as bullet points."
+    },
+    {
+      "layout": "cta",
+      "id": "cta",
+      "eyebrow": "NEXT",
+      "headline": "Plot your own deck",
+      "action": "save",
+      "text": "Save this, then run the same spec with art.style set to a style you have never used.",
+      "handle": "omnicarousel",
+      "alt_text": "Closing slide with the headline Plot your own deck and a save prompt."
+    }
+  ]
+}
