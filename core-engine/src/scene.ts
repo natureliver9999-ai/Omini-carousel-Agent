@@ -218,8 +218,9 @@ export function chromeNodes(ctx: SlideContext, opts: { hideHeader?: boolean; hid
     }
     if (ctx.slide.footer_hook) {
       const hookFont: FontSpec = { family: ctx.theme.typography.body_font, size: footerSize + 2, weight: 600 };
-      const label = truncateToWidth(stripUnsupported(ctx.slide.footer_hook), CW * 0.5, hookFont);
-      nodes.push(text(W - M - 118, FOOTER_BASELINE, label, {
+      const label = truncateToWidth(stripUnsupported(ctx.slide.footer_hook), CW * 0.42, hookFont);
+      // 150px of clearance: the counter is end-anchored at W - M and needs its own column.
+      nodes.push(text(W - M - 150, FOOTER_BASELINE, label, {
         family: ctx.theme.typography.body_font, size: footerSize + 2, weight: 600, fill: p.accent, anchor: 'end',
       }));
     }

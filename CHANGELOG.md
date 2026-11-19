@@ -34,4 +34,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `contrast_split`: a `verdict` label was drawn at a fixed y and collided with the card border on tall headlines. The panel now reserves the verdict's height and the label is positioned from the panel's measured bottom.
 - `bento_grid`: hero values (`Pixels`, `Source`) overflowed their tile at large row heights. Values are measured and scaled down to fit the tile's inner width.
 - Python runner: `layouts`/`themes` returned bare arrays from the CLI, so `handle_tool_call` saw `None` data; both now normalise to the `{layouts|themes: [...]}` shape the MCP tools return.
-- Golden coverage extended to `contrast_split` and `bento_grid` so both regressions fail CI if reintroduced.
+- `reveal_hold`: the "hold that thought" hint was drawn at a fixed y and printed over the body copy; the teaser card's label ran past the canvas instead of truncating; `footer_hook` was rendered twice (once by the layout, once by the scene footer). The body now fits by shrinking, the hint is anchored under the body, the card label wraps to two lines within the visible area, and footers are drawn once.
+- Footer: `footer_hook` cleared the page counter by only 18px on long hooks; clearance is now 150px and hooks truncate at 42% of the content width.
+- Golden coverage extended to `contrast_split`, `bento_grid` and `reveal_hold` so all three regressions fail CI if reintroduced.

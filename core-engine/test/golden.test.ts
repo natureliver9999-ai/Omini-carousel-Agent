@@ -68,6 +68,16 @@ const spec = parseSpec({
       ],
     },
     {
+      // Regression guard: teaser label must truncate to the on-canvas part, the hint
+      // must sit under the body, and footer_hook must not collide with the counter.
+      layout: 'reveal_hold',
+      id: 'reveal',
+      headline: 'Frame two introduces, it should raise a stake',
+      body: 'A frame that only sets context asks the reader to invest before giving them a reason. The next slide has to pay that back instantly.',
+      teaser_label: 'The fix is one rule',
+      footer_hook: 'Next frame: the rule',
+    },
+    {
       layout: 'cta',
       id: 'ask',
       headline: 'Save the hash',
@@ -85,7 +95,7 @@ describe('golden images', () => {
     const second = await renderCarousel(spec, { formats: ['png'], quiet: true });
 
     expect(first.renderer).toBe('resvg');
-    expect(first.slides).toHaveLength(6);
+    expect(first.slides).toHaveLength(7);
 
     const hashes = first.buffers.map((buffer) => sha(buffer));
     const repeat = second.buffers.map((buffer) => sha(buffer));
