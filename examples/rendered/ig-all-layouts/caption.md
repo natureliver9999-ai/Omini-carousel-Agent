@@ -13,7 +13,7 @@ This is the QA deck: if a headline collides with a number, a tile overflows or a
 
 ## Alt text (per slide)
 
-- **1** (cover_hook): Cover: eleven layouts, eleven ways to break a deck.
+- **1** (cover_hook): Cover: twelve layouts, twelve ways to break a deck.
 - **2** (contrast_split): Split slide: the old way versus the new way, with a verdict underneath.
 - **3** (layer_stack): Five stacked layers, four active, with the spec layer highlighted.
 - **4** (steps): Five numbered steps with two-line details.
