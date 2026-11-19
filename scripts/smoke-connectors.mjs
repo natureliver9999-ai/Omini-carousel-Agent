@@ -42,7 +42,9 @@ const HOSTS = [
 
 function resolveTarget(client, scope, cwd, env) {
   const output = run(['--client', client, '--scope', scope, '--dry-run'], { cwd, env });
-  const match = output.match(/^\s{2}(\/\S+)$/m) ?? output.match(/^\s{2}([A-Za-z]:\\\S+)$/m);
+  // Paths may contain spaces (macOS: "~/Library/Application Support/Claude/..."),
+  // so take the whole line rather than the first token.
+  const match = output.match(/^ {2}((?:\/|[A-Za-z]:\\).*?)\s*$/m);
   if (!match) throw new Error(`could not parse target path from dry run:\n${output}`);
   return match[1];
 }
