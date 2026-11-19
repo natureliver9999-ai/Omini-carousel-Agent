@@ -86,6 +86,8 @@ jobs:
       - run: npm run build
       - name: Contract parity (layouts, tools, budgets, themes)
         run: node scripts/check-parity.mjs
+      - name: Top-level CLI smoke (every subcommand, exit codes, artefacts)
+        run: node scripts/smoke-top.mjs
       # Connector configs and the installer have their own workflow (connectors.yml).
       - name: Every shipped example lints clean
         run: |

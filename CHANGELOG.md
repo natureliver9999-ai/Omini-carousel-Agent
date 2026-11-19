@@ -28,7 +28,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Examples & CI (`examples/`, `.github/workflows/`)**: Full specs and rendered outputs across patterns plus automated test & conformance workflows.
 - **Gallery (`core-engine/src/gallery.ts`, `cli.ts gallery`)**: generates a self-contained `examples/rendered/index.html` — deck cards, per-slide lightboxes, artefact links, coverage stats — with no CDN, framework or network call, plus `npm run gallery` / `npm run serve-gallery`.
 - **`examples/specs/ig-all-layouts.json`**: an eleven-slide QA deck that exercises every layout at its copy limit and fails the golden test first if a collision returns.
-- **Tests (118)**: engine lint/schema/panorama/golden (38), MCP contract + signed-URL tamper/expiry + path traversal (26), Node SDK tool dialects (8), Python models/tools/runner (32), FastMCP conformance (8).
+- **`scripts/smoke-top.mjs`**: exercises every CLI subcommand, the documented exit codes (0/1/2) and the written artefacts (PNG size, PDF header, gallery page); wired into CI.
+- **Tests (119)**: engine lint/schema/panorama/golden (38), MCP contract + signed-URL tamper/expiry + path traversal (26), Node SDK tool dialects (8), Python models/tools/runner (32), FastMCP conformance (8).
 - **CI**: `ci.yml` (build, typecheck, schema reproducibility, TS + Python matrices, cross-language parity), `golden.yml` (deterministic hashes on Linux/macOS + font licensing), `mcp-conformance.yml` (stdio handshake, HTTP signed artifacts, traversal), `connectors.yml` (13 configs, installer matrix on three OSes), `release.yml` (npm + PyPI + GitHub release assets).
 - **Parity tooling**: `scripts/check-parity.mjs` (layouts/tools/copy budgets/themes across Zod, JSON Schema, TypeScript and Pydantic), `scripts/validate-connectors.mjs`, `scripts/smoke-connectors.mjs` (merge safety, idempotency, uninstall).
 

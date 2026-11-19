@@ -210,16 +210,17 @@ Remote rendering means untrusted input reaching a file system and a network. The
 
 ## Testing
 
-118 tests across five suites:
+119 tests across five suites:
 
 ```bash
 npm test                                    # engine: lint, schema, panorama, golden, gallery (44)
 npm test --workspace=omni-carousel-mcp      # MCP contract, signed URLs, traversal (26)
 npm test --workspace=omni-carousel          # SDK tool dialects, MCP fragments (8)
-pytest sdks/python-sdk                      # models, tools, runner (32)
+pytest sdks/python-sdk                      # models, tools, runner — one case per shipped spec (33)
 pytest mcp-server/python                    # FastMCP conformance (8)
 
 npm run gallery                             # rebuild examples/rendered/index.html
+node scripts/smoke-top.mjs                  # every CLI subcommand, exit codes, artefacts
 node scripts/check-parity.mjs               # layouts/tools/budgets/themes across languages
 node scripts/validate-connectors.mjs        # 13 connector configs + OpenAPI sync
 node scripts/smoke-connectors.mjs           # installer: merge safety, idempotency, uninstall
