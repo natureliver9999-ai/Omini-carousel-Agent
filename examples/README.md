@@ -13,7 +13,7 @@ you run anything.
 | `ig-bento-agent-stack.json` | Bento grid | 6 | A dense matrix that still passes the 70-word budget |
 | `ig-scrapbook-founder-note.json` | Scrapbook | 6 | Taped cards, script notes, deliberate imperfection — all deterministic |
 | `li-executive-ai-adoption.json` | Document | 8 | LinkedIn PDF document with 5:4-safe margins and no untappable URLs |
-| `ig-all-layouts.json` | All eleven | 11 | QA deck: every layout at the edge of its copy budget — the one that catches collisions first |
+| `ig-all-layouts.json` | All twelve | 12 | QA deck: every layout at the edge of its copy budget — the one that catches collisions first |
 
 ## The gallery
 

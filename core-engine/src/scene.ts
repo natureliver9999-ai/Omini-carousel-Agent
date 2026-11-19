@@ -4,6 +4,7 @@
  * like one designer made them instead of 11 agents.
  */
 import { hashString, mix, seededRandom, withAlpha } from './colors.js';
+import { renderArt, type ArtOptions } from './generative.js';
 import { drawIcon } from './icons.js';
 import { circle, group, path, rect, text, type Node } from './svg.js';
 import { oneLine, paragraph, stripUnsupported, textWidth, truncateToWidth, type FontSpec } from './text.js';
@@ -76,6 +77,7 @@ export function backgroundNodes(ctx: SlideContext): Node[] {
   const nodes: Node[] = [];
   const width = ctx.canvasWidth;
   const style = ctx.theme.style;
+  const art = artBackdrop(ctx);
 
   if (style === 'brutal') {
     // Architectural grid
@@ -106,7 +108,32 @@ export function backgroundNodes(ctx: SlideContext): Node[] {
     nodes.push(circle(width - 120, -60, 420, withAlpha(p.accent, 0.05)));
     for (let x = 90; x < width; x += 120) nodes.push(rect(x, 0, 1, H, withAlpha(p.text, ctx.theme.decoration.grid_opacity * 0.5)));
   }
+  if (art) nodes.push(...art);
   return nodes;
+}
+
+/**
+ * A deck or slide can ask for generative art behind any layout. It sits under
+ * the copy at low opacity, is clipped to the content block (never the chrome),
+ * and is opt-in: a slide must carry `art`, or the deck must set
+ * `art.backdrop: true`, so a dense layout never gets texture it did not ask for.
+ */
+function artBackdrop(ctx: SlideContext): Node[] | undefined {
+  const slideArt = (ctx.slide as { art?: ArtOptions }).art;
+  const deckArt = (ctx.spec as { art?: ArtOptions }).art;
+  if (ctx.slide.layout === 'generative') return undefined;
+  if (!slideArt && !deckArt?.backdrop) return undefined;
+  if (slideArt && slideArt.backdrop === false) return undefined;
+  const merged: ArtOptions = { ...deckArt, ...slideArt };
+  const seed = `${merged.seed ?? ctx.spec.id ?? ctx.spec.title ?? 'omni'}-${slideId(ctx)}-field`;
+  const nodes = renderArt(ctx.palette, {
+    ...merged,
+    seed,
+    density: merged.density ?? 0.45,
+    opacity: merged.opacity === undefined ? 0.16 : merged.opacity * 0.3,
+    zone: { x: M, y: CONTENT_TOP, w: ctx.canvasWidth - M * 2, h: CONTENT_H },
+  });
+  return [group(nodes, { clip: { x: M, y: CONTENT_TOP, w: ctx.canvasWidth - M * 2, h: CONTENT_H } })];
 }
 
 /**

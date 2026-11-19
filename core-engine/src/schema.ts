@@ -6,6 +6,7 @@
  * derives from these definitions so a plan that validates anywhere renders everywhere.
  */
 import { z } from 'zod';
+import { ART_STYLES } from './generative.js';
 
 export const SPEC_VERSION = '1.0' as const;
 
@@ -21,6 +22,7 @@ export const SLIDE_LAYOUTS = [
   'proof',
   'summary',
   'cta',
+  'generative',
 ] as const;
 
 export type SlideLayout = (typeof SLIDE_LAYOUTS)[number];
@@ -59,6 +61,20 @@ export const PanoramaSchema = z
   })
   .describe('Declares this slide as part of a seamless panorama span.');
 
+/**
+ * Generative backdrop config. Shared by slides and the deck-level default, so an
+ * agent can say "plot something behind every slide" once, or override per frame.
+ */
+export const ArtSchema = z
+  .object({
+    style: z.enum(ART_STYLES).optional().describe('Composition to plot. Omit to let the engine choose deterministically from the slide seed.'),
+    seed: z.string().trim().min(1).max(64).optional().describe('Stable seed. Same seed + style always renders the same drawing.'),
+    density: z.number().min(0).max(1).optional().describe('How much ink the composition spends (0 sparse .. 1 dense).'),
+    opacity: z.number().min(0).max(1).optional().describe('Global alpha multiplier for the composition.'),
+    backdrop: z.boolean().optional().describe('Also plot a low-opacity field behind a sparse layout. Default true where it is safe.'),
+  })
+  .describe('Deterministic generative art (topography, orbital, halftone, isometric, flowfield, constellation, moire, ribbon).');
+
 const baseFields = {
   id: z
     .string()
@@ -73,6 +89,7 @@ const baseFields = {
   alt_text: optionalText(280, 'alt_text').describe('Accessibility description used in captions and the HTML deck.'),
   notes: optionalText(400, 'notes').describe('Private production/speaker notes. Never rendered.'),
   panorama: PanoramaSchema.optional(),
+  art: ArtSchema.optional(),
 };
 
 const CoverHookSlide = z.object({
@@ -203,6 +220,19 @@ const CtaSlide = z.object({
   handle: optionalText(40, 'handle').describe('Handle to follow, without the @.'),
 });
 
+const GenerativeSlide = z.object({
+  ...baseFields,
+  layout: z.literal('generative'),
+  sub: optionalText(180, 'sub').describe('One supporting line under the headline.'),
+  figure_label: optionalText(48, 'figure_label').describe('Caption printed above the plot, e.g. "FIG. 03 — SHA256 DRIFT".'),
+  annotations: z
+    .array(nonEmpty(90, 'annotation'))
+    .min(1)
+    .max(3)
+    .optional()
+    .describe('Up to three plotter-style legend rows read as data, not body copy.'),
+});
+
 export const SlideSchema = z.discriminatedUnion('layout', [
   CoverHookSlide,
   ContrastSplitSlide,
@@ -215,6 +245,7 @@ export const SlideSchema = z.discriminatedUnion('layout', [
   ProofSlide,
   SummarySlide,
   CtaSlide,
+  GenerativeSlide,
 ]);
 
 export type Slide = z.infer<typeof SlideSchema>;
@@ -229,6 +260,7 @@ export type StepsSlideT = z.infer<typeof StepsSlide>;
 export type ProofSlideT = z.infer<typeof ProofSlide>;
 export type SummarySlideT = z.infer<typeof SummarySlide>;
 export type CtaSlideT = z.infer<typeof CtaSlide>;
+export type GenerativeSlideT = z.infer<typeof GenerativeSlide>;
 
 export const BrandSchema = z.object({
   name: nonEmpty(48, 'brand name'),
@@ -265,6 +297,7 @@ export const CarouselSpecSchema = z.object({
   brand: BrandSchema.optional(),
   caption: CaptionSchema.optional(),
   cta_link: optionalText(200, 'cta_link').describe('Destination URL for the caption/CTA (never printed inside LinkedIn slide art).'),
+  art: ArtSchema.optional(),
   slides: z.array(SlideSchema).min(2).max(20).describe('Ordered slides. 7-10 is the Instagram sweet spot; 5-10 for LinkedIn PDFs.'),
   meta: z
     .object({
@@ -372,6 +405,12 @@ export const LAYOUT_META: Record<SlideLayout, { name: string; role: string; dens
     role: 'Cited case study / metric',
     density: 'sparse',
     useWhen: 'One number plus a named, checkable source.',
+  },
+  generative: {
+    name: 'Generative Plot',
+    role: 'Visual proof / data as texture',
+    density: 'sparse',
+    useWhen: 'When the idea deserves an image the stock libraries do not have: a seeded plotter composition plus one line.',
   },
   summary: {
     name: 'Summary',

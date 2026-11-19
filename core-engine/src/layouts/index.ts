@@ -12,6 +12,7 @@ import { stepsLayout } from './steps.js';
 import { proofLayout } from './proof.js';
 import { summaryLayout } from './summary.js';
 import { ctaLayout } from './cta.js';
+import { generativeLayout } from './generative.js';
 
 export type LayoutFn = (ctx: SlideContext) => Node[];
 
@@ -27,6 +28,7 @@ export const LAYOUTS: Record<SlideLayout, LayoutFn> = {
   proof: proofLayout,
   summary: summaryLayout,
   cta: ctaLayout,
+  generative: generativeLayout,
 };
 
 export { layerSequencePosition } from './layer_stack.js';

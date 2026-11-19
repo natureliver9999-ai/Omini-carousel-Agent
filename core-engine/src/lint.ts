@@ -83,11 +83,11 @@ function slideCopy(slide: Slide): string[] {
   if (slide.eyebrow) parts.push(slide.eyebrow);
   if (slide.footer_hook) parts.push(slide.footer_hook);
   const any = slide as Record<string, unknown>;
-  for (const key of ['sub', 'kicker', 'verdict', 'body', 'note', 'callout', 'takeaway', 'finding', 'text', 'save_prompt', 'metric_label', 'teaser_label']) {
+  for (const key of ['sub', 'kicker', 'verdict', 'body', 'note', 'callout', 'takeaway', 'finding', 'text', 'save_prompt', 'metric_label', 'teaser_label', 'figure_label']) {
     const value = any[key];
     if (typeof value === 'string') parts.push(value);
   }
-  for (const key of ['bullets', 'steps', 'tiles', 'layers']) {
+  for (const key of ['bullets', 'steps', 'tiles', 'layers', 'annotations']) {
     const value = any[key];
     if (Array.isArray(value)) {
       for (const item of value) {
@@ -125,6 +125,7 @@ const COPY_BUDGET: Record<Slide['layout'], number> = {
   proof: 70,
   summary: 70,
   cta: 45,
+  generative: 60,
 };
 
 export function lintSpec(input: unknown, options: LintOptions = {}): LintReport {
@@ -177,6 +178,28 @@ export function lintSpec(input: unknown, options: LintOptions = {}): LintReport 
     if (n < 4) add('warn', 'LI_SLIDE_COUNT', 'slides', `${n} pages is too thin to earn LinkedIn document dwell time (5-10 recommended).`);
     if (n > 12) add('warn', 'LI_SLIDE_COUNT', 'slides', `${n} pages exceeds the LinkedIn mobile completion sweet spot (5-10).`);
   }
+
+  /* ---------- generative art ---------- */
+  const denseLayouts = new Set(['bento_grid', 'data_chart', 'steps', 'summary', 'contrast_split']);
+  slides.forEach((slide, i) => {
+    const art = (slide as { art?: { style?: string; density?: number; opacity?: number } }).art;
+    if (!art) return;
+    if (slide.layout === 'generative') {
+      if (!art.style) {
+        add('info', 'ART_STYLE_IMPLICIT', `slides.${i}.art.style`, 'No art style set: the engine picks one deterministically from the slide seed.', 'Pin a style per slide when you want a deliberate sequence (topography → orbital → halftone).');
+      }
+      if (!(slide as { figure_label?: string }).figure_label) {
+        add('info', 'ART_FIGURE_LABEL', `slides.${i}.figure_label`, 'No figure_label: the caption falls back to `FIG. NN — STYLE`.', 'Word the caption like a paper figure when the plot is claiming to be evidence.');
+      }
+      return;
+    }
+    if (denseLayouts.has(slide.layout)) {
+      add('warn', 'ART_BACKDROP_DENSE', `slides.${i}.art`, `A generative backdrop behind \`${slide.layout}\` competes with dense copy.`, 'Keep art backdrops for sparse layouts, or set art.backdrop=false.');
+    }
+    if (art.opacity !== undefined && art.opacity > 0.5) {
+      add('warn', 'ART_BACKDROP_LOUD', `slides.${i}.art.opacity`, `Backdrop opacity ${art.opacity} will fight the text it sits under.`, '0.1-0.25 is the legible range for a backdrop; use the `generative` layout for full-strength art.');
+    }
+  });
 
   /* ---------- per-slide copy ---------- */
   let totalWords = 0;

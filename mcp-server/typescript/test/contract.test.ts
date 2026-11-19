@@ -77,11 +77,13 @@ describe('MCP surface', () => {
 });
 
 describe('MCP tool behaviour', () => {
-  it('lists the eleven layouts', async () => {
+  it('lists the twelve layouts, including the generative plot', async () => {
     const result = await client.callTool({ name: 'list_layouts', arguments: {} });
     const text = (result.content as Array<{ type: string; text: string }>)[0].text;
     const parsed = JSON.parse(text);
-    expect(parsed.layouts ?? parsed).toHaveLength(11);
+    const layouts = parsed.layouts ?? parsed;
+    expect(layouts).toHaveLength(12);
+    expect(layouts.map((layout: { id: string }) => layout.id)).toContain('generative');
   });
 
   it('lists themes with contrast audits', async () => {

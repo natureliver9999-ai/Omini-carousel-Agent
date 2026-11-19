@@ -52,11 +52,13 @@ expectExit(['validate', spec], 0, 'validate without strict');
 expectExit(['layouts', '--json'], 0, 'layouts --json');
 
 const layouts = JSON.parse(run(['layouts', '--json']));
-if (Array.isArray(layouts) && layouts.length === 11) ok('11 layouts are listed');
-else bad(`expected 11 layouts, got ${Array.isArray(layouts) ? layouts.length : typeof layouts}`);
+if (Array.isArray(layouts) && layouts.length === 12) ok('12 layouts are listed');
+else bad(`expected 12 layouts, got ${Array.isArray(layouts) ? layouts.length : typeof layouts}`);
+if (Array.isArray(layouts) && layouts.some((layout) => layout.id === 'generative')) ok('generative layout is advertised');
+else bad('generative layout is missing from `layouts`');
 
 const themes = JSON.parse(run(['themes', '--json']));
-if (Array.isArray(themes) && themes.length >= 4) ok(`${themes.length} themes are listed`);
+if (Array.isArray(themes) && themes.length >= 5) ok(`${themes.length} themes are listed`);
 else bad('themes list is short');
 
 const playbook = run(['playbook', 'instagram']);
@@ -112,6 +114,16 @@ if (galleryResult.ok && galleryResult.decks.length >= 8) ok(`gallery indexes ${g
 else bad('gallery did not index the shipped decks');
 if (existsSync(path.join(gallery, 'index.html'))) ok('gallery page written');
 else bad('gallery page missing');
+
+console.log('\ncanvas');
+const atlas = mkdtempSync(path.join(tmpdir(), 'omni-atlas-smoke-'));
+const atlasFile = path.join(atlas, 'atlas.html');
+const atlasResult = JSON.parse(run(['canvas', '--compact', '--out', atlasFile, '--json']));
+if (atlasResult.ok && atlasResult.cards >= 8) ok(`atlas plots ${atlasResult.cards} compositions`);
+else bad('atlas did not plot every style');
+const atlasHtml = existsSync(atlasFile) ? readFileSync(atlasFile, 'utf8') : '';
+if (atlasHtml.includes('<svg') && !/https?:\/\/(?!www\.w3\.org)/.test(atlasHtml)) ok('atlas is self-contained inline SVG');
+else bad('atlas is missing inline SVG or reaches the network');
 
 console.log(failures === 0 ? '\ntop-level smoke test passed' : `\n${failures} check(s) failed`);
 process.exit(failures === 0 ? 0 : 1);

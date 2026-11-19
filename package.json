@@ -27,7 +27,8 @@
     "studio": "node mcp-server/rest-facade/dist/server.js --host 0.0.0.0 --port 8765 --allow-unauthenticated",
     "test:py": "pytest sdks/python-sdk mcp-server/python",
     "golden": "UPDATE_GOLDEN=1 npx vitest run --root core-engine test/golden.test.ts",
-    "gallery": "node core-engine/dist/cli.js gallery"
+    "gallery": "node core-engine/dist/cli.js gallery",
+    "build:site": "npm run build && node site/build.mjs"
   },
   "devDependencies": {
     "@types/node": "22.15.3",

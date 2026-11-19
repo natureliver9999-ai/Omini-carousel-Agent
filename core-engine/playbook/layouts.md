@@ -1,6 +1,6 @@
 # Layout Reference
 
-Eleven typed layouts. Each has a fixed job, a copy budget enforced by the linter, and a deterministic geometry.
+Twelve typed layouts. Each has a fixed job, a copy budget enforced by the linter, and a deterministic geometry.
 
 | Layout | Job | Density | Copy budget | Required fields |
 |---|---|---|---|---|
@@ -15,6 +15,35 @@ Eleven typed layouts. Each has a fixed job, a copy budget enforced by the linter
 | `proof` | Cited case study | sparse | 70 words | `headline`, `metric_value`, `metric_label`, `finding`, `source` |
 | `summary` | Saveable recap | medium | 70 words | `headline`, `bullets[3-6]` |
 | `cta` | Slide N, one action | sparse | 45 words | `headline`, `action`, `text` |
+| `generative` | Seeded vector plot as visual proof | sparse | 60 words | `headline` |
+
+## Generative art
+
+`generative` (and the optional `art` block on any slide) plots a deterministic
+vector composition from a seed. Eight styles ship in the engine:
+
+| Style | Reads as | Best for |
+|---|---|---|
+| `topography` | Contour rings | terrain, depth, "we mapped this" |
+| `orbital` | Compass arcs + satellites | cycles, systems, cadence |
+| `halftone` | Dot-density field | print texture with no photo |
+| `isometric` | Wireframe volumes | architecture, infrastructure |
+| `flowfield` | Streamlines through a vector field | momentum, traffic, funnels |
+| `constellation` | Nearest-neighbour graph | networks, evidence density |
+| `moire` | Rotated line interference | tension, contrast, before/after |
+| `ribbon` | Stacked waves | sequence, rhythm, layering |
+
+```json
+{ "layout": "generative", "headline": "Terrain is just data with a horizon",
+  "sub": "Contour rings computed from a hash of the slide id.",
+  "figure_label": "FIG. 03 — DRIFT",
+  "art": { "style": "topography", "density": 0.6 },
+  "annotations": ["seed derives from spec id + slide id", "zero network requests"] }
+```
+
+The seed defaults to `<spec.id>-<slide.id>`, so the same spec always draws the
+same deck. Pin `art.seed` at deck level to lock a whole deck's look, or
+`art.backdrop: true` to run a faint field behind every other layout.
 
 ## Field cheat sheet
 

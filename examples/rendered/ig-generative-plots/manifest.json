@@ -1,0 +1,83 @@
+{
+  "generator": "omni-carousel-agent",
+  "engine": "0.1.0",
+  "renderer": "resvg",
+  "platform": "instagram",
+  "theme": "plotter-night",
+  "canvas": {
+    "width": 1080,
+    "height": 1350
+  },
+  "slides": [
+    {
+      "index": 1,
+      "id": "cover",
+      "layout": "cover_hook",
+      "file": "slides/slide-01.png",
+      "panorama": null
+    },
+    {
+      "index": 2,
+      "id": "terrain",
+      "layout": "generative",
+      "file": "slides/slide-02.png",
+      "panorama": null
+    },
+    {
+      "index": 3,
+      "id": "momentum",
+      "layout": "generative",
+      "file": "slides/slide-03.png",
+      "panorama": null
+    },
+    {
+      "index": 4,
+      "id": "stock-vs-seed",
+      "layout": "contrast_split",
+      "file": "slides/slide-04.png",
+      "panorama": null
+    },
+    {
+      "index": 5,
+      "id": "dots",
+      "layout": "generative",
+      "file": "slides/slide-05.png",
+      "panorama": null
+    },
+    {
+      "index": 6,
+      "id": "how",
+      "layout": "steps",
+      "file": "slides/slide-06.png",
+      "panorama": null
+    },
+    {
+      "index": 7,
+      "id": "cycles",
+      "layout": "generative",
+      "file": "slides/slide-07.png",
+      "panorama": null
+    },
+    {
+      "index": 8,
+      "id": "recap",
+      "layout": "summary",
+      "file": "slides/slide-08.png",
+      "panorama": null
+    },
+    {
+      "index": 9,
+      "id": "cta",
+      "layout": "cta",
+      "file": "slides/slide-09.png",
+      "panorama": null
+    }
+  ],
+  "lint": {
+    "ok": true,
+    "errors": 0,
+    "warnings": 0
+  },
+  "warnings": [],
+  "duration_ms": 2395
+}

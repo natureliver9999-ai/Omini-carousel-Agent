@@ -77,6 +77,7 @@ def test_layout_union_covers_every_documented_layout() -> None:
         "proof",
         "summary",
         "cta",
+        "generative",
     }
     assert set(models.SlideLayout.__args__) == documented
 

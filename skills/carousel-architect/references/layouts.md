@@ -1,6 +1,6 @@
 # Layout map
 
-Eleven typed layouts, each with one job. `list_layouts` returns the machine-readable catalog.
+Twelve typed layouts, each with one job. `list_layouts` returns the machine-readable catalog.
 
 | Layout | Job | Required fields | Copy budget |
 |---|---|---|---|
@@ -15,6 +15,16 @@ Eleven typed layouts, each with one job. `list_layouts` returns the machine-read
 | `proof` | Cited case metric | `headline`, `metric_value`, `metric_label`, `finding`, `source` | 70 |
 | `summary` | The screenshot frame | `headline`, `bullets[3-6]` | 70 |
 | `cta` | One action | `headline`, `action`, `text` | 45 |
+| `generative` | Seeded vector plot as visual proof | `headline` (+ optional `art.style`) | 60 |
+
+## Generative art
+
+`generative` plots one of eight deterministic styles — `topography`, `orbital`,
+`halftone`, `isometric`, `flowfield`, `constellation`, `moire`, `ribbon` — from a
+seed and the theme palette. `art.seed` pins the drawing (default: `spec.id-slide.id`),
+`art.density` (0-1) sets ink, and `art.backdrop: true` runs a faint field behind
+any other layout. The seed fingerprint is printed on the frame, so a caption can
+cite it. Same spec in, same drawing out — art is data, not a mood board.
 
 ## Minimal valid slide objects
 

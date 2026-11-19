@@ -1,7 +1,7 @@
 {
   "version": "1.0",
   "id": "ig-all-layouts",
-  "title": "Eleven Layouts, One Deck",
+  "title": "Twelve Layouts, One Deck",
   "platform": "instagram",
   "goal": "saves",
   "theme": "editorial",
@@ -22,11 +22,11 @@
       "layout": "cover_hook",
       "eyebrow": "STRESS TEST 2026",
       "kicker": "Every layout, worst case:",
-      "headline": "Eleven layouts, eleven ways to break a deck",
+      "headline": "Twelve layouts, twelve ways to break a deck",
       "sub": "Maximal copy, longest labels, five steps and nine tiles \u2014 all in one deck.",
       "badge": "QA",
       "icon": "grid",
-      "alt_text": "Cover: eleven layouts, eleven ways to break a deck."
+      "alt_text": "Cover: twelve layouts, twelve ways to break a deck."
     },
     {
       "layout": "contrast_split",
@@ -227,6 +227,23 @@
       "source": "Omni QA harness, internal benchmark, 2026",
       "attribution": "Omni engineering",
       "alt_text": "Proof slide: 12.4x faster to a rendered deck, with a named source."
+    },
+    {
+      "layout": "generative",
+      "eyebrow": "LAYOUT 12",
+      "headline": "The twelfth layout draws itself",
+      "sub": "A seeded plot instead of a stock image: the same QA deck now covers every frame the engine ships.",
+      "figure_label": "FIG. 12 \u2014 STRESS PLOT",
+      "art": {
+        "style": "constellation",
+        "density": 0.6
+      },
+      "annotations": [
+        "generative is the only layout with no copy block",
+        "art clips to the frame, copy keeps its measured height"
+      ],
+      "footer_hook": "Recap",
+      "alt_text": "Framed constellation plot of thin lines and mint nodes, above the headline The twelfth layout draws itself."
     },
     {
       "layout": "summary",

@@ -2,7 +2,7 @@
 
 **Turn a topic into a publish-ready carousel — 1080×1350 Instagram slides, a multi-page LinkedIn PDF, seamless panorama spans, and a caption — from any AI agent, with no browser, no API keys, and no design step.**
 
-One deterministic engine. Nine tools. Thirteen host integrations. Four themes. Eleven layouts.
+One deterministic engine. Nine tools. Thirteen host integrations. Five themes. Twelve layouts. Eight generative plot styles.
 
 [![CI](https://github.com/natureliver9999-ai/Omini-carousel-Agent/actions/workflows/ci.yml/badge.svg)](../../actions/workflows/ci.yml)
 [![MCP conformance](https://github.com/natureliver9999-ai/Omini-carousel-Agent/actions/workflows/mcp-conformance.yml/badge.svg)](../../actions/workflows/mcp-conformance.yml)
@@ -14,10 +14,12 @@ One deterministic engine. Nine tools. Thirteen host integrations. Four themes. E
   <img src="examples/rendered/ig-scrapbook-founder-note/slides/slide-02.png" width="266" alt="Scrapbook slide with a taped card and a handwritten note" />
 </p>
 
-<p align="center"><sub>Rendered by this repo — no Figma, no browser, ~1.8 s for an eight-slide deck.</sub></p>
+<p align="center"><sub>Rendered by this repo — no Figma, no browser, ~2 s for an eight-slide deck.</sub></p>
 
 <p align="center">
-  <a href="examples/rendered/index.html"><b>▸ Open the gallery</b></a> — 8 decks, 59 slides, every artefact one click away.
+  <a href="examples/rendered/index.html"><b>▸ Open the gallery</b></a> — 9 decks, 69 slides, every artefact one click away
+  &nbsp;·&nbsp;
+  <a href="examples/rendered/atlas.html"><b>▸ Open the art atlas</b></a> — 8 generative styles × 5 themes, drawn as inline SVG.
   <br /><sub><code>npm run serve-gallery</code> then visit <code>localhost:4173</code></sub>
 </p>
 
@@ -84,7 +86,7 @@ Then just ask: *“Use omni-carousel to make a 9-slide Instagram carousel about 
 | Surface | What the agent gets |
 | --- | --- |
 | `get_playbook` | platform rules: slide counts, copy limits, hooks, patterns |
-| `list_layouts` / `list_themes` | the 11 layouts with budgets, the 4 WCAG-audited themes |
+| `list_layouts` / `list_themes` | the 12 layouts with budgets, the 5 WCAG-audited themes |
 | `validate_spec` | schema + retention/copy/contrast/provenance lint, with JSON paths |
 | `render_carousel` | PNG slides, PDF, HTML deck, ZIP, caption — `output_mode: path \| url \| inline` |
 | `preview_slide` | one slide, as an image, without writing a bundle |
@@ -117,7 +119,7 @@ Both SDKs also expose native remote-MCP fragments: `anthropicMcpServer()` / `ant
 
 ```bash
 node mcp-server/rest-facade/dist/server.js --host 127.0.0.1 --port 8765
-curl -s localhost:8765/v1/layouts | jq '.layouts | length'     # 11
+curl -s localhost:8765/v1/layouts | jq '.layouts | length'     # 12
 curl -s localhost:8765/openapi.yaml | head -3                  # OpenAPI 3.1, importable as a GPT Action
 ```
 
@@ -143,6 +145,32 @@ Run it directly:
 node core-engine/dist/cli.js validate examples/specs/li-executive-ai-adoption.json --strict
 ```
 
+## Generative art, not stock art
+
+Eleven of the twelve layouts interpret copy. The twelfth draws. `generative`
+plots a deterministic vector composition — topography, orbital, halftone,
+isometric, flowfield, constellation, moire, ribbon — from a seed and the theme
+palette, then sets one line of type under it:
+
+```json
+{ "layout": "generative",
+  "headline": "Terrain is just data with a horizon",
+  "figure_label": "FIG. 01 — CONTOUR DRIFT",
+  "art": { "style": "topography", "density": 0.62 },
+  "annotations": ["seed = deck id + slide id", "no network requests"] }
+```
+
+- **Deterministic.** The seed defaults to `<spec.id>-<slide.id>`; the same spec draws the same deck on every machine, which is why the golden test can hash it.
+- **Palette-aware.** No style carries its own colours: a plot re-inks itself in whatever theme renders it.
+- **Crop-safe.** Art is clipped to its frame and the copy keeps its measured height, so a plotter composition can never bleed into a headline.
+- **Opt-in backdrop.** Any other layout can take a faint field behind it with `art.backdrop: true` — the linter warns when that would fight dense copy.
+- **Citable.** The seed fingerprint is printed on the frame (`SEED 9B10`), so a caption can name the exact drawing a reader is looking at.
+
+```bash
+omni-carousel canvas --out examples/rendered/atlas.html   # every style x every theme, inline SVG
+omni-carousel canvas --compact                            # two themes, small cards, deployable single file
+```
+
 ## Themes
 
 | Theme | Character | Accent |
@@ -151,8 +179,9 @@ node core-engine/dist/cli.js validate examples/specs/li-executive-ai-adoption.js
 | `brutal-bento` | Obsidian surfaces, acid-lime highlights, architectural borders | `#C8FF32` |
 | `scrapbook` | Taped cards, script notes, deterministic jitter | `#A62620` |
 | `linkedin-executive` | Restrained navy/ivory, 5:4-safe margins | `#1D4ED8` |
+| `plotter-night` | Ink field, paper-white type, mint plotter pen — built for generative plots | `#6CFFC2` |
 
-Themes are plain JSON in [`spec/themes/`](spec/themes/) — colours, type scale, radii, spacing. Contrast is audited at load time and the linter reports every pair.
+Themes are plain JSON in [`spec/themes/`](spec/themes/) — colours, type scale, radii, spacing. Contrast is audited at load time and the linter reports every pair. `plotter-night` ships with the generative layout but works with all twelve.
 
 ## A spec is just JSON
 
@@ -176,13 +205,15 @@ Themes are plain JSON in [`spec/themes/`](spec/themes/) — colours, type scale,
 }
 ```
 
-The full contract lives in [`spec/carousel.schema.json`](spec/carousel.schema.json), generated from the Zod source — never hand-edited. Eleven layouts, one discriminated union, `extra: "forbid"` everywhere: a typo fails loudly instead of silently rendering.
+The full contract lives in [`spec/carousel.schema.json`](spec/carousel.schema.json), generated from the Zod source — never hand-edited. Twelve layouts, one discriminated union, `extra: "forbid"` everywhere: a typo fails loudly instead of silently rendering.
 
 ## Repository layout
 
 ```
 spec/                  carousel.schema.json (generated), themes/, playbook/ (the craft rules)
-core-engine/           TypeScript engine: schema, lint, render, panorama, pdf, bundle, 11 layouts, CLI
+core-engine/           TypeScript engine: schema, lint, render, panorama, pdf, bundle, 12 layouts, generative art, CLI
+site/                  static-site build: renders every example + gallery + atlas into site/out
+examples/rendered/     9 committed decks, the gallery page and the art atlas
 mcp-server/
   typescript/          MCP server — stdio + Streamable HTTP, token/origin policy
   python/              FastMCP server — stdio + Streamable HTTP, delegates to the same CLI
@@ -192,10 +223,23 @@ sdks/
   python-sdk/          omni_carousel: Pydantic models, tools, runner, CLI
 skills/carousel-architect/   SKILL.md + references + starter specs, for host skills
 connectors/            13 hosts + a merge-safe installer
-examples/              8 pattern specs, committed rendered output, and a generated gallery page
+examples/              9 pattern specs, committed rendered output, gallery and art atlas
 docs/research/         5-part research corpus behind every rule
 .github/workflows/     lint, golden images, MCP conformance, connectors, release
 ```
+
+## Deploy the gallery
+
+`site/build.mjs` renders every example deck, the gallery page and the art atlas
+into `site/out`, and `vercel.json` points Vercel at exactly that:
+
+```bash
+npm ci && npm run build && node site/build.mjs   # what Vercel runs
+npx serve site/out                               # or look at it locally
+```
+
+Any static host works — there is no server, no API key and no runtime at
+request time. The build is the engine running on its own examples.
 
 ## Security model
 
@@ -210,16 +254,18 @@ Remote rendering means untrusted input reaching a file system and a network. The
 
 ## Testing
 
-119 tests across five suites:
+132 tests across five suites:
 
 ```bash
-npm test                                    # engine: lint, schema, panorama, golden, gallery (44)
+npm test                                    # engine: lint, schema, panorama, golden, gallery, generative (56)
 npm test --workspace=omni-carousel-mcp      # MCP contract, signed URLs, traversal (26)
 npm test --workspace=omni-carousel          # SDK tool dialects, MCP fragments (8)
-pytest sdks/python-sdk                      # models, tools, runner — one case per shipped spec (33)
+pytest sdks/python-sdk                      # models, tools, runner — one case per shipped spec (34)
 pytest mcp-server/python                    # FastMCP conformance (8)
 
 npm run gallery                             # rebuild examples/rendered/index.html
+node core-engine/dist/cli.js canvas         # rebuild examples/rendered/atlas.html
+node site/build.mjs                         # render the whole static site into site/out
 node scripts/smoke-top.mjs                  # every CLI subcommand, exit codes, artefacts
 node scripts/check-parity.mjs               # layouts/tools/budgets/themes across languages
 node scripts/validate-connectors.mjs        # 13 connector configs + OpenAPI sync

@@ -1,6 +1,6 @@
-# Eleven Layouts, One Deck — caption pack
+# Twelve Layouts, One Deck — caption pack
 
-_Platform:_ instagram &nbsp;·&nbsp; _Goal:_ saves &nbsp;·&nbsp; _Slides:_ 11
+_Platform:_ instagram &nbsp;·&nbsp; _Goal:_ saves &nbsp;·&nbsp; _Slides:_ 12
 
 ## Caption
 
@@ -22,8 +22,9 @@ This is the QA deck: if a headline collides with a number, a tile overflows or a
 - **7** (reveal_hold): Open-loop slide with body copy and a bleeding teaser card.
 - **8** (scrapbook): Taped note card with a marker highlight and a save prompt.
 - **9** (proof): Proof slide: 12.4x faster to a rendered deck, with a named source.
-- **10** (summary): Six-bullet recap with a save prompt.
-- **11** (cta): Comment CTA asking for the keyword STRESS.
+- **10** (generative): Framed constellation plot of thin lines and mint nodes, above the headline The twelfth layout draws itself.
+- **11** (summary): Six-bullet recap with a save prompt.
+- **12** (cta): Comment CTA asking for the keyword STRESS.
 
 ## Posting checklist
 
