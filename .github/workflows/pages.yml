@@ -5,7 +5,9 @@ name: Publish gallery (Pages)
 
 on:
   push:
-    branches: [main]
+    # Branch pushes publish too, so a review build can be looked at live before
+    # it merges; `main` remains the canonical deployment.
+    branches: [main, 'arena/**']
   workflow_dispatch:
 
 permissions:
