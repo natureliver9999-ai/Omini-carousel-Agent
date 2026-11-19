@@ -73,7 +73,7 @@ jobs:
             curl -fsS http://127.0.0.1:8799/healthz && break || sleep 0.5
           done
           echo
-          curl -fsS http://127.0.0.1:8799/v1/layouts | python -c "import json,sys; assert len(json.load(sys.stdin)['layouts'])==11; print('layouts ok')"
+          curl -fsS http://127.0.0.1:8799/v1/layouts | python -c "import json,sys; assert len(json.load(sys.stdin)['layouts'])==12; print('layouts ok')"
           curl -fsS http://127.0.0.1:8799/v1/playbook?topic=instagram | head -c 120; echo
           SPEC=$(cat examples/specs/ig-scrapbook-founder-note.json)
           python - "$SPEC" > /tmp/render.json <<'PY'
