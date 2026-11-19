@@ -2,7 +2,7 @@ import { withAlpha } from '../colors.js';
 import { rect, text, type Node } from '../svg.js';
 import { paragraph, stripUnsupported, textWidth } from '../text.js';
 import {
-  CONTENT_BOTTOM, CONTENT_TOP, CW, FOOTER_RULE_Y, M,
+  CONTENT_TOP, CW, FOOTER_RULE_Y, M,
   bodyFont, displayFont, sourceLine, type SlideContext,
 } from '../scene.js';
 import type { ProofSlideT } from '../schema.js';
@@ -25,39 +25,54 @@ export function proofLayout(ctx: SlideContext): Node[] {
   });
   nodes.push(...headline.nodes);
 
-  // The number is the slide. Cap the size so a long token never collides with
-  // the attribution rail.
-  const valueFontSize = Math.min(210, Math.max(120, CW / Math.max(3, slide.metric_value.length) * 1.5));
-  const valueY = CONTENT_TOP + 210;
+  // Measure the blocks first, then give the number whatever vertical room is left.
+  // (0.1.0 pinned the baseline at a fixed y, so a two-line headline ran into it.)
+  const labelText = stripUnsupported(slide.metric_label);
+  const labelFont = { ...bodyFont(ctx, 40, 600) };
+  const labelProbe = paragraph(labelText, { x: M, y: 0, maxWidth: CW * 0.9, font: labelFont, color: p.text, maxLines: 2 });
+  const findingProbe = paragraph(stripUnsupported(slide.finding), {
+    x: M + 34, y: 0, maxWidth: CW - 34,
+    font: { ...bodyFont(ctx, 38, 400), lineHeight: 1.38 }, color: p.textSecondary, maxLines: 5,
+  });
+
+  const sourceTop = FOOTER_RULE_Y - 26;
+  const valueTop = CONTENT_TOP + 4 + headline.height + 40;
+  const reserved = 34 + labelProbe.height + 50 + findingProbe.height + 48;
+  const valueRoom = Math.max(110, sourceTop - valueTop - reserved);
+  const valueFontSize = Math.min(210, Math.max(110, Math.floor(valueRoom / 0.86)));
   const valueWidth = textWidth(stripUnsupported(slide.metric_value), {
     family: ctx.theme.typography.display_font, size: valueFontSize, weight: 700,
   });
+  const valueSize = valueWidth > CW ? Math.floor(valueFontSize * (CW / valueWidth)) : valueFontSize;
+  const valueY = valueTop + Math.floor(valueSize * 0.86);
   nodes.push(text(M, valueY, stripUnsupported(slide.metric_value), {
     family: ctx.theme.typography.display_font,
-    size: valueWidth > CW ? Math.floor(valueFontSize * (CW / valueWidth)) : valueFontSize,
-    weight: 700, fill: p.accent, letterSpacing: -2,
+    size: valueSize, weight: 700, fill: p.accent, letterSpacing: -2,
   }));
 
-  const label = paragraph(stripUnsupported(slide.metric_label), {
-    x: M, y: valueY + 34, maxWidth: CW * 0.9, font: bodyFont(ctx, 40, 600), color: p.text, maxLines: 2,
+  const label = paragraph(labelText, {
+    x: M, y: valueY + 34, maxWidth: CW * 0.9, font: labelFont, color: p.text, maxLines: 2,
   });
   nodes.push(...label.nodes);
 
   const findingTop = valueY + 34 + label.height + 50;
-  nodes.push(rect(M, findingTop, 3, Math.min(300, CONTENT_BOTTOM - findingTop - 120), withAlpha(p.accent, 0.5)));
   const finding = paragraph(stripUnsupported(slide.finding), {
     x: M + 34, y: findingTop + 4, maxWidth: CW - 34,
     font: { ...bodyFont(ctx, 38, 400), lineHeight: 1.38 }, color: p.textSecondary, maxLines: 5,
   });
   nodes.push(...finding.nodes);
+  // The rail tracks the copy it belongs to rather than a guessed height.
+  nodes.push(rect(M, findingTop, 3, Math.max(48, finding.height + 8), withAlpha(p.accent, 0.5)));
 
-  if (slide.attribution) {
-    const attribution = `— ${stripUnsupported(slide.attribution)}`;
+  // Attribution only earns a line when it says something the source line does not.
+  const attribution = slide.attribution ? stripUnsupported(slide.attribution) : '';
+  const sourceLower = slide.source.toLowerCase();
+  if (attribution && !sourceLower.includes(attribution.toLowerCase())) {
     const font = { family: ctx.theme.typography.body_font, size: 28, weight: 600 };
-    nodes.push(text(M, CONTENT_BOTTOM - 30, attribution, {
+    nodes.push(text(M, sourceTop - 44, `— ${attribution}`, {
       family: font.family, size: font.size, weight: font.weight, fill: p.textMuted,
     }));
   }
-  nodes.push(sourceLine(ctx, M, FOOTER_RULE_Y - 26, slide.source));
+  nodes.push(sourceLine(ctx, M, sourceTop, slide.source));
   return nodes;
 }

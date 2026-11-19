@@ -78,6 +78,17 @@ const spec = parseSpec({
       footer_hook: 'Next frame: the rule',
     },
     {
+      // Regression guard: headline, hero number, label and copy must stack, never overlap.
+      layout: 'proof',
+      id: 'proof',
+      headline: "LinkedIn's strongest format is a PDF",
+      metric_value: '7.00%',
+      metric_label: 'Engagement by impressions for native document posts',
+      finding: 'Document posts sit ahead of multi-image, video and text, and the gap widened year over year.',
+      source: 'Socialinsider, LinkedIn benchmarks, March 2026',
+      attribution: 'Socialinsider',
+    },
+    {
       layout: 'cta',
       id: 'ask',
       headline: 'Save the hash',
@@ -95,7 +106,7 @@ describe('golden images', () => {
     const second = await renderCarousel(spec, { formats: ['png'], quiet: true });
 
     expect(first.renderer).toBe('resvg');
-    expect(first.slides).toHaveLength(7);
+    expect(first.slides).toHaveLength(8);
 
     const hashes = first.buffers.map((buffer) => sha(buffer));
     const repeat = second.buffers.map((buffer) => sha(buffer));
