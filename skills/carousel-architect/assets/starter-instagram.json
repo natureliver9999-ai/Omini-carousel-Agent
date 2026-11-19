@@ -1,0 +1,126 @@
+{
+  "version": "1.0",
+  "id": "ig-panorama-retention",
+  "title": "The Six-Swipe Playbook",
+  "platform": "instagram",
+  "goal": "saves",
+  "theme": "brutal-bento",
+  "brand": {
+    "name": "Omni Carousel",
+    "handle": "omnicarousel",
+    "mark": "OC"
+  },
+  "caption": {
+    "text": "Carousels are the only format on Instagram that survives being scrolled past.\n\nInstagram can re-serve your post starting at slide 2, which is why the second frame has to hook as hard as the first. These six slides run that loop on purpose:\n\n01 One promise, twelve words\n02 A second entry point\n03 Proof before the ask\n04 A recap people screenshot\n\nSave this and run it on your next deck.",
+    "hashtags": ["contentdesign", "carousels", "socialstrategy", "instagramtips"],
+    "first_comment": "Full playbook + the JSON spec that rendered this deck is in our bio."
+  },
+  "meta": {
+    "author": "omni-carousel-agent",
+    "language": "en",
+    "sources": [
+      "Socialinsider, Instagram benchmarks Q3 2026 (67.5M posts, 579K accounts)",
+      "Buffer, State of Social Engagement 2026 (52M+ posts)"
+    ]
+  },
+  "slides": [
+    {
+      "id": "hook",
+      "layout": "cover_hook",
+      "eyebrow": "RETENTION 2026",
+      "kicker": "The format nobody schedules:",
+      "headline": "Your best post is the one they swipe twice",
+      "sub": "Nine frames, one continuous idea — and the loop that makes saves outrun likes.",
+      "badge": "2026 DATA",
+      "icon": "repeat",
+      "alt_text": "Cover slide: large headline reading 'Your best post is the one they swipe twice' above a swipe pill."
+    },
+    {
+      "id": "pano-1",
+      "layout": "steps",
+      "panorama": { "span": 3 },
+      "eyebrow": "THE LOOP 01-02",
+      "headline": "Six moves that earn the second swipe",
+      "steps": [
+        { "title": "Frame one stops the thumb", "detail": "One promise, twelve words, zero setup." },
+        { "title": "Frame two re-hooks", "detail": "Instagram may resurface you starting here." }
+      ],
+      "alt_text": "Steps one and two over a continuous ribbon that crosses the slide seam."
+    },
+    {
+      "id": "pano-2",
+      "layout": "steps",
+      "headline": "Build the loop before the proof",
+      "steps": [
+        { "title": "One idea per frame", "detail": "Twenty-five words, forty pixels minimum." },
+        { "title": "Alternate the density", "detail": "Sparse frame, dense frame, sparse again." }
+      ],
+      "alt_text": "Steps three and four; the ribbon continues across the seam with no visible join."
+    },
+    {
+      "id": "pano-3",
+      "layout": "steps",
+      "headline": "Then prove it, then ask once",
+      "steps": [
+        { "title": "Evidence with a name", "detail": "A cited number beats an adjective." },
+        { "title": "One action on the last frame", "detail": "Save, comment, or follow — never all three." }
+      ],
+      "alt_text": "Steps five and six closing the panorama span."
+    },
+    {
+      "id": "chart",
+      "layout": "data_chart",
+      "eyebrow": "WHY IT WORKS",
+      "headline": "Carousels still lead Instagram engagement",
+      "chart": {
+        "kind": "bar",
+        "labels": ["Carousels", "Reels", "Images"],
+        "values": [0.5, 0.48, 0.35],
+        "unit": "%",
+        "highlight": 0
+      },
+      "takeaway": "Engagement per follower. The margin is small — the format mix is the lever.",
+      "source": "Socialinsider, Q3 2026 — 67.5M posts",
+      "alt_text": "Bar chart comparing carousel, Reels and image engagement per follower on Instagram."
+    },
+    {
+      "id": "bento",
+      "layout": "bento_grid",
+      "eyebrow": "WHAT YOU GET",
+      "headline": "Four things a carousel buys you",
+      "tiles": [
+        { "label": "Saves", "value": "2-3x", "text": "Higher than a single image", "accent": true },
+        { "label": "Dwell", "value": "25s+", "text": "Reader time on post" },
+        { "label": "Reach", "value": "4.5%", "text": "Follower reach rate, 2026" },
+        { "label": "Cadence", "value": "5/mo", "text": "Average brand output" }
+      ],
+      "alt_text": "Bento grid with four metric tiles covering saves, dwell time, reach rate and posting cadence."
+    },
+    {
+      "id": "recap",
+      "layout": "summary",
+      "eyebrow": "SAVE THIS",
+      "headline": "The retention checklist",
+      "bullets": [
+        "Hook in twelve words or fewer",
+        "Frame two stands alone",
+        "One idea per slide",
+        "Alternate sparse and dense",
+        "Cite every number you print",
+        "One action, last frame"
+      ],
+      "save_prompt": "Save it before your next deck",
+      "alt_text": "Six-bullet retention checklist on a dark background."
+    },
+    {
+      "id": "cta",
+      "layout": "cta",
+      "action": "comment",
+      "keyword": "RETENTION",
+      "headline": "Want the exact spec?",
+      "text": "Comment RETENTION and we will send the JSON spec that rendered this deck, playbook included.",
+      "handle": "omnicarousel",
+      "alt_text": "Final slide asking readers to comment the word RETENTION."
+    }
+  ]
+}

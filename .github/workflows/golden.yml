@@ -1,0 +1,65 @@
+name: Golden images
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    paths:
+      - 'core-engine/src/layouts/**'
+      - 'core-engine/src/{render,svg,text,scene,charts,colors}.ts'
+      - 'spec/themes/**'
+      - 'core-engine/fonts/**'
+      - 'core-engine/test/golden/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  golden:
+    name: Deterministic render (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - name: Golden hashes
+        id: golden
+        run: npx vitest run --root core-engine test/golden.test.ts
+      - name: Report drift
+        if: failure()
+        run: |
+          echo "::error::Golden hashes changed. If this was intentional, run UPDATE_GOLDEN=1 npm test and commit core-engine/test/golden/slides.json."
+          npx vitest run --root core-engine test/golden.test.ts --reporter=verbose || true
+
+  fonts:
+    name: Bundled fonts are OFL and complete
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Every theme font must ship with a licence
+        run: |
+          set -e
+          test -f core-engine/fonts/OFL.txt || (echo "::error::OFL.txt missing" && exit 1)
+          count=$(ls core-engine/fonts/*.ttf | wc -l)
+          echo "bundled $count TTFs"
+          test "$count" -ge 10 || (echo "::error::expected at least 10 bundled faces" && exit 1)
+          for f in core-engine/fonts/*.ttf; do
+            head -c 4 "$f" | grep -q $'\x00\x01\x00\x00' || echo "::warning::$f has no TrueType signature"
+          done
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - run: npm run build --workspace=@omni-carousel/engine
+      - name: Font metrics resolve for every family
+        run: node core-engine/dist/cli.js doctor --json

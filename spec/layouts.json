@@ -1,0 +1,79 @@
+[
+  {
+    "id": "cover_hook",
+    "name": "Cover Hook",
+    "role": "Slide 1 scroll-stopper",
+    "density": "sparse",
+    "useWhen": "Always slide 1. One promise, one tension, <= 12 words."
+  },
+  {
+    "id": "contrast_split",
+    "name": "Contrast Split",
+    "role": "Before/after, myth/fact, old/new",
+    "density": "medium",
+    "useWhen": "When the idea is best explained by a single flipped variable."
+  },
+  {
+    "id": "layer_stack",
+    "name": "Layer Stack",
+    "role": "Progressive system build",
+    "density": "medium",
+    "useWhen": "2-4 consecutive slides, identical geometry, +1 active layer per swipe."
+  },
+  {
+    "id": "bento_grid",
+    "name": "Bento Grid",
+    "role": "Framework / multi-metric matrix",
+    "density": "dense",
+    "useWhen": "Mid-deck overview or the save-worthy cheat sheet."
+  },
+  {
+    "id": "reveal_hold",
+    "name": "Reveal & Hold",
+    "role": "Open-loop cliffhanger",
+    "density": "sparse",
+    "useWhen": "Never last. A teaser card bleeds 8-15% past the right edge."
+  },
+  {
+    "id": "scrapbook",
+    "name": "Scrapbook",
+    "role": "Human, opinionated, tactile",
+    "density": "medium",
+    "useWhen": "Stories, hot takes, founder notes. Breaks template fatigue."
+  },
+  {
+    "id": "data_chart",
+    "name": "Data Chart",
+    "role": "Quantitative evidence",
+    "density": "medium",
+    "useWhen": "Only with a real, sourced dataset. No invented numbers."
+  },
+  {
+    "id": "steps",
+    "name": "Steps",
+    "role": "How-to playbook",
+    "density": "medium",
+    "useWhen": "Sequential process in one frame (2-5 steps)."
+  },
+  {
+    "id": "proof",
+    "name": "Proof",
+    "role": "Cited case study / metric",
+    "density": "sparse",
+    "useWhen": "One number plus a named, checkable source."
+  },
+  {
+    "id": "summary",
+    "name": "Summary",
+    "role": "Saveable recap",
+    "density": "medium",
+    "useWhen": "Second to last: 3-6 bullets the reader screenshots."
+  },
+  {
+    "id": "cta",
+    "name": "CTA",
+    "role": "Slide N single action",
+    "density": "sparse",
+    "useWhen": "Always last. Exactly one action."
+  }
+]

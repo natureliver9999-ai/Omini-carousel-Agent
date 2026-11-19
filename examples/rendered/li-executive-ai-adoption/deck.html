@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>AI Adoption: What the 2026 Data Actually Shows — omni-carousel preview</title>
+<style>
+  :root {
+    --bg: #F8FAFC;
+    --stage: #0b0c0f;
+    --ink: #0F172A;
+    --muted: #475569;
+    --accent: #1D4ED8;
+    --font: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+    --radius: 18px;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; }
+  body {
+    background: var(--stage);
+    color: var(--ink);
+    font-family: var(--font);
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 360px;
+    gap: 0;
+    overflow: hidden;
+  }
+  .stage { position: relative; display: grid; place-items: center; padding: 28px; }
+  .deck { position: relative; width: min(1080px, calc((100vh - 96px) * 0.8)); aspect-ratio: 4 / 5; }
+  .slide {
+    position: absolute; inset: 0;
+    opacity: 0; visibility: hidden;
+    transform: translateX(28px) scale(.985);
+    transition: opacity .28s ease, transform .28s ease, visibility .28s;
+  }
+  .slide.is-active { opacity: 1; visibility: visible; transform: none; }
+  .frame { width: 100%; height: 100%; border-radius: var(--radius); overflow: hidden; box-shadow: 0 24px 80px rgba(0,0,0,.55); background: var(--bg); }
+  .frame svg { display: block; width: 100%; height: 100%; }
+  .meta { position: absolute; left: 0; right: 0; bottom: -34px; display: flex; gap: 10px; align-items: center; font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: #7b8391; }
+  .meta .layout { color: var(--accent); font-weight: 700; }
+  .meta .pano { color: #9aa4b2; }
+  .meta .count { margin-left: auto; }
+  .alt { position: absolute; top: -26px; font-size: 11px; color: #5d6470; max-width: 80%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .controls { position: absolute; bottom: 12px; left: 50%; transform: translateX(-50%); display: flex; gap: 8px; }
+  .controls button {
+    background: #1b1f27; color: #cfd6e1; border: 1px solid #2b313c; border-radius: 10px;
+    padding: 8px 14px; font: inherit; font-size: 13px; cursor: pointer;
+  }
+  .controls button:hover { border-color: var(--accent); color: #fff; }
+  .dots { position: absolute; top: 4px; left: 50%; transform: translateX(-50%); display: flex; gap: 6px; }
+  .dot { width: 22px; height: 4px; border-radius: 2px; background: #2b313c; border: 0; padding: 0; cursor: pointer; }
+  .dot.on { background: var(--accent); }
+  aside.panel { border-left: 1px solid #1d2129; background: #0f1116; padding: 22px 22px 28px; overflow-y: auto; font-size: 13px; line-height: 1.6; color: #b9c0cc; }
+  aside.panel h1 { font-size: 15px; margin: 0 0 4px; color: #fff; letter-spacing: -.01em; }
+  aside.panel .sub { color: #6f7887; font-size: 12px; margin-bottom: 18px; }
+  aside.panel h2 { font-size: 11px; text-transform: uppercase; letter-spacing: .12em; color: #6f7887; margin: 22px 0 8px; }
+  aside.panel pre { white-space: pre-wrap; font-family: Inter, ui-monospace, monospace; font-size: 12.5px; margin: 0; color: #d5dbe5; }
+  aside.panel .tags { color: var(--accent); word-break: break-word; }
+  aside.panel .stat { display: flex; justify-content: space-between; border-bottom: 1px dashed #222833; padding: 5px 0; }
+  aside.panel .stat span:last-child { color: #fff; }
+  @media (max-width: 900px) { body { grid-template-columns: 1fr; } aside.panel { display: none; } }
+  @media print { body { display: block; background: #fff; } .slide { position: static; opacity: 1; visibility: visible; transform: none; page-break-after: always; } .meta, .alt, .controls, .dots, aside.panel { display: none; } .deck { width: 100%; aspect-ratio: auto; } }
+</style>
+</head>
+<body>
+  <div class="stage">
+    <div class="dots" role="tablist"><button class="dot on" data-goto="0" aria-label="Go to slide 1"></button><button class="dot" data-goto="1" aria-label="Go to slide 2"></button><button class="dot" data-goto="2" aria-label="Go to slide 3"></button><button class="dot" data-goto="3" aria-label="Go to slide 4"></button><button class="dot" data-goto="4" aria-label="Go to slide 5"></button><button class="dot" data-goto="5" aria-label="Go to slide 6"></button><button class="dot" data-goto="6" aria-label="Go to slide 7"></button><button class="dot" data-goto="7" aria-label="Go to slide 8"></button></div>
+    <div class="deck" id="deck">
+      <section class="slide is-active" data-index="0" aria-label="Slide 1 of 8">
+        <div class="frame"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1080" height="1350" viewBox="0 0 1080 1350"><rect x="0" y="0" width="1080" height="1350" fill="#F8FAFC"/><rect x="0" y="0" width="1080" height="1350" fill="#0f172a03"/><circle cx="960" cy="-60" r="420" fill="#1d4ed80d"/><rect x="90" y="0" width="1" height="1350" fill="#0f172a05"/><rect x="210" y="0" width="1" height="1350" fill="#0f172a05"/><rect x="330" y="0" width="1" height="1350" fill="#0f172a05"/><rect x="450" y="0" width="1" height="1350" fill="#0f172a05"/><rect x="570" y="0" width="1" height="1350" fill="#0f172a05"/><rect x="690" y="0" width="1" height="1350" fill="#0f172a05"/><rect x="810" y="0" width="1" height="1350" fill="#0f172a05"/><rect x="930" y="0" width="1" height="1350" fill="#0f172a05"/><rect x="1050" y="0" width="1" height="1350" fill="#0f172a05"/><rect x="72" y="72" width="424.07" height="52" rx="4" fill="#0f172a12"/><text x="89" y="107.36" font-family="Inter" font-size="26" font-weight="600" fill="#0F172A" letter-spacing="3.64">2026 BENCHMARK BRIEF</text><rect x="871.98" y="88" width="136.02" height="42" rx="999" fill="#1D4ED8"/><text x="939.99" y="116" font-family="Inter" font-size="22" font-weight="700" fill="#FFFFFF" text-anchor="middle" letter-spacing="2">Q4 2026</text><rect x="72" y="150" width="936" height="1" fill="#0f172a2e"/><rect x="72" y="1204" width="936" height="1" fill="#0f172a2e"/><text x="72" y="1252" font-family="JetBrains Mono" font-size="28" font-weight="500" fill="#475569" text-anchor="start" letter-spacing="0.5">@omnicarousel</text><text x="1008" y="1252" font-family="JetBrains Mono" font-size="28" font-weight="500" fill="#475569" text-anchor="end" letter-spacing="1">01 / 08</text><rect x="72" y="1304" width="936" height="4" rx="2" fill="#0f172a1f"/><rect x="72" y="1304" width="117" height="4" rx="2" fill="#1D4ED8"/><circle cx="1040" cy="330" r="330" fill="none" stroke="#1d4ed829" stroke-width="2"/><circle cx="1040" cy="330" r="240" fill="none" stroke="#1d4ed81a" stroke-width="1.5"/><circle opacity="0.9" cx="950" cy="250" r="10" fill="#1D4ED8"/><text x="72" y="392.31" font-family="Inter" font-size="30" font-weight="600" fill="#475569" letter-spacing="0.4">Eight pages, three findings, zero adjectives.</text><text x="72" y="476.94" font-family="Space Grotesk" font-size="87.5" font-weight="700" fill="#0F172A" text-anchor="start">AI adoption: what the</text><text x="72" y="566.18" font-family="Space Grotesk" font-size="87.5" font-weight="700" fill="#0F172A" text-anchor="start">data actually shows</text><rect x="72" y="612.81" width="735.95" height="12" rx="6" fill="#1D4ED8"/><text x="72" y="682.89" font-family="Inter" font-size="44" font-weight="400" fill="#334155" text-anchor="start">A measurement-first brief for teams</text><text x="72" y="740.97" font-family="Inter" font-size="44" font-weight="400" fill="#334155" text-anchor="start">building an adoption case this quarter.</text><rect x="72" y="866.97" width="96" height="96" rx="26" fill="#1D4ED8"/><g transform="translate(96 890.97) scale(2)"><path d="M5 20V10" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M11 20V4" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M17 20v-7" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></g><rect x="850.45" y="888.97" width="157.55" height="50" rx="25" fill="#0f172a0f"/><g transform="translate(870.45 901.97) scale(1)"><path d="M4 12h16" fill="none" stroke="#334155" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M14 6l6 6-6 6" fill="none" stroke="#334155" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></g><text x="906.45" y="922.61" font-family="Inter" font-size="24" font-weight="600" fill="#334155" letter-spacing="1.2">SWIPE</text></svg></div>
+        <div class="meta">
+          <span class="layout">cover_hook</span>
+          
+          <span class="count">01 / 08</span>
+        </div>
+        <p class="alt">Cover page of a LinkedIn benchmark brief on AI adoption.</p>
+      </section>
+      <section class="slide" data-index="1" aria-label="Slide 2 of 8" aria-hidden="true">
+        <div class="frame"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1080" height="1350" viewBox="0 0 1080 1350"><rect x="0" y="0" width="1080" height="1350" fill="#F8FAFC"/><rect x="0" y="0" width="1080" height="1350" fill="#0f172a03"/><circle cx="960" cy="-60" r="420" fill="#1d4ed80d"/><rect x="90" y="0" width="1" height="1350" fill="#0f172a05"/><rect x="210" y="0" width="1" height="1350" fill="#0f172a05"/><rect x="330" y="0" width="1" height="1350" fill="#0f172a05"/><rect x="450" y="0" width="1" height="1350" fill="#0f172a05"/><rect x="570" y="0" width="1" height="1350" fill="#0f172a05"/><rect x="690" y="0" width="1" height="1350" fill="#0f172a05"/><rect x="810" y="0" width="1" height="1350" fill="#0f172a05"/><rect x="930" y="0" width="1" height="1350" fill="#0f172a05"/><rect x="1050" y="0" width="1" height="1350" fill="#0f172a05"/><rect x="72" y="72" width="208.87" height="52" rx="4" fill="#0f172a12"/><text x="89" y="107.36" font-family="Inter" font-size="26" font-weight="600" fill="#0F172A" letter-spacing="3.64">FINDING 01</text><rect x="72" y="150" width="936" height="1" fill="#0f172a2e"/><rect x="72" y="1204" width="936" height="1" fill="#0f172a2e"/><text x="72" y="1252" font-family="JetBrains Mono" font-size="28" font-weight="500" fill="#475569" text-anchor="start" letter-spacing="0.5">@omnicarousel</text><text x="1008" y="1252" font-family="JetBrains Mono" font-size="28" font-weight="500" fill="#475569" text-anchor="end" letter-spacing="1">02 / 08</text><rect x="72" y="1304" width="936" height="4" rx="2" fill="#0f172a1f"/><rect x="72" y="1304" width="234" height="4" rx="2" fill="#1D4ED8"/><rect x="72" y="200" width="10" height="96" rx="5" fill="#1D4ED8"/><text x="106" y="226.24" font-family="Inter" font-size="32" font-weight="600" fill="#475569" text-anchor="start">Format still beats volume on LinkedIn</text><text x="72" y="406" font-family="Space Grotesk" font-size="210" font-weight="700" fill="#1D4ED8" letter-spacing="-2">7.00%</text><text x="72" y="472.8" font-family="Inter" font-size="40" font-weight="600" fill="#0F172A" text-anchor="start">Engagement by impressions, native</text><text x="72" y="525.6" font-family="Inter" font-size="40" font-weight="600" fill="#0F172A" text-anchor="start">document posts</text><rect x="72" y="595.6" width="3" height="300" fill="#1d4ed880"/><text x="106" y="631.9" font-family="Inter" font-size="38" font-weight="400" fill="#334155" text-anchor="start">Document posts lead every other LinkedIn</text><text x="106" y="684.34" font-family="Inter" font-size="38" font-weight="400" fill="#334155" text-anchor="start">organic format and rose year over year, while the</text><text x="106" y="736.78" font-family="Inter" font-size="38" font-weight="400" fill="#334155" text-anchor="start">platform average stayed flat. The variable is not</text><text x="106" y="789.22" font-family="Inter" font-size="38" font-weight="400" fill="#334155" text-anchor="start">posting frequency — it is whether the format</text><text x="106" y="841.66" font-family="Inter" font-size="38" font-weight="400" fill="#334155" text-anchor="start">rewards time on post.</text><text x="72" y="1128" font-family="Inter" font-size="28" font-weight="600" fill="#475569">— Socialinsider</text><text x="72" y="1178" font-family="JetBrains Mono" font-size="20.5" font-weight="500" fill="#475569" text-anchor="start" letter-spacing="1.2">SOURCE · SOCIALINSIDER, LINKEDIN BENCHMARKS, MARCH 2026 — 2.45M POSTS</text></svg></div>
+        <div class="meta">
+          <span class="layout">proof</span>
+          
+          <span class="count">02 / 08</span>
+        </div>
+        <p class="alt">Proof page showing 7.00% engagement for LinkedIn document posts.</p>
+      </section>
+      <section class="slide" data-index="2" aria-label="Slide 3 of 8" aria-hidden="true">
+        <div class="frame"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1080" height="1350" viewBox="0 0 1080 1350"><rect x="0" y="0" width="1080" height="1350" fill="#F8FAFC"/><rect x="0" y="0" width="1080" height="1350" fill="#0f172a03"/><circle cx="960" cy="-60" r="420" fill="#1d4ed80d"/><rect x="90" y="0" width="1" height="1350" fill="#0f172a05"/><rect x="210" y="0" width="1" height="1350" fill="#0f172a05"/><rect x="330" y="0" width="1" height="1350" fill="#0f172a05"/><rect x="450" y="0" width="1" height="1350" fill="#0f172a05"/><rect x="570" y="0" width="1" height="1350" fill="#0f172a05"/><rect x="690" y="0" width="1" height="1350" fill="#0f172a05"/><rect x="810" y="0" width="1" height="1350" fill="#0f172a05"/><rect x="930" y="0" width="1" height="1350" fill="#0f172a05"/><rect x="1050" y="0" width="1" height="1350" fill="#0f172a05"/><rect x="72" y="72" width="214.08" height="52" rx="4" fill="#0f172a12"/><text x="89" y="107.36" font-family="Inter" font-size="26" font-weight="600" fill="#0F172A" letter-spacing="3.64">FINDING 02</text><rect x="72" y="150" width="936" height="1" fill="#0f172a2e"/><rect x="72" y="1204" width="936" height="1" fill="#0f172a2e"/><text x="72" y="1252" font-family="JetBrains Mono" font-size="28" font-weight="500" fill="#475569" text-anchor="start" letter-spacing="0.5">@omnicarousel</text><text x="1008" y="1252" font-family="JetBrains Mono" font-size="28" font-weight="500" fill="#475569" text-anchor="end" letter-spacing="1">03 / 08</text><rect x="72" y="1304" width="936" height="4" rx="2" fill="#0f172a1f"/><rect x="72" y="1304" width="351" height="4" rx="2" fill="#1D4ED8"/><text x="72" y="254.63" font-family="Space Grotesk" font-size="87.5" font-weight="700" fill="#0F172A" text-anchor="start">The gap is dwell</text><text x="72" y="343.88" font-family="Space Grotesk" font-size="87.5" font-weight="700" fill="#0F172A" text-anchor="start">time, not reach</text><rect x="72" y="414.5" width="936" height="560" rx="24" fill="#FFFFFF" stroke="#0f172a1a" stroke-width="1.5"/><text x="112" y="507.5" font-family="Inter" font-size="26" font-weight="600" fill="#0F172A">Documents</text><rect x="368" y="483.5" width="444" height="30" rx="15" fill="#0f172a14"/><rect x="368" y="483.5" width="310.8" height="30" rx="15" fill="#1D4ED8"/><text x="968" y="508.5" font-family="Space Grotesk" font-size="34" font-weight="700" fill="#1D4ED8" text-anchor="end">7%</text><text x="112" y="603.5" font-family="Inter" font-size="26" font-weight="600" fill="#0F172A">Multi-image</text><rect x="368" y="579.5" width="444" height="30" rx="15" fill="#0f172a14"/><rect x="368" y="579.5" width="286.38" height="30" rx="15" fill="#0F172A"/><text x="968" y="604.5" font-family="Space Grotesk" font-size="34" font-weight="700" fill="#0F172A" text-anchor="end">6.45%</text><text x="112" y="699.5" font-family="Inter" font-size="26" font-weight="600" fill="#0F172A">Video</text><rect x="368" y="675.5" width="444" height="30" rx="15" fill="#0f172a14"/><rect x="368" y="675.5" width="226.44" height="30" rx="15" fill="#0284C7"/><text x="968" y="700.5" font-family="Space Grotesk" font-size="34" font-weight="700" fill="#0F172A" text-anchor="end">5.1%</text><text x="112" y="795.5" font-family="Inter" font-size="26" font-weight="600" fill="#0F172A">Text</text><rect x="368" y="771.5" width="444" height="30" rx="15" fill="#0f172a14"/><rect x="368" y="771.5" width="199.8" height="30" rx="15" fill="#0D9488"/><text x="968" y="796.5" font-family="Space Grotesk" font-size="34" font-weight="700" fill="#0F172A" text-anchor="end">4.5%</text><text x="72" y="1032.38" font-family="Inter" font-size="34" font-weight="600" fill="#0F172A" text-anchor="start">Engagement by impressions across LinkedIn organic</text><text x="72" y="1077.26" font-family="Inter" font-size="34" font-weight="600" fill="#0F172A" text-anchor="start">formats.</text><text x="72" y="1178" font-family="JetBrains Mono" font-size="22" font-weight="500" fill="#475569" text-anchor="start" letter-spacing="1.2">SOURCE · SOCIALINSIDER, MARCH 2026 — 2.45M ORGANIC POSTS</text></svg></div>
+        <div class="meta">
+          <span class="layout">data_chart</span>
+          
+          <span class="count">03 / 08</span>
+        </div>
+        <p class="alt">Horizontal bar chart of LinkedIn engagement by format.</p>
+      </section>
+      <section class="slide" data-index="3" aria-label="Slide 4 of 8" aria-hidden="true">
+        <div class="frame"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1080" height="1350" viewBox="0 0 1080 1350"><rect x="0" y="0" width="1080" height="1350" fill="#F8FAFC"/><rect x="0" y="0" width="1080" height="1350" fill="#0f172a03"/><circle cx="960" cy="-60" r="420" fill="#1d4ed80d"/><rect x="90" y="0" width="1" height="1350" fill="#0f172a05"/><rect x="210" y="0" width="1" height="1350" fill="#0f172a05"/><rect x="330" y="0" width="1" height="1350" fill="#0f172a05"/><rect x="450" y="0" width="1" height="1350" fill="#0f172a05"/><rect x="570" y="0" width="1" height="1350" fill="#0f172a05"/><rect x="690" y="0" width="1" height="1350" fill="#0f172a05"/><rect x="810" y="0" width="1" height="1350" fill="#0f172a05"/><rect x="930" y="0" width="1" height="1350" fill="#0f172a05"/><rect x="1050" y="0" width="1" height="1350" fill="#0f172a05"/><rect x="72" y="72" width="214.42" height="52" rx="4" fill="#0f172a12"/><text x="89" y="107.36" font-family="Inter" font-size="26" font-weight="600" fill="#0F172A" letter-spacing="3.64">FINDING 03</text><rect x="72" y="150" width="936" height="1" fill="#0f172a2e"/><rect x="72" y="1204" width="936" height="1" fill="#0f172a2e"/><text x="72" y="1252" font-family="JetBrains Mono" font-size="28" font-weight="500" fill="#475569" text-anchor="start" letter-spacing="0.5">@omnicarousel</text><text x="1008" y="1252" font-family="JetBrains Mono" font-size="28" font-weight="500" fill="#475569" text-anchor="end" letter-spacing="1">04 / 08</text><rect x="72" y="1304" width="936" height="4" rx="2" fill="#0f172a1f"/><rect x="72" y="1304" width="468" height="4" rx="2" fill="#1D4ED8"/><rect x="72" y="200" width="10" height="96" rx="5" fill="#1D4ED8"/><text x="106" y="226.24" font-family="Inter" font-size="32" font-weight="600" fill="#475569" text-anchor="start">Reach-weighted, documents look even stronger</text><text x="72" y="406" font-family="Space Grotesk" font-size="210" font-weight="700" fill="#1D4ED8" letter-spacing="-2">21.77%</text><text x="72" y="472.8" font-family="Inter" font-size="40" font-weight="600" fill="#0F172A" text-anchor="start">Median engagement by reach, document</text><text x="72" y="525.6" font-family="Inter" font-size="40" font-weight="600" fill="#0F172A" text-anchor="start">posts</text><rect x="72" y="595.6" width="3" height="300" fill="#1d4ed880"/><text x="106" y="631.9" font-family="Inter" font-size="38" font-weight="400" fill="#334155" text-anchor="start">Measured against unique reach rather than</text><text x="106" y="684.34" font-family="Inter" font-size="38" font-weight="400" fill="#334155" text-anchor="start">impressions, documents roughly triple the</text><text x="106" y="736.78" font-family="Inter" font-size="38" font-weight="400" fill="#334155" text-anchor="start">engagement rate of video in the same cohort.</text><text x="106" y="789.22" font-family="Inter" font-size="38" font-weight="400" fill="#334155" text-anchor="start">This is the number to quote when someone asks</text><text x="106" y="841.66" font-family="Inter" font-size="38" font-weight="400" fill="#334155" text-anchor="start">whether the format is worth the production time.</text><text x="72" y="1128" font-family="Inter" font-size="28" font-weight="600" fill="#475569">— Buffer</text><text x="72" y="1178" font-family="JetBrains Mono" font-size="20.5" font-weight="500" fill="#475569" text-anchor="start" letter-spacing="1.2">SOURCE · BUFFER, STATE OF SOCIAL ENGAGEMENT, MARCH 2026 — 52M+ POSTS</text></svg></div>
+        <div class="meta">
+          <span class="layout">proof</span>
+          
+          <span class="count">04 / 08</span>
+        </div>
+        <p class="alt">Proof page showing 21.77% median engagement by reach for document posts.</p>
+      </section>
+      <section class="slide" data-index="4" aria-label="Slide 5 of 8" aria-hidden="true">
+        <div class="frame"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1080" height="1350" viewBox="0 0 1080 1350"><rect x="0" y="0" width="1080" height="1350" fill="#F8FAFC"/><rect x="0" y="0" width="1080" height="1350" fill="#0f172a03"/><circle cx="960" cy="-60" r="420" fill="#1d4ed80d"/><rect x="90" y="0" width="1" height="1350" fill="#0f172a05"/><rect x="210" y="0" width="1" height="1350" fill="#0f172a05"/><rect x="330" y="0" width="1" height="1350" fill="#0f172a05"/><rect x="450" y="0" width="1" height="1350" fill="#0f172a05"/><rect x="570" y="0" width="1" height="1350" fill="#0f172a05"/><rect x="690" y="0" width="1" height="1350" fill="#0f172a05"/><rect x="810" y="0" width="1" height="1350" fill="#0f172a05"/><rect x="930" y="0" width="1" height="1350" fill="#0f172a05"/><rect x="1050" y="0" width="1" height="1350" fill="#0f172a05"/><rect x="72" y="72" width="366.89" height="52" rx="4" fill="#0f172a12"/><text x="89" y="107.36" font-family="Inter" font-size="26" font-weight="600" fill="#0F172A" letter-spacing="3.64">THE ADOPTION CASE</text><rect x="72" y="150" width="936" height="1" fill="#0f172a2e"/><rect x="72" y="1204" width="936" height="1" fill="#0f172a2e"/><text x="72" y="1252" font-family="JetBrains Mono" font-size="28" font-weight="500" fill="#475569" text-anchor="start" letter-spacing="0.5">@omnicarousel</text><text x="1008" y="1252" font-family="JetBrains Mono" font-size="28" font-weight="500" fill="#475569" text-anchor="end" letter-spacing="1">05 / 08</text><rect x="72" y="1304" width="936" height="4" rx="2" fill="#0f172a1f"/><rect x="72" y="1304" width="585" height="4" rx="2" fill="#1D4ED8"/><text x="72" y="254.63" font-family="Space Grotesk" font-size="87.5" font-weight="700" fill="#0F172A" text-anchor="start">Three moves that</text><text x="72" y="343.88" font-family="Space Grotesk" font-size="87.5" font-weight="700" fill="#0F172A" text-anchor="start">survive scrutiny</text><rect x="72" y="418.5" width="460" height="361.75" rx="14" fill="#1D4ED8" stroke="#1D4ED8" stroke-width="1.5"/><text x="94" y="458.5" font-family="Inter" font-size="21" font-weight="700" fill="#ffffffc7" letter-spacing="1.6">MEASURE FIRST</text><g transform="translate(480 440.5) scale(1.25)"><path d="M12 3a9 9 0 100 18 9 9 0 000-18z" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 8a4 4 0 100 8 4 4 0 000-8z" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 11.5a.5.5 0 100 1 .5.5 0 000-1z" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="12" r="1.6" fill="#FFFFFF"/></g><text x="94" y="699.29" font-family="Space Grotesk" font-size="102" font-weight="700" fill="#FFFFFF">Baseline</text><text x="94" y="742.25" font-family="Inter" font-size="28" font-weight="500" fill="#ffffffc7" text-anchor="start">Dwell and saves, not likes</text><rect x="548" y="418.5" width="460" height="361.75" rx="14" fill="#FFFFFF" stroke="#0f172a1f" stroke-width="1.5"/><text x="570" y="458.5" font-family="Inter" font-size="21" font-weight="700" fill="#475569" letter-spacing="1.6">PUBLISH DEPTH</text><g transform="translate(956 440.5) scale(1.25)"><path d="M6 3h8l4 4v14H6z" fill="none" stroke="#1D4ED8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M14 3v4h4" fill="none" stroke="#1D4ED8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M9 12h6" fill="none" stroke="#1D4ED8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M9 16h6" fill="none" stroke="#1D4ED8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></g><text x="570" y="699.29" font-family="Space Grotesk" font-size="104" font-weight="700" fill="#0F172A">5-10</text><text x="570" y="742.25" font-family="Inter" font-size="28" font-weight="500" fill="#475569" text-anchor="start">Pages per document</text><rect x="72" y="796.25" width="460" height="361.75" rx="14" fill="#FFFFFF" stroke="#0f172a1f" stroke-width="1.5"/><text x="94" y="836.25" font-family="Inter" font-size="21" font-weight="700" fill="#475569" letter-spacing="1.6">CITE EVERYTHING</text><g transform="translate(480 818.25) scale(1.25)"><path d="M12 3l8 3v6c0 5-3.4 8.2-8 9-4.6-.8-8-4-8-9V6z" fill="none" stroke="#1D4ED8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M8.5 12l2.5 2.5L16 9.5" fill="none" stroke="#1D4ED8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></g><text x="94" y="1077.04" font-family="Space Grotesk" font-size="104" font-weight="700" fill="#0F172A">100%</text><text x="94" y="1120" font-family="Inter" font-size="28" font-weight="500" fill="#475569" text-anchor="start">Sourced claims</text><rect x="548" y="796.25" width="460" height="361.75" rx="14" fill="#FFFFFF" stroke="#0f172a1f" stroke-width="1.5"/><text x="570" y="836.25" font-family="Inter" font-size="21" font-weight="700" fill="#475569" letter-spacing="1.6">SHIP WEEKLY</text><g transform="translate(956 818.25) scale(1.25)"><path d="M4 9V7a3 3 0 013-3h10l-2-2" fill="none" stroke="#1D4ED8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M20 15v2a3 3 0 01-3 3H7l2 2" fill="none" stroke="#1D4ED8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></g><text x="570" y="1077.04" font-family="Space Grotesk" font-size="104" font-weight="700" fill="#0F172A">1</text><text x="570" y="1120" font-family="Inter" font-size="28" font-weight="500" fill="#475569" text-anchor="start">Brief per week, measured</text></svg></div>
+        <div class="meta">
+          <span class="layout">bento_grid</span>
+          
+          <span class="count">05 / 08</span>
+        </div>
+        <p class="alt">Bento grid of four adoption moves: measure, publish depth, cite, ship weekly.</p>
+      </section>
+      <section class="slide" data-index="5" aria-label="Slide 6 of 8" aria-hidden="true">
+        <div class="frame"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1080" height="1350" viewBox="0 0 1080 1350"><rect x="0" y="0" width="1080" height="1350" fill="#F8FAFC"/><rect x="0" y="0" width="1080" height="1350" fill="#0f172a03"/><circle cx="960" cy="-60" r="420" fill="#1d4ed80d"/><rect x="90" y="0" width="1" height="1350" fill="#0f172a05"/><rect x="210" y="0" width="1" height="1350" fill="#0f172a05"/><rect x="330" y="0" width="1" height="1350" fill="#0f172a05"/><rect x="450" y="0" width="1" height="1350" fill="#0f172a05"/><rect x="570" y="0" width="1" height="1350" fill="#0f172a05"/><rect x="690" y="0" width="1" height="1350" fill="#0f172a05"/><rect x="810" y="0" width="1" height="1350" fill="#0f172a05"/><rect x="930" y="0" width="1" height="1350" fill="#0f172a05"/><rect x="1050" y="0" width="1" height="1350" fill="#0f172a05"/><rect x="72" y="72" width="178.46" height="52" rx="4" fill="#0f172a12"/><text x="89" y="107.36" font-family="Inter" font-size="26" font-weight="600" fill="#0F172A" letter-spacing="3.64">ROLLOUT</text><rect x="72" y="150" width="936" height="1" fill="#0f172a2e"/><rect x="72" y="1204" width="936" height="1" fill="#0f172a2e"/><text x="72" y="1252" font-family="JetBrains Mono" font-size="28" font-weight="500" fill="#475569" text-anchor="start" letter-spacing="0.5">@omnicarousel</text><text x="1008" y="1252" font-family="JetBrains Mono" font-size="28" font-weight="500" fill="#475569" text-anchor="end" letter-spacing="1">06 / 08</text><rect x="72" y="1304" width="936" height="4" rx="2" fill="#0f172a1f"/><rect x="72" y="1304" width="702" height="4" rx="2" fill="#1D4ED8"/><text x="72" y="254.63" font-family="Space Grotesk" font-size="87.5" font-weight="700" fill="#0F172A" text-anchor="start">A four-week pilot</text><text x="72" y="343.88" font-family="Space Grotesk" font-size="87.5" font-weight="700" fill="#0F172A" text-anchor="start">you can defend</text><rect x="109" y="472.5" width="2" height="509.63" fill="#0f172a24" stroke-dasharray="6 10"/><circle cx="110" cy="472.5" r="38" fill="#1D4ED8"/><text x="110" y="488.5" font-family="Space Grotesk" font-size="40" font-weight="700" fill="#FFFFFF" text-anchor="middle">1</text><text x="182" y="473.3" font-family="Inter" font-size="40" font-weight="600" fill="#0F172A" text-anchor="start">Week 1 — baseline</text><text x="182" y="527.9" font-family="Inter" font-size="30" font-weight="400" fill="#475569" text-anchor="start">Pull 90 days of first-party reach and dwell.</text><circle cx="110" cy="642.38" r="38" fill="#1D4ED8"/><text x="110" y="658.38" font-family="Space Grotesk" font-size="40" font-weight="700" fill="#FFFFFF" text-anchor="middle">2</text><text x="182" y="643.17" font-family="Inter" font-size="40" font-weight="600" fill="#0F172A" text-anchor="start">Week 2 — publish two briefs</text><text x="182" y="697.78" font-family="Inter" font-size="30" font-weight="400" fill="#475569" text-anchor="start">Five to eight pages, sourced on every page.</text><circle cx="110" cy="812.25" r="38" fill="#1D4ED8"/><text x="110" y="828.25" font-family="Space Grotesk" font-size="40" font-weight="700" fill="#FFFFFF" text-anchor="middle">3</text><text x="182" y="813.05" font-family="Inter" font-size="40" font-weight="600" fill="#0F172A" text-anchor="start">Week 3 — compare cohorts</text><text x="182" y="867.65" font-family="Inter" font-size="30" font-weight="400" fill="#475569" text-anchor="start">Same audience, same offer, format as the only variable.</text><circle cx="110" cy="982.13" r="38" fill="#1D4ED8"/><text x="110" y="998.13" font-family="Space Grotesk" font-size="40" font-weight="700" fill="#FFFFFF" text-anchor="middle">4</text><text x="182" y="982.93" font-family="Inter" font-size="40" font-weight="600" fill="#0F172A" text-anchor="start">Week 4 — decide with a number</text><text x="182" y="1037.52" font-family="Inter" font-size="30" font-weight="400" fill="#475569" text-anchor="start">Scale, iterate, or kill it. Write down which.</text></svg></div>
+        <div class="meta">
+          <span class="layout">steps</span>
+          
+          <span class="count">06 / 08</span>
+        </div>
+        <p class="alt">Four-step pilot plan spanning four weeks.</p>
+      </section>
+      <section class="slide" data-index="6" aria-label="Slide 7 of 8" aria-hidden="true">
+        <div class="frame"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1080" height="1350" viewBox="0 0 1080 1350"><rect x="0" y="0" width="1080" height="1350" fill="#F8FAFC"/><rect x="0" y="0" width="1080" height="1350" fill="#0f172a03"/><circle cx="960" cy="-60" r="420" fill="#1d4ed80d"/><rect x="90" y="0" width="1" height="1350" fill="#0f172a05"/><rect x="210" y="0" width="1" height="1350" fill="#0f172a05"/><rect x="330" y="0" width="1" height="1350" fill="#0f172a05"/><rect x="450" y="0" width="1" height="1350" fill="#0f172a05"/><rect x="570" y="0" width="1" height="1350" fill="#0f172a05"/><rect x="690" y="0" width="1" height="1350" fill="#0f172a05"/><rect x="810" y="0" width="1" height="1350" fill="#0f172a05"/><rect x="930" y="0" width="1" height="1350" fill="#0f172a05"/><rect x="1050" y="0" width="1" height="1350" fill="#0f172a05"/><rect x="72" y="72" width="294.99" height="52" rx="4" fill="#0f172a12"/><text x="89" y="107.36" font-family="Inter" font-size="26" font-weight="600" fill="#0F172A" letter-spacing="3.64">BRIEF SUMMARY</text><rect x="72" y="150" width="936" height="1" fill="#0f172a2e"/><rect x="72" y="1204" width="936" height="1" fill="#0f172a2e"/><text x="72" y="1252" font-family="JetBrains Mono" font-size="28" font-weight="500" fill="#475569" text-anchor="start" letter-spacing="0.5">@omnicarousel</text><text x="1008" y="1252" font-family="JetBrains Mono" font-size="28" font-weight="500" fill="#475569" text-anchor="end" letter-spacing="1">07 / 08</text><rect x="72" y="1304" width="936" height="4" rx="2" fill="#0f172a1f"/><rect x="72" y="1304" width="819" height="4" rx="2" fill="#1D4ED8"/><text x="72" y="254.63" font-family="Space Grotesk" font-size="87.5" font-weight="700" fill="#0F172A" text-anchor="start">What to take into</text><text x="72" y="343.88" font-family="Space Grotesk" font-size="87.5" font-weight="700" fill="#0F172A" text-anchor="start">the room</text><rect x="72" y="432.5" width="936" height="81.92" rx="16" fill="#0f172a0a"/><g transform="translate(98 458.5) scale(1.3333)"><path d="M4 12.5l5 5L20 6.5" fill="none" stroke="#1D4ED8" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></g><text x="150" y="481.66" font-family="Inter" font-size="38" font-weight="500" fill="#0F172A" text-anchor="start">Documents lead LinkedIn engagement</text><rect x="72" y="528.42" width="936" height="81.92" rx="16" fill="#0f172a0a"/><g transform="translate(98 554.42) scale(1.3333)"><path d="M4 12.5l5 5L20 6.5" fill="none" stroke="#1D4ED8" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></g><text x="150" y="577.58" font-family="Inter" font-size="38" font-weight="500" fill="#0F172A" text-anchor="start">Dwell time explains the format gap</text><rect x="72" y="624.33" width="936" height="81.92" rx="16" fill="#0f172a0a"/><g transform="translate(98 650.33) scale(1.3333)"><path d="M4 12.5l5 5L20 6.5" fill="none" stroke="#1D4ED8" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></g><text x="150" y="673.49" font-family="Inter" font-size="38" font-weight="500" fill="#0F172A" text-anchor="start">Reach-weighted medians favour documents</text><rect x="72" y="720.25" width="936" height="81.92" rx="16" fill="#0f172a0a"/><g transform="translate(98 746.25) scale(1.3333)"><path d="M4 12.5l5 5L20 6.5" fill="none" stroke="#1D4ED8" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></g><text x="150" y="769.41" font-family="Inter" font-size="38" font-weight="500" fill="#0F172A" text-anchor="start">Five to ten pages completes best</text><rect x="72" y="816.17" width="936" height="81.92" rx="16" fill="#0f172a0a"/><g transform="translate(98 842.17) scale(1.3333)"><path d="M4 12.5l5 5L20 6.5" fill="none" stroke="#1D4ED8" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></g><text x="150" y="865.33" font-family="Inter" font-size="38" font-weight="500" fill="#0F172A" text-anchor="start">Every number needs a named source</text><rect x="72" y="912.08" width="936" height="81.92" rx="16" fill="#0f172a0a"/><g transform="translate(98 938.08) scale(1.3333)"><path d="M4 12.5l5 5L20 6.5" fill="none" stroke="#1D4ED8" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></g><text x="150" y="961.24" font-family="Inter" font-size="38" font-weight="500" fill="#0F172A" text-anchor="start">Baseline before you scale anything</text><rect x="72" y="1054" width="936" height="104" rx="20" fill="#1D4ED8"/><g transform="translate(106 1086) scale(1.75)"><path d="M6 3h12v18l-6-4.5L6 21z" fill="none" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></g><text x="166" y="1120" font-family="Inter" font-size="28" font-weight="700" fill="#FFFFFF" letter-spacing="1.2">SAVE THE BRIEF FOR YOUR NEXT REVIEW</text></svg></div>
+        <div class="meta">
+          <span class="layout">summary</span>
+          
+          <span class="count">07 / 08</span>
+        </div>
+        <p class="alt">Summary page listing six takeaways from the brief.</p>
+      </section>
+      <section class="slide" data-index="7" aria-label="Slide 8 of 8" aria-hidden="true">
+        <div class="frame"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1080" height="1350" viewBox="0 0 1080 1350"><rect x="0" y="0" width="1080" height="1350" fill="#1D4ED8"/><rect x="0" y="0" width="1080" height="1350" fill="#ffffff03"/><circle cx="960" cy="-60" r="420" fill="#ffffff0d"/><rect x="90" y="0" width="1" height="1350" fill="#ffffff05"/><rect x="210" y="0" width="1" height="1350" fill="#ffffff05"/><rect x="330" y="0" width="1" height="1350" fill="#ffffff05"/><rect x="450" y="0" width="1" height="1350" fill="#ffffff05"/><rect x="570" y="0" width="1" height="1350" fill="#ffffff05"/><rect x="690" y="0" width="1" height="1350" fill="#ffffff05"/><rect x="810" y="0" width="1" height="1350" fill="#ffffff05"/><rect x="930" y="0" width="1" height="1350" fill="#ffffff05"/><rect x="1050" y="0" width="1" height="1350" fill="#ffffff05"/><text x="72" y="116" font-family="Inter" font-size="22" font-weight="600" fill="#ffffffb8" text-anchor="start" letter-spacing="3">@OMNICAROUSEL</text><rect x="72" y="150" width="936" height="1" fill="#ffffff59"/><rect x="72" y="1204" width="936" height="1" fill="#ffffff59"/><text x="72" y="1252" font-family="JetBrains Mono" font-size="28" font-weight="500" fill="#ffffffb8" text-anchor="start" letter-spacing="0.5">@omnicarousel</text><text x="1008" y="1252" font-family="JetBrains Mono" font-size="28" font-weight="500" fill="#ffffffb8" text-anchor="end" letter-spacing="1">08 / 08</text><rect x="72" y="1304" width="936" height="4" rx="2" fill="#ffffff1f"/><rect x="72" y="1304" width="936" height="4" rx="2" fill="#FFFFFF"/><circle cx="1040" cy="220" r="260" fill="#ffffff24"/><circle cx="1040" cy="220" r="260" fill="none" stroke="#ffffff4d" stroke-width="2"/><rect x="72" y="216" width="411.45" height="62" rx="999" fill="#FFFFFF"/><g transform="translate(94 234) scale(1.0833)"><path d="M21 12a8.5 8.5 0 01-12.6 7.5L4 21l1.5-4.4A8.5 8.5 0 1121 12z" fill="none" stroke="#1D4ED8" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"/></g><text x="134" y="257" font-family="Inter" font-size="26" font-weight="700" fill="#1D4ED8" letter-spacing="2.6">COMMENT TO GET IT</text><text x="72" y="394.63" font-family="Space Grotesk" font-size="87.5" font-weight="700" fill="#FFFFFF" text-anchor="start">Want the source</text><text x="72" y="483.88" font-family="Space Grotesk" font-size="87.5" font-weight="700" fill="#FFFFFF" text-anchor="start">deck?</text><text x="72" y="587.3" font-family="Inter" font-size="40" font-weight="400" fill="#ffffffe0" text-anchor="start">Comment BRIEF and I will send the full</text><text x="72" y="640.1" font-family="Inter" font-size="40" font-weight="400" fill="#ffffffe0" text-anchor="start">benchmark deck with every citation</text><text x="72" y="692.9" font-family="Inter" font-size="40" font-weight="400" fill="#ffffffe0" text-anchor="start">attached — no gate, no email required.</text><rect x="72" y="764.9" width="278" height="130" rx="16" fill="#ffffff1f" stroke="#FFFFFF" stroke-width="3"/><text x="211" y="848.9" font-family="JetBrains Mono" font-size="54" font-weight="700" fill="#FFFFFF" text-anchor="middle" letter-spacing="8">BRIEF</text><rect x="72" y="1008" width="936" height="150" rx="24" fill="#ffffff0f" stroke="#ffffff1a" stroke-width="1.5"/><text x="112" y="1096" font-family="Space Grotesk" font-size="56" font-weight="700" fill="#FFFFFF">@omnicarousel</text><g transform="translate(908 1040) scale(2.6667)"><path d="M21 12a8.5 8.5 0 01-12.6 7.5L4 21l1.5-4.4A8.5 8.5 0 1121 12z" fill="none" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></g></svg></div>
+        <div class="meta">
+          <span class="layout">cta</span>
+          
+          <span class="count">08 / 08</span>
+        </div>
+        <p class="alt">Closing page inviting readers to comment BRIEF for the source deck.</p>
+      </section></div>
+    <div class="controls">
+      <button data-step="-1" aria-label="Previous slide">← Prev</button>
+      <button data-step="1" aria-label="Next slide">Next →</button>
+    </div>
+  </div>
+  <aside class="panel">
+    <h1>AI Adoption: What the 2026 Data Actually Shows</h1>
+    <div class="sub">Omni Carousel · linkedin · authority · LinkedIn Executive Slate</div>
+    <div class="stat"><span>Slides</span><span>8</span></div>
+    <div class="stat"><span>Canvas</span><span>1080 × 1350</span></div>
+    <div class="stat"><span>Theme</span><span>linkedin-executive</span></div>
+    <h2>Caption</h2>
+    <pre>Most AI adoption decks fail for a boring reason: they present ambition as evidence.
+
+This one is eight slides of published data, with the source printed on every page.
+
+The short version:
+
+1. Format matters more than volume — LinkedIn document posts still out-engage every other organic format.
+2. Depth beats reach — dwell time is the metric the ranking system rewards.
+3. Provenance is the differentiator — a cited number survives a skeptical executive, an adjective does not.
+
+If your team is building an adoption case this quarter, start with the measurement, not the roadmap.
+
+Which of the three findings is hardest to get internal agreement on?</pre>
+    <h2>Hashtags</h2><p class="tags">aiadoption strategy measurement</p>
+    <h2>Keyboard</h2>
+    <pre>← → navigate · 1-9 jump · Home reset · P print</pre>
+  </aside>
+  <script>
+  (function () {
+    var slides = Array.prototype.slice.call(document.querySelectorAll('.slide'));
+    var dots = Array.prototype.slice.call(document.querySelectorAll('.dot'));
+    var current = 0;
+    function render(index) {
+      current = Math.max(0, Math.min(slides.length - 1, index));
+      slides.forEach(function (slide, i) {
+        var active = i === current;
+        slide.classList.toggle('is-active', active);
+        slide.setAttribute('aria-hidden', active ? 'false' : 'true');
+      });
+      dots.forEach(function (dot, i) { dot.classList.toggle('on', i === current); });
+      window.__slideIndex = current;
+    }
+    // Deterministic capture hooks, GSAP-timeline compatible.
+    window.__seekSlide = function (value) {
+      if (value > 0 && value <= 1 && value % 1 !== 0) value = Math.round(value * (slides.length - 1));
+      render(value);
+      return current;
+    };
+    window.__gsapSeek = window.__seekSlide;
+    window.__deckReady = true;
+    window.__deckSlides = slides.length;
+    document.addEventListener('keydown', function (event) {
+      if (event.key === 'ArrowRight' || event.key === ' ') { render(current + 1); event.preventDefault(); }
+      else if (event.key === 'ArrowLeft') { render(current - 1); event.preventDefault(); }
+      else if (event.key === 'Home') render(0);
+      else if (event.key === 'End') render(slides.length - 1);
+      else if (event.key === 'p' || event.key === 'P') window.print();
+      else if (/^[1-9]$/.test(event.key)) render(Number(event.key) - 1);
+    });
+    document.querySelectorAll('[data-step]').forEach(function (button) {
+      button.addEventListener('click', function () { render(current + Number(button.dataset.step)); });
+    });
+    document.querySelectorAll('[data-goto]').forEach(function (button) {
+      button.addEventListener('click', function () { render(Number(button.dataset.goto)); });
+    });
+    var startX = null;
+    document.addEventListener('touchstart', function (event) { startX = event.touches[0].clientX; }, { passive: true });
+    document.addEventListener('touchend', function (event) {
+      if (startX === null) return;
+      var dx = event.changedTouches[0].clientX - startX;
+      if (Math.abs(dx) > 40) render(current + (dx < 0 ? 1 : -1));
+      startX = null;
+    }, { passive: true });
+    if (/[?&]capture=1/.test(location.search)) {
+      slides.forEach(function (slide) { slide.style.transition = 'none'; });
+    }
+  })();
+  </script>
+</body>
+</html>

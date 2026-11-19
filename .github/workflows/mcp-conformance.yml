@@ -1,0 +1,104 @@
+name: MCP conformance
+
+on:
+  push:
+    branches: [main, 'arena/**']
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  stdio:
+    name: stdio handshake (typescript + python)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: npm ci
+      - run: npm run build
+      - name: TypeScript server responds to initialize + tools/list
+        run: |
+          set -euo pipefail
+          printf '%s\n' \
+            '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2025-06-18","capabilities":{},"clientInfo":{"name":"ci","version":"1"}}}' \
+            '{"jsonrpc":"2.0","method":"notifications/initialized"}' \
+            '{"jsonrpc":"2.0","id":2,"method":"tools/list"}' \
+            > /tmp/mcp-in.jsonl
+          node mcp-server/typescript/dist/index.js < /tmp/mcp-in.jsonl > /tmp/mcp-out.jsonl 2>/tmp/mcp-err.log || true
+          cat /tmp/mcp-out.jsonl
+          python - <<'PY'
+          import json, sys
+          lines = [json.loads(line) for line in open('/tmp/mcp-out.jsonl') if line.strip()]
+          init = next(message for message in lines if message.get('id') == 1)
+          tools = next(message for message in lines if message.get('id') == 2)
+          assert init['result']['serverInfo']['name'] == 'omni-carousel', init
+          names = {tool['name'] for tool in tools['result']['tools']}
+          expected = {'get_playbook','list_layouts','list_themes','validate_spec','render_carousel',
+                      'preview_slide','fetch_asset','make_chart','make_diagram'}
+          assert names == expected, names ^ expected
+          print(f"ok: {len(names)} tools over stdio")
+          PY
+      - name: Python server advertises the same surface
+        run: |
+          pip install -e ./sdks/python-sdk -e ./mcp-server/python pytest pytest-asyncio
+          pytest mcp-server/python -q
+
+  http:
+    name: Streamable HTTP + signed artifacts
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - name: Boot the REST facade and exercise the contract
+        run: |
+          set -euo pipefail
+          OMNI_OUTPUT_DIR=/tmp/omni-artifacts OMNI_SIGNING_SECRET=ci-secret \
+            node mcp-server/rest-facade/dist/server.js --host 127.0.0.1 --port 8799 &
+          SERVER_PID=$!
+          trap 'kill $SERVER_PID || true' EXIT
+          for _ in $(seq 1 40); do
+            curl -fsS http://127.0.0.1:8799/healthz && break || sleep 0.5
+          done
+          echo
+          curl -fsS http://127.0.0.1:8799/v1/layouts | python -c "import json,sys; assert len(json.load(sys.stdin)['layouts'])==11; print('layouts ok')"
+          curl -fsS http://127.0.0.1:8799/v1/playbook?topic=instagram | head -c 120; echo
+          SPEC=$(cat examples/specs/ig-scrapbook-founder-note.json)
+          python - "$SPEC" > /tmp/render.json <<'PY'
+          import json, sys, urllib.request
+          body = json.dumps({"spec": json.loads(sys.argv[1]), "output_mode": "url"}).encode()
+          req = urllib.request.Request("http://127.0.0.1:8799/v1/render", data=body,
+                                      headers={"Content-Type": "application/json"})
+          print(urllib.request.urlopen(req, timeout=120).read().decode())
+          PY
+          python - <<'PY'
+          import json
+          payload = json.load(open('/tmp/render.json'))
+          assert payload['ok'] is True, payload
+          assert payload['lint']['ok'] is True, payload['lint']
+          assert len(payload['slides']) == 6, len(payload['slides'])
+          urls = [slide['url'] for slide in payload['slides']]
+          assert all('sig=' in url and 'exp=' in url for url in urls), urls[0]
+          print(f"render ok: {len(urls)} signed slide URLs, {payload['duration_ms']}ms")
+          PY
+          echo "--- tampered signature must 403"
+          FIRST=$(python -c "import json;print(json.load(open('/tmp/render.json'))['slides'][0]['url'])")
+          TAMPERED=$(python -c "import sys;u=sys.argv[1];print(u[:-4]+'dead')" "$FIRST")
+          code=$(curl -s -o /dev/null -w '%{http_code}' "$TAMPERED")
+          test "$code" = "403" || (echo "::error::tampered signature returned $code" && exit 1)
+          echo "--- traversal must be refused"
+          code=$(curl -s -o /dev/null -w '%{http_code}' "http://127.0.0.1:8799/files/../../etc/passwd")
+          test "$code" = "400" -o "$code" = "403" -o "$code" = "404" || (echo "::error::traversal returned $code" && exit 1)
+          echo "http conformance ok"

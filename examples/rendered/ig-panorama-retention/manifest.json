@@ -1,0 +1,85 @@
+{
+  "generator": "omni-carousel-agent",
+  "engine": "0.1.0",
+  "renderer": "resvg",
+  "platform": "instagram",
+  "theme": "brutal-bento",
+  "canvas": {
+    "width": 1080,
+    "height": 1350
+  },
+  "slides": [
+    {
+      "index": 1,
+      "id": "hook",
+      "layout": "cover_hook",
+      "file": "slides/slide-01.png",
+      "panorama": null
+    },
+    {
+      "index": 2,
+      "id": "pano-1",
+      "layout": "steps",
+      "file": "slides/slide-02.png",
+      "panorama": {
+        "spanLength": 3,
+        "indexInSpan": 0
+      }
+    },
+    {
+      "index": 3,
+      "id": "pano-2",
+      "layout": "steps",
+      "file": "slides/slide-03.png",
+      "panorama": {
+        "spanLength": 3,
+        "indexInSpan": 1
+      }
+    },
+    {
+      "index": 4,
+      "id": "pano-3",
+      "layout": "steps",
+      "file": "slides/slide-04.png",
+      "panorama": {
+        "spanLength": 3,
+        "indexInSpan": 2
+      }
+    },
+    {
+      "index": 5,
+      "id": "chart",
+      "layout": "data_chart",
+      "file": "slides/slide-05.png",
+      "panorama": null
+    },
+    {
+      "index": 6,
+      "id": "bento",
+      "layout": "bento_grid",
+      "file": "slides/slide-06.png",
+      "panorama": null
+    },
+    {
+      "index": 7,
+      "id": "recap",
+      "layout": "summary",
+      "file": "slides/slide-07.png",
+      "panorama": null
+    },
+    {
+      "index": 8,
+      "id": "cta",
+      "layout": "cta",
+      "file": "slides/slide-08.png",
+      "panorama": null
+    }
+  ],
+  "lint": {
+    "ok": true,
+    "errors": 0,
+    "warnings": 0
+  },
+  "warnings": [],
+  "duration_ms": 1810
+}

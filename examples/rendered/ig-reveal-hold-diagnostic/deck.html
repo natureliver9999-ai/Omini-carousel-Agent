@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Why Your Carousel Dies On Slide Two — omni-carousel preview</title>
+<style>
+  :root {
+    --bg: #FAF7F2;
+    --stage: #0b0c0f;
+    --ink: #141413;
+    --muted: #5E5952;
+    --accent: #B8331A;
+    --font: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+    --radius: 20px;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; }
+  body {
+    background: var(--stage);
+    color: var(--ink);
+    font-family: var(--font);
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 360px;
+    gap: 0;
+    overflow: hidden;
+  }
+  .stage { position: relative; display: grid; place-items: center; padding: 28px; }
+  .deck { position: relative; width: min(1080px, calc((100vh - 96px) * 0.8)); aspect-ratio: 4 / 5; }
+  .slide {
+    position: absolute; inset: 0;
+    opacity: 0; visibility: hidden;
+    transform: translateX(28px) scale(.985);
+    transition: opacity .28s ease, transform .28s ease, visibility .28s;
+  }
+  .slide.is-active { opacity: 1; visibility: visible; transform: none; }
+  .frame { width: 100%; height: 100%; border-radius: var(--radius); overflow: hidden; box-shadow: 0 24px 80px rgba(0,0,0,.55); background: var(--bg); }
+  .frame svg { display: block; width: 100%; height: 100%; }
+  .meta { position: absolute; left: 0; right: 0; bottom: -34px; display: flex; gap: 10px; align-items: center; font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: #7b8391; }
+  .meta .layout { color: var(--accent); font-weight: 700; }
+  .meta .pano { color: #9aa4b2; }
+  .meta .count { margin-left: auto; }
+  .alt { position: absolute; top: -26px; font-size: 11px; color: #5d6470; max-width: 80%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .controls { position: absolute; bottom: 12px; left: 50%; transform: translateX(-50%); display: flex; gap: 8px; }
+  .controls button {
+    background: #1b1f27; color: #cfd6e1; border: 1px solid #2b313c; border-radius: 10px;
+    padding: 8px 14px; font: inherit; font-size: 13px; cursor: pointer;
+  }
+  .controls button:hover { border-color: var(--accent); color: #fff; }
+  .dots { position: absolute; top: 4px; left: 50%; transform: translateX(-50%); display: flex; gap: 6px; }
+  .dot { width: 22px; height: 4px; border-radius: 2px; background: #2b313c; border: 0; padding: 0; cursor: pointer; }
+  .dot.on { background: var(--accent); }
+  aside.panel { border-left: 1px solid #1d2129; background: #0f1116; padding: 22px 22px 28px; overflow-y: auto; font-size: 13px; line-height: 1.6; color: #b9c0cc; }
+  aside.panel h1 { font-size: 15px; margin: 0 0 4px; color: #fff; letter-spacing: -.01em; }
+  aside.panel .sub { color: #6f7887; font-size: 12px; margin-bottom: 18px; }
+  aside.panel h2 { font-size: 11px; text-transform: uppercase; letter-spacing: .12em; color: #6f7887; margin: 22px 0 8px; }
+  aside.panel pre { white-space: pre-wrap; font-family: Inter, ui-monospace, monospace; font-size: 12.5px; margin: 0; color: #d5dbe5; }
+  aside.panel .tags { color: var(--accent); word-break: break-word; }
+  aside.panel .stat { display: flex; justify-content: space-between; border-bottom: 1px dashed #222833; padding: 5px 0; }
+  aside.panel .stat span:last-child { color: #fff; }
+  @media (max-width: 900px) { body { grid-template-columns: 1fr; } aside.panel { display: none; } }
+  @media print { body { display: block; background: #fff; } .slide { position: static; opacity: 1; visibility: visible; transform: none; page-break-after: always; } .meta, .alt, .controls, .dots, aside.panel { display: none; } .deck { width: 100%; aspect-ratio: auto; } }
+</style>
+</head>
+<body>
+  <div class="stage">
+    <div class="dots" role="tablist"><button class="dot on" data-goto="0" aria-label="Go to slide 1"></button><button class="dot" data-goto="1" aria-label="Go to slide 2"></button><button class="dot" data-goto="2" aria-label="Go to slide 3"></button><button class="dot" data-goto="3" aria-label="Go to slide 4"></button><button class="dot" data-goto="4" aria-label="Go to slide 5"></button><button class="dot" data-goto="5" aria-label="Go to slide 6"></button></div>
+    <div class="deck" id="deck">
+      <section class="slide is-active" data-index="0" aria-label="Slide 1 of 6">
+        <div class="frame"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1080" height="1350" viewBox="0 0 1080 1350"><rect x="0" y="0" width="1080" height="1350" fill="#FAF7F2"/><rect x="0" y="0" width="1080" height="1350" fill="#14141303"/><circle cx="960" cy="-60" r="420" fill="#b8331a0d"/><rect x="90" y="0" width="1" height="1350" fill="#14141305"/><rect x="210" y="0" width="1" height="1350" fill="#14141305"/><rect x="330" y="0" width="1" height="1350" fill="#14141305"/><rect x="450" y="0" width="1" height="1350" fill="#14141305"/><rect x="570" y="0" width="1" height="1350" fill="#14141305"/><rect x="690" y="0" width="1" height="1350" fill="#14141305"/><rect x="810" y="0" width="1" height="1350" fill="#14141305"/><rect x="930" y="0" width="1" height="1350" fill="#14141305"/><rect x="1050" y="0" width="1" height="1350" fill="#14141305"/><rect x="72" y="72" width="231.28" height="52" rx="4" fill="#14141312"/><text x="89" y="107.36" font-family="Inter" font-size="26" font-weight="600" fill="#141413" letter-spacing="3.64">DIAGNOSTIC</text><rect x="72" y="150" width="936" height="1" fill="#1414132e"/><rect x="72" y="1204" width="936" height="1" fill="#1414132e"/><text x="72" y="1252" font-family="JetBrains Mono" font-size="28" font-weight="500" fill="#5E5952" text-anchor="start" letter-spacing="0.5">@omnicarousel</text><text x="1008" y="1252" font-family="JetBrains Mono" font-size="28" font-weight="500" fill="#5E5952" text-anchor="end" letter-spacing="1">01 / 06</text><rect x="72" y="1304" width="936" height="4" rx="2" fill="#1414131f"/><rect x="72" y="1304" width="156" height="4" rx="2" fill="#B8331A"/><circle cx="1040" cy="330" r="330" fill="none" stroke="#b8331a29" stroke-width="2"/><circle cx="1040" cy="330" r="240" fill="none" stroke="#b8331a1a" stroke-width="1.5"/><circle opacity="0.9" cx="950" cy="250" r="10" fill="#B8331A"/><text x="72" y="386.19" font-family="Inter" font-size="30" font-weight="600" fill="#5E5952" letter-spacing="0.4">It is almost never the hook.</text><text x="72" y="474.84" font-family="Instrument Serif" font-size="93.5" font-weight="700" fill="#141413" text-anchor="start">Your carousel dies on slide</text><text x="72" y="570.2" font-family="Instrument Serif" font-size="93.5" font-weight="700" fill="#141413" text-anchor="start">two</text><rect x="72" y="618.93" width="101.64" height="12" rx="6" fill="#B8331A"/><text x="72" y="689.01" font-family="Inter" font-size="44" font-weight="400" fill="#4A4640" text-anchor="start">Instagram re-serves the post starting</text><text x="72" y="747.09" font-family="Inter" font-size="44" font-weight="400" fill="#4A4640" text-anchor="start">there. Most decks waste that second</text><text x="72" y="805.17" font-family="Inter" font-size="44" font-weight="400" fill="#4A4640" text-anchor="start">chance.</text><rect x="72" y="931.17" width="96" height="96" rx="26" fill="#B8331A"/><g transform="translate(96 955.17) scale(2)"><path d="M12 3a9 9 0 100 18 9 9 0 000-18z" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 8a4 4 0 100 8 4 4 0 000-8z" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 11.5a.5.5 0 100 1 .5.5 0 000-1z" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="12" r="1.6" fill="#FFFFFF"/></g><rect x="850.45" y="953.17" width="157.55" height="50" rx="25" fill="#1414130f"/><g transform="translate(870.45 966.17) scale(1)"><path d="M4 12h16" fill="none" stroke="#4A4640" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M14 6l6 6-6 6" fill="none" stroke="#4A4640" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></g><text x="906.45" y="986.81" font-family="Inter" font-size="24" font-weight="600" fill="#4A4640" letter-spacing="1.2">SWIPE</text></svg></div>
+        <div class="meta">
+          <span class="layout">cover_hook</span>
+          
+          <span class="count">01 / 06</span>
+        </div>
+        <p class="alt">Cover slide reading 'Your carousel dies on slide two'.</p>
+      </section>
+      <section class="slide" data-index="1" aria-label="Slide 2 of 6" aria-hidden="true">
+        <div class="frame"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1080" height="1350" viewBox="0 0 1080 1350"><rect x="0" y="0" width="1080" height="1350" fill="#FAF7F2"/><rect x="0" y="0" width="1080" height="1350" fill="#14141303"/><circle cx="960" cy="-60" r="420" fill="#b8331a0d"/><rect x="90" y="0" width="1" height="1350" fill="#14141305"/><rect x="210" y="0" width="1" height="1350" fill="#14141305"/><rect x="330" y="0" width="1" height="1350" fill="#14141305"/><rect x="450" y="0" width="1" height="1350" fill="#14141305"/><rect x="570" y="0" width="1" height="1350" fill="#14141305"/><rect x="690" y="0" width="1" height="1350" fill="#14141305"/><rect x="810" y="0" width="1" height="1350" fill="#14141305"/><rect x="930" y="0" width="1" height="1350" fill="#14141305"/><rect x="1050" y="0" width="1" height="1350" fill="#14141305"/><rect x="72" y="72" width="237.18" height="52" rx="4" fill="#14141312"/><text x="89" y="107.36" font-family="Inter" font-size="26" font-weight="600" fill="#141413" letter-spacing="3.64">THE FAILURE</text><rect x="72" y="150" width="936" height="1" fill="#1414132e"/><rect x="72" y="1204" width="936" height="1" fill="#1414132e"/><text x="72" y="1252" font-family="JetBrains Mono" font-size="28" font-weight="500" fill="#5E5952" text-anchor="start" letter-spacing="0.5">@omnicarousel</text><text x="890" y="1252" font-family="Inter" font-size="30" font-weight="600" fill="#B8331A" text-anchor="end">Next frame: the rule</text><text x="1008" y="1252" font-family="JetBrains Mono" font-size="28" font-weight="500" fill="#5E5952" text-anchor="end" letter-spacing="1">02 / 06</text><rect x="72" y="1304" width="936" height="4" rx="2" fill="#1414131f"/><rect x="72" y="1304" width="312" height="4" rx="2" fill="#B8331A"/><rect x="752.4" y="672" width="470" height="300" rx="28" fill="#1414130f"/><rect x="750.4" y="666" width="470" height="300" rx="28" fill="#B8331A" stroke="#ffffff33" stroke-width="1.5"/><rect x="772.4" y="692" width="8" height="52" rx="4" fill="#ffffffd9"/><text x="796.4" y="728" font-family="Inter" font-size="24" font-weight="700" fill="#ffffffeb" letter-spacing="2">THE FIX IS ONE RULE</text><text x="774.4" y="932" font-family="Instrument Serif" font-size="92" font-weight="700" fill="#FFFFFF">NEXT</text><g transform="translate(1090.4 870) scale(2.9167)"><path d="M4 12h16" fill="none" stroke="#ffffffe6" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M14 6l6 6-6 6" fill="none" stroke="#ffffffe6" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></g><text x="72" y="318.65" font-family="Instrument Serif" font-size="93.5" font-weight="700" fill="#141413" text-anchor="start">Frame two introduces. It</text><text x="72" y="414.02" font-family="Instrument Serif" font-size="93.5" font-weight="700" fill="#141413" text-anchor="start">should raise a stake.</text><text x="72" y="525.54" font-family="Inter" font-size="40" font-weight="400" fill="#4A4640" text-anchor="start">A frame that sets context — &quot;here is</text><text x="72" y="578.34" font-family="Inter" font-size="40" font-weight="400" fill="#4A4640" text-anchor="start">some background&quot; — asks the</text><text x="72" y="631.14" font-family="Inter" font-size="40" font-weight="400" fill="#4A4640" text-anchor="start">reader to invest before giving them</text><text x="72" y="683.94" font-family="Inter" font-size="40" font-weight="400" fill="#4A4640" text-anchor="start">a reason. The next slide has to pay</text><text x="72" y="736.74" font-family="Inter" font-size="40" font-weight="400" fill="#4A4640" text-anchor="start">that investment back instantly.</text><rect x="72" y="620" width="648.4" height="2" fill="#14141338" stroke-dasharray="10 12"/><text x="72" y="604" font-family="JetBrains Mono" font-size="22" font-weight="500" fill="#5E5952" letter-spacing="2">HOLD THAT THOUGHT</text><rect x="72" y="1074" width="424.25" height="64" rx="999" fill="#b8331a1f"/><g transform="translate(96 1090) scale(1.3333)"><path d="M4 12h16" fill="none" stroke="#B8331A" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M14 6l6 6-6 6" fill="none" stroke="#B8331A" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></g><text x="140" y="1116" font-family="Inter" font-size="26" font-weight="700" fill="#B8331A" letter-spacing="2">NEXT FRAME: THE RULE</text></svg></div>
+        <div class="meta">
+          <span class="layout">reveal_hold</span>
+          
+          <span class="count">02 / 06</span>
+        </div>
+        <p class="alt">Reveal slide with a teaser card bleeding off the right edge.</p>
+      </section>
+      <section class="slide" data-index="2" aria-label="Slide 3 of 6" aria-hidden="true">
+        <div class="frame"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1080" height="1350" viewBox="0 0 1080 1350"><rect x="0" y="0" width="1080" height="1350" fill="#FAF7F2"/><rect x="0" y="0" width="1080" height="1350" fill="#14141303"/><circle cx="960" cy="-60" r="420" fill="#b8331a0d"/><rect x="90" y="0" width="1" height="1350" fill="#14141305"/><rect x="210" y="0" width="1" height="1350" fill="#14141305"/><rect x="330" y="0" width="1" height="1350" fill="#14141305"/><rect x="450" y="0" width="1" height="1350" fill="#14141305"/><rect x="570" y="0" width="1" height="1350" fill="#14141305"/><rect x="690" y="0" width="1" height="1350" fill="#14141305"/><rect x="810" y="0" width="1" height="1350" fill="#14141305"/><rect x="930" y="0" width="1" height="1350" fill="#14141305"/><rect x="1050" y="0" width="1" height="1350" fill="#14141305"/><rect x="72" y="72" width="184.86" height="52" rx="4" fill="#14141312"/><text x="89" y="107.36" font-family="Inter" font-size="26" font-weight="600" fill="#141413" letter-spacing="3.64">THE RULE</text><rect x="72" y="150" width="936" height="1" fill="#1414132e"/><rect x="72" y="1204" width="936" height="1" fill="#1414132e"/><text x="72" y="1252" font-family="JetBrains Mono" font-size="28" font-weight="500" fill="#5E5952" text-anchor="start" letter-spacing="0.5">@omnicarousel</text><text x="1008" y="1252" font-family="JetBrains Mono" font-size="28" font-weight="500" fill="#5E5952" text-anchor="end" letter-spacing="1">03 / 06</text><rect x="72" y="1304" width="936" height="4" rx="2" fill="#1414131f"/><rect x="72" y="1304" width="468" height="4" rx="2" fill="#B8331A"/><text x="72" y="258.65" font-family="Instrument Serif" font-size="93.5" font-weight="700" fill="#141413" text-anchor="start">Answer first, then explain</text><rect x="72" y="345.37" width="453" height="600" rx="22" fill="#1414130b" stroke="#5e595259" stroke-width="1.5"/><rect x="104" y="377.37" width="246.15" height="50" rx="25" fill="#1414131a"/><text x="124" y="411.01" font-family="Inter" font-size="24" font-weight="600" fill="#4A4640" letter-spacing="1.2">CONTEXT FIRST</text><g transform="translate(447 379.37) scale(1.9167)"><path d="M6 6l12 12" fill="none" stroke="#5E5952" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M18 6L6 18" fill="none" stroke="#5E5952" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></g><text x="104" y="492.89" font-family="Inter" font-size="36" font-weight="400" fill="#4A4640" text-anchor="start">&quot;Before we get into it,</text><text x="104" y="540.41" font-family="Inter" font-size="36" font-weight="400" fill="#4A4640" text-anchor="start">some background on</text><text x="104" y="587.93" font-family="Inter" font-size="36" font-weight="400" fill="#4A4640" text-anchor="start">why this matters.&quot;</text><g transform="translate(106 609.93) scale(1.0833)"><path d="M6 6l12 12" fill="none" stroke="#5E5952" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M18 6L6 18" fill="none" stroke="#5E5952" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></g><text x="146" y="646.89" font-family="Inter" font-size="28" font-weight="400" fill="#4A4640" text-anchor="start">Reader has no stake yet</text><g transform="translate(106 663.93) scale(1.0833)"><path d="M6 6l12 12" fill="none" stroke="#5E5952" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M18 6L6 18" fill="none" stroke="#5E5952" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></g><text x="146" y="700.89" font-family="Inter" font-size="28" font-weight="400" fill="#4A4640" text-anchor="start">Frame works only in</text><text x="146" y="737.85" font-family="Inter" font-size="28" font-weight="400" fill="#4A4640" text-anchor="start">order</text><g transform="translate(106 717.93) scale(1.0833)"><path d="M6 6l12 12" fill="none" stroke="#5E5952" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M18 6L6 18" fill="none" stroke="#5E5952" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></g><text x="146" y="754.89" font-family="Inter" font-size="28" font-weight="400" fill="#4A4640" text-anchor="start">Wasted second entry</text><text x="146" y="791.85" font-family="Inter" font-size="28" font-weight="400" fill="#4A4640" text-anchor="start">point</text><rect x="555" y="345.37" width="453" height="600" rx="22" fill="#b8331a1a" stroke="#b8331a59" stroke-width="1.5"/><rect x="587" y="377.37" width="206.23" height="50" rx="25" fill="#B8331A"/><text x="607" y="411.01" font-family="Inter" font-size="24" font-weight="600" fill="#FFFFFF" letter-spacing="1.2">STAKE FIRST</text><g transform="translate(930 379.37) scale(1.9167)"><path d="M4 12.5l5 5L20 6.5" fill="none" stroke="#B8331A" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></g><text x="587" y="492.89" font-family="Inter" font-size="36" font-weight="600" fill="#141413" text-anchor="start">&quot;Most decks lose</text><text x="587" y="540.41" font-family="Inter" font-size="36" font-weight="600" fill="#141413" text-anchor="start">60% of readers on</text><text x="587" y="587.93" font-family="Inter" font-size="36" font-weight="600" fill="#141413" text-anchor="start">frame two. Here is the</text><text x="587" y="635.45" font-family="Inter" font-size="36" font-weight="600" fill="#141413" text-anchor="start">fix.&quot;</text><g transform="translate(589 657.45) scale(1.0833)"><path d="M4 12.5l5 5L20 6.5" fill="none" stroke="#B8331A" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></g><text x="629" y="694.41" font-family="Inter" font-size="28" font-weight="400" fill="#4A4640" text-anchor="start">Reader has a reason to</text><text x="629" y="731.37" font-family="Inter" font-size="28" font-weight="400" fill="#4A4640" text-anchor="start">stay</text><g transform="translate(589 711.45) scale(1.0833)"><path d="M4 12.5l5 5L20 6.5" fill="none" stroke="#B8331A" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></g><text x="629" y="748.41" font-family="Inter" font-size="28" font-weight="400" fill="#4A4640" text-anchor="start">Frame works standalone</text><g transform="translate(589 765.45) scale(1.0833)"><path d="M4 12.5l5 5L20 6.5" fill="none" stroke="#B8331A" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></g><text x="629" y="802.41" font-family="Inter" font-size="28" font-weight="400" fill="#4A4640" text-anchor="start">Second entry point</text><text x="629" y="839.37" font-family="Inter" font-size="28" font-weight="400" fill="#4A4640" text-anchor="start">earned</text><text x="72" y="985.37" font-family="JetBrains Mono" font-size="22" font-weight="600" fill="#5E5952" letter-spacing="2.4">VERDICT</text><text x="72" y="1029.61" font-family="Inter" font-size="32" font-weight="600" font-style="italic" fill="#B8331A" text-anchor="start">Every frame should be able to open the deck.</text></svg></div>
+        <div class="meta">
+          <span class="layout">contrast_split</span>
+          
+          <span class="count">03 / 06</span>
+        </div>
+        <p class="alt">Contrast slide comparing context-first versus stake-first second frames.</p>
+      </section>
+      <section class="slide" data-index="3" aria-label="Slide 4 of 6" aria-hidden="true">
+        <div class="frame"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1080" height="1350" viewBox="0 0 1080 1350"><rect x="0" y="0" width="1080" height="1350" fill="#FAF7F2"/><rect x="0" y="0" width="1080" height="1350" fill="#14141303"/><circle cx="960" cy="-60" r="420" fill="#b8331a0d"/><rect x="90" y="0" width="1" height="1350" fill="#14141305"/><rect x="210" y="0" width="1" height="1350" fill="#14141305"/><rect x="330" y="0" width="1" height="1350" fill="#14141305"/><rect x="450" y="0" width="1" height="1350" fill="#14141305"/><rect x="570" y="0" width="1" height="1350" fill="#14141305"/><rect x="690" y="0" width="1" height="1350" fill="#14141305"/><rect x="810" y="0" width="1" height="1350" fill="#14141305"/><rect x="930" y="0" width="1" height="1350" fill="#14141305"/><rect x="1050" y="0" width="1" height="1350" fill="#14141305"/><rect x="72" y="72" width="229.53" height="52" rx="4" fill="#14141312"/><text x="89" y="107.36" font-family="Inter" font-size="26" font-weight="600" fill="#141413" letter-spacing="3.64">THE STAKES</text><rect x="72" y="150" width="936" height="1" fill="#1414132e"/><rect x="72" y="1204" width="936" height="1" fill="#1414132e"/><text x="72" y="1252" font-family="JetBrains Mono" font-size="28" font-weight="500" fill="#5E5952" text-anchor="start" letter-spacing="0.5">@omnicarousel</text><text x="1008" y="1252" font-family="JetBrains Mono" font-size="28" font-weight="500" fill="#5E5952" text-anchor="end" letter-spacing="1">04 / 06</text><rect x="72" y="1304" width="936" height="4" rx="2" fill="#1414131f"/><rect x="72" y="1304" width="624" height="4" rx="2" fill="#B8331A"/><text x="72" y="258.65" font-family="Instrument Serif" font-size="93.5" font-weight="700" fill="#141413" text-anchor="start">Where the attention</text><text x="72" y="354.02" font-family="Instrument Serif" font-size="93.5" font-weight="700" fill="#141413" text-anchor="start">actually goes</text><rect x="72" y="426.74" width="936" height="560" rx="24" fill="#FFFFFF" stroke="#1414131a" stroke-width="1.5"/><rect x="112" y="486.74" width="856" height="1" fill="#1414131a"/><text x="100" y="494.74" font-family="Inter" font-size="22" font-weight="500" fill="#5E5952" text-anchor="end">100%</text><rect x="112" y="626.07" width="856" height="1" fill="#1414131a"/><text x="100" y="634.07" font-family="Inter" font-size="22" font-weight="500" fill="#5E5952" text-anchor="end">66.7%</text><rect x="112" y="765.41" width="856" height="1" fill="#1414131a"/><text x="100" y="773.41" font-family="Inter" font-size="22" font-weight="500" fill="#5E5952" text-anchor="end">33.3%</text><rect x="112" y="904.74" width="856" height="1" fill="#14141340"/><text x="100" y="912.74" font-family="Inter" font-size="22" font-weight="500" fill="#5E5952" text-anchor="end">0%</text><path d="M112.0 486.7L326.0 637.2L540.0 733.4L754.0 796.1L968.0 829.5L968.0 904.74L112.0 904.74Z" fill="#b8331a24"/><path d="M112.0 486.7L326.0 637.2L540.0 733.4L754.0 796.1L968.0 829.5" fill="none" stroke="#B8331A" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/><circle cx="112" cy="486.74" r="8" fill="#FAF7F2" stroke="#B8331A" stroke-width="4"/><text x="112" y="944.74" font-family="Inter" font-size="22" font-weight="600" fill="#5E5952" text-anchor="middle" letter-spacing="0.6">FRAME 1</text><circle cx="326" cy="637.22" r="12" fill="#B8331A" stroke="#B8331A" stroke-width="4"/><text x="326" y="611.22" font-family="Instrument Serif" font-size="36" font-weight="700" fill="#B8331A" text-anchor="middle">64%</text><text x="326" y="944.74" font-family="Inter" font-size="22" font-weight="600" fill="#5E5952" text-anchor="middle" letter-spacing="0.6">FRAME 2</text><circle cx="540" cy="733.36" r="8" fill="#FAF7F2" stroke="#B8331A" stroke-width="4"/><text x="540" y="944.74" font-family="Inter" font-size="22" font-weight="600" fill="#5E5952" text-anchor="middle" letter-spacing="0.6">FRAME 4</text><circle cx="754" cy="796.06" r="8" fill="#FAF7F2" stroke="#B8331A" stroke-width="4"/><text x="754" y="944.74" font-family="Inter" font-size="22" font-weight="600" fill="#5E5952" text-anchor="middle" letter-spacing="0.6">FRAME 7</text><circle cx="968" cy="829.5" r="8" fill="#FAF7F2" stroke="#B8331A" stroke-width="4"/><text x="968" y="944.74" font-family="Inter" font-size="22" font-weight="600" fill="#5E5952" text-anchor="middle" letter-spacing="0.6">FRAME 10</text><text x="72" y="1044.62" font-family="Inter" font-size="34" font-weight="600" fill="#141413" text-anchor="start">Illustrative retention shape. Measure your own drop with</text><text x="72" y="1089.5" font-family="Inter" font-size="34" font-weight="600" fill="#141413" text-anchor="start">first-party insights.</text><text x="72" y="1178" font-family="JetBrains Mono" font-size="22" font-weight="500" fill="#5E5952" text-anchor="start" letter-spacing="1.2">SOURCE · MODELED RETENTION CURVE — NOT A PUBLISHED BENCHMARK</text></svg></div>
+        <div class="meta">
+          <span class="layout">data_chart</span>
+          
+          <span class="count">04 / 06</span>
+        </div>
+        <p class="alt">Line chart showing a falling retention curve with frame two highlighted.</p>
+      </section>
+      <section class="slide" data-index="4" aria-label="Slide 5 of 6" aria-hidden="true">
+        <div class="frame"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1080" height="1350" viewBox="0 0 1080 1350"><rect x="0" y="0" width="1080" height="1350" fill="#FAF7F2"/><rect x="0" y="0" width="1080" height="1350" fill="#14141303"/><circle cx="960" cy="-60" r="420" fill="#b8331a0d"/><rect x="90" y="0" width="1" height="1350" fill="#14141305"/><rect x="210" y="0" width="1" height="1350" fill="#14141305"/><rect x="330" y="0" width="1" height="1350" fill="#14141305"/><rect x="450" y="0" width="1" height="1350" fill="#14141305"/><rect x="570" y="0" width="1" height="1350" fill="#14141305"/><rect x="690" y="0" width="1" height="1350" fill="#14141305"/><rect x="810" y="0" width="1" height="1350" fill="#14141305"/><rect x="930" y="0" width="1" height="1350" fill="#14141305"/><rect x="1050" y="0" width="1" height="1350" fill="#14141305"/><rect x="72" y="72" width="182.52" height="52" rx="4" fill="#14141312"/><text x="89" y="107.36" font-family="Inter" font-size="26" font-weight="600" fill="#141413" letter-spacing="3.64">RUN THIS</text><rect x="72" y="150" width="936" height="1" fill="#1414132e"/><rect x="72" y="1204" width="936" height="1" fill="#1414132e"/><text x="72" y="1252" font-family="JetBrains Mono" font-size="28" font-weight="500" fill="#5E5952" text-anchor="start" letter-spacing="0.5">@omnicarousel</text><text x="1008" y="1252" font-family="JetBrains Mono" font-size="28" font-weight="500" fill="#5E5952" text-anchor="end" letter-spacing="1">05 / 06</text><rect x="72" y="1304" width="936" height="4" rx="2" fill="#1414131f"/><rect x="72" y="1304" width="780" height="4" rx="2" fill="#B8331A"/><text x="72" y="258.65" font-family="Instrument Serif" font-size="93.5" font-weight="700" fill="#141413" text-anchor="start">The slide-two test</text><rect x="72" y="349.37" width="936" height="117.73" rx="16" fill="#1414130a"/><g transform="translate(98 375.37) scale(1.3333)"><path d="M4 12.5l5 5L20 6.5" fill="none" stroke="#B8331A" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></g><text x="150" y="398.53" font-family="Inter" font-size="38" font-weight="500" fill="#141413" text-anchor="start">Does it make sense alone?</text><rect x="72" y="481.1" width="936" height="117.73" rx="16" fill="#1414130a"/><g transform="translate(98 507.1) scale(1.3333)"><path d="M4 12.5l5 5L20 6.5" fill="none" stroke="#B8331A" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></g><text x="150" y="530.26" font-family="Inter" font-size="38" font-weight="500" fill="#141413" text-anchor="start">Does it raise a question?</text><rect x="72" y="612.82" width="936" height="117.73" rx="16" fill="#1414130a"/><g transform="translate(98 638.82) scale(1.3333)"><path d="M4 12.5l5 5L20 6.5" fill="none" stroke="#B8331A" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></g><text x="150" y="661.98" font-family="Inter" font-size="38" font-weight="500" fill="#141413" text-anchor="start">Is there a stake, not a topic?</text><rect x="72" y="744.55" width="936" height="117.73" rx="16" fill="#1414130a"/><g transform="translate(98 770.55) scale(1.3333)"><path d="M4 12.5l5 5L20 6.5" fill="none" stroke="#B8331A" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></g><text x="150" y="793.71" font-family="Inter" font-size="38" font-weight="500" fill="#141413" text-anchor="start">Would you swipe after reading it?</text><rect x="72" y="876.27" width="936" height="117.73" rx="16" fill="#1414130a"/><g transform="translate(98 902.27) scale(1.3333)"><path d="M4 12.5l5 5L20 6.5" fill="none" stroke="#B8331A" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></g><text x="150" y="925.43" font-family="Inter" font-size="38" font-weight="500" fill="#141413" text-anchor="start">Does it name a number or a cost?</text><rect x="72" y="1054" width="936" height="104" rx="20" fill="#B8331A"/><g transform="translate(106 1086) scale(1.75)"><path d="M6 3h12v18l-6-4.5L6 21z" fill="none" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></g><text x="166" y="1120" font-family="Inter" font-size="28" font-weight="700" fill="#FFFFFF" letter-spacing="1.2">SAVE THE TEST, RUN EVERY DECK</text></svg></div>
+        <div class="meta">
+          <span class="layout">summary</span>
+          
+          <span class="count">05 / 06</span>
+        </div>
+        <p class="alt">Five-question checklist for auditing a second slide.</p>
+      </section>
+      <section class="slide" data-index="5" aria-label="Slide 6 of 6" aria-hidden="true">
+        <div class="frame"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1080" height="1350" viewBox="0 0 1080 1350"><rect x="0" y="0" width="1080" height="1350" fill="#B8331A"/><rect x="0" y="0" width="1080" height="1350" fill="#ffffff03"/><circle cx="960" cy="-60" r="420" fill="#ffffff0d"/><rect x="90" y="0" width="1" height="1350" fill="#ffffff05"/><rect x="210" y="0" width="1" height="1350" fill="#ffffff05"/><rect x="330" y="0" width="1" height="1350" fill="#ffffff05"/><rect x="450" y="0" width="1" height="1350" fill="#ffffff05"/><rect x="570" y="0" width="1" height="1350" fill="#ffffff05"/><rect x="690" y="0" width="1" height="1350" fill="#ffffff05"/><rect x="810" y="0" width="1" height="1350" fill="#ffffff05"/><rect x="930" y="0" width="1" height="1350" fill="#ffffff05"/><rect x="1050" y="0" width="1" height="1350" fill="#ffffff05"/><text x="72" y="116" font-family="Inter" font-size="22" font-weight="600" fill="#ffffffb8" text-anchor="start" letter-spacing="3">@OMNICAROUSEL</text><rect x="72" y="150" width="936" height="1" fill="#ffffff59"/><rect x="72" y="1204" width="936" height="1" fill="#ffffff59"/><text x="72" y="1252" font-family="JetBrains Mono" font-size="28" font-weight="500" fill="#ffffffb8" text-anchor="start" letter-spacing="0.5">@omnicarousel</text><text x="1008" y="1252" font-family="JetBrains Mono" font-size="28" font-weight="500" fill="#ffffffb8" text-anchor="end" letter-spacing="1">06 / 06</text><rect x="72" y="1304" width="936" height="4" rx="2" fill="#ffffff1f"/><rect x="72" y="1304" width="936" height="4" rx="2" fill="#FFFFFF"/><circle cx="1040" cy="220" r="260" fill="#ffffff24"/><circle cx="1040" cy="220" r="260" fill="none" stroke="#ffffff4d" stroke-width="2"/><rect x="72" y="216" width="411.45" height="62" rx="999" fill="#FFFFFF"/><g transform="translate(94 234) scale(1.0833)"><path d="M21 12a8.5 8.5 0 01-12.6 7.5L4 21l1.5-4.4A8.5 8.5 0 1121 12z" fill="none" stroke="#B8331A" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"/></g><text x="134" y="257" font-family="Inter" font-size="26" font-weight="700" fill="#B8331A" letter-spacing="2.6">COMMENT TO GET IT</text><text x="72" y="398.65" font-family="Instrument Serif" font-size="93.5" font-weight="700" fill="#FFFFFF" text-anchor="start">Want the audit as a prompt?</text><text x="72" y="504.17" font-family="Inter" font-size="40" font-weight="400" fill="#ffffffe0" text-anchor="start">Comment FRAME2 and we will send the</text><text x="72" y="556.97" font-family="Inter" font-size="40" font-weight="400" fill="#ffffffe0" text-anchor="start">exact prompt we use to score a second</text><text x="72" y="609.77" font-family="Inter" font-size="40" font-weight="400" fill="#ffffffe0" text-anchor="start">frame before publishing.</text><rect x="72" y="681.77" width="318.4" height="130" rx="16" fill="#ffffff1f" stroke="#FFFFFF" stroke-width="3"/><text x="231.2" y="765.77" font-family="JetBrains Mono" font-size="54" font-weight="700" fill="#FFFFFF" text-anchor="middle" letter-spacing="8">FRAME2</text><rect x="72" y="1008" width="936" height="150" rx="24" fill="#ffffff0f" stroke="#ffffff1a" stroke-width="1.5"/><text x="112" y="1096" font-family="Instrument Serif" font-size="56" font-weight="700" fill="#FFFFFF">@omnicarousel</text><g transform="translate(908 1040) scale(2.6667)"><path d="M21 12a8.5 8.5 0 01-12.6 7.5L4 21l1.5-4.4A8.5 8.5 0 1121 12z" fill="none" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></g></svg></div>
+        <div class="meta">
+          <span class="layout">cta</span>
+          
+          <span class="count">06 / 06</span>
+        </div>
+        <p class="alt">Final slide asking readers to comment FRAME2.</p>
+      </section></div>
+    <div class="controls">
+      <button data-step="-1" aria-label="Previous slide">← Prev</button>
+      <button data-step="1" aria-label="Next slide">Next →</button>
+    </div>
+  </div>
+  <aside class="panel">
+    <h1>Why Your Carousel Dies On Slide Two</h1>
+    <div class="sub">Omni Carousel · instagram · saves · Editorial Print</div>
+    <div class="stat"><span>Slides</span><span>6</span></div>
+    <div class="stat"><span>Canvas</span><span>1080 × 1350</span></div>
+    <div class="stat"><span>Theme</span><span>editorial</span></div>
+    <h2>Caption</h2>
+    <pre>If your carousel gets impressions but not saves, the problem is almost never the hook.
+
+It is slide two. Instagram will happily re-serve your post starting at frame two, and if that frame introduces a topic instead of raising a stake, the reader is gone.
+
+Diagnostic:
+1. Does frame two make sense alone?
+2. Does it raise a question or answer one?
+3. Is there a reason to keep swiping?
+
+Three yes answers, or rewrite the frame.</pre>
+    <h2>Hashtags</h2><p class="tags">carousels socialstrategy contentdesign</p>
+    <h2>Keyboard</h2>
+    <pre>← → navigate · 1-9 jump · Home reset · P print</pre>
+  </aside>
+  <script>
+  (function () {
+    var slides = Array.prototype.slice.call(document.querySelectorAll('.slide'));
+    var dots = Array.prototype.slice.call(document.querySelectorAll('.dot'));
+    var current = 0;
+    function render(index) {
+      current = Math.max(0, Math.min(slides.length - 1, index));
+      slides.forEach(function (slide, i) {
+        var active = i === current;
+        slide.classList.toggle('is-active', active);
+        slide.setAttribute('aria-hidden', active ? 'false' : 'true');
+      });
+      dots.forEach(function (dot, i) { dot.classList.toggle('on', i === current); });
+      window.__slideIndex = current;
+    }
+    // Deterministic capture hooks, GSAP-timeline compatible.
+    window.__seekSlide = function (value) {
+      if (value > 0 && value <= 1 && value % 1 !== 0) value = Math.round(value * (slides.length - 1));
+      render(value);
+      return current;
+    };
+    window.__gsapSeek = window.__seekSlide;
+    window.__deckReady = true;
+    window.__deckSlides = slides.length;
+    document.addEventListener('keydown', function (event) {
+      if (event.key === 'ArrowRight' || event.key === ' ') { render(current + 1); event.preventDefault(); }
+      else if (event.key === 'ArrowLeft') { render(current - 1); event.preventDefault(); }
+      else if (event.key === 'Home') render(0);
+      else if (event.key === 'End') render(slides.length - 1);
+      else if (event.key === 'p' || event.key === 'P') window.print();
+      else if (/^[1-9]$/.test(event.key)) render(Number(event.key) - 1);
+    });
+    document.querySelectorAll('[data-step]').forEach(function (button) {
+      button.addEventListener('click', function () { render(current + Number(button.dataset.step)); });
+    });
+    document.querySelectorAll('[data-goto]').forEach(function (button) {
+      button.addEventListener('click', function () { render(Number(button.dataset.goto)); });
+    });
+    var startX = null;
+    document.addEventListener('touchstart', function (event) { startX = event.touches[0].clientX; }, { passive: true });
+    document.addEventListener('touchend', function (event) {
+      if (startX === null) return;
+      var dx = event.changedTouches[0].clientX - startX;
+      if (Math.abs(dx) > 40) render(current + (dx < 0 ? 1 : -1));
+      startX = null;
+    }, { passive: true });
+    if (/[?&]capture=1/.test(location.search)) {
+      slides.forEach(function (slide) { slide.style.transition = 'none'; });
+    }
+  })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,12 @@
+# Place at ~/.codex/config.toml (user scope) or .codex/config.toml (trusted project).
+# Codex reads `AGENTS.md` and `.agents/skills/` for skill packages.
+
+[mcp_servers.omni-carousel]
+command = "npx"
+args = ["-y", "omni-carousel-mcp"]
+env_vars = ["OMNI_OUTPUT_DIR", "UNSPLASH_ACCESS_KEY", "PEXELS_API_KEY"]
+
+# Remote variant (uncomment and delete the block above):
+# [mcp_servers.omni-carousel]
+# url = "https://carousel.example.com/mcp"
+# bearer_token_env_var = "OMNI_AUTH_TOKEN"

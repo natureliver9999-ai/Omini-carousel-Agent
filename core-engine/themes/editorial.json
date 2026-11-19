@@ -1,0 +1,46 @@
+{
+  "id": "editorial",
+  "name": "Editorial Print",
+  "description": "Warm newsprint cream, deep carbon ink, and vermilion editorial accents with classic serif headlines and crisp sans body copy.",
+  "style": "editorial",
+  "colors": {
+    "bg_primary": "#FAF7F2",
+    "bg_secondary": "#F1ECE2",
+    "bg_surface": "#FFFFFF",
+    "bg_elevated": "#EAE3D5",
+    "text_primary": "#141413",
+    "text_secondary": "#4A4640",
+    "text_muted": "#5E5952",
+    "accent": "#B8331A",
+    "accent_soft": "#FCEAE6",
+    "accent_text": "#FFFFFF",
+    "border": "#D6CFC2",
+    "border_strong": "#141413",
+    "success": "#166534",
+    "success_soft": "#DCFCE7",
+    "danger": "#991B1B",
+    "danger_soft": "#FEE2E2",
+    "chart_palette": ["#B8331A", "#141413", "#2563EB", "#0D9488", "#D97706", "#7C3AED"]
+  },
+  "typography": {
+    "display_font": "Instrument Serif",
+    "body_font": "Inter",
+    "mono_font": "JetBrains Mono",
+    "headline_px": 94,
+    "subhead_px": 50,
+    "body_px": 42,
+    "footer_px": 28,
+    "eyebrow_px": 26
+  },
+  "radii": {
+    "card": 20,
+    "pill": 999,
+    "tile": 16
+  },
+  "decoration": {
+    "grid_opacity": 0.04,
+    "grain": true,
+    "border_width": 2,
+    "shadow": "subtle"
+  }
+}

@@ -1,0 +1,457 @@
+openapi: 3.1.0
+info:
+  title: Omni Carousel
+  version: "0.1.0"
+  summary: Plan, validate and render 1080x1350 carousels for Instagram and LinkedIn.
+  description: |
+    Omni Carousel turns a structured `CarouselSpec` into pixel-exact carousel art:
+    1080x1350 PNG slides, seamless panorama spans, a multi-page LinkedIn PDF, a
+    printable HTML deck, and a ZIP bundle carrying the caption and asset provenance.
+
+    Recommended flow for an assistant:
+      1. `getPlaybook` — read the craft rules for the target platform.
+      2. `validateSpec` — lint the draft deck; fix every error.
+      3. `renderCarousel` — render and return the signed slide URLs plus the caption.
+
+    Hard rules the server enforces: the first slide must be `cover_hook`, the last
+    must be `cta`, `proof`/`data_chart` slides require a named source, slide counts
+    are limited per platform, and all text must clear WCAG AA contrast.
+  contact:
+    name: omni-carousel-agent
+    url: https://github.com/natureliver9999-ai/Omini-carousel-Agent
+  license:
+    name: MIT
+    identifier: MIT
+servers:
+  - url: http://127.0.0.1:8765
+    description: Local REST facade (default port)
+  - url: https://your-deployment.example.com
+    description: Your public deployment (required for ChatGPT Actions)
+tags:
+  - name: knowledge
+    description: Read-only craft guidance and catalogs
+  - name: pipeline
+    description: Validation and rendering
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+  schemas:
+    Slide:
+      type: object
+      description: One slide. `layout` selects the typed shape; see carousel.schema.json for the complete per-layout fields.
+      required: [layout, headline]
+      properties:
+        id:
+          type: string
+          pattern: "^[a-z0-9][a-z0-9-]{0,40}$"
+        layout:
+          type: string
+          enum: [cover_hook, contrast_split, layer_stack, bento_grid, reveal_hold, scrapbook, data_chart, steps, proof, summary, cta]
+        eyebrow:
+          type: string
+          maxLength: 48
+        headline:
+          type: string
+          maxLength: 180
+        footer_hook:
+          type: string
+          maxLength: 64
+          description: Micro-hook, 7 words maximum.
+        bg:
+          type: string
+          enum: [primary, secondary, surface, elevated, accent]
+        accent:
+          type: boolean
+        alt_text:
+          type: string
+          maxLength: 280
+        panorama:
+          type: object
+          description: Declare on the FIRST slide of a seamless span.
+          required: [span]
+          properties:
+            span:
+              type: integer
+              minimum: 2
+              maximum: 6
+      additionalProperties: true
+    CarouselSpec:
+      type: object
+      description: The carousel contract. Full JSON Schema at /v1/../spec/carousel.schema.json.
+      required: [platform, slides]
+      properties:
+        version:
+          type: string
+          const: "1.0"
+        id:
+          type: string
+          description: Kebab-case slug used for output folders.
+        title:
+          type: string
+          maxLength: 140
+        platform:
+          type: string
+          enum: [instagram, linkedin, generic]
+        goal:
+          type: string
+          enum: [awareness, saves, authority, leads, community]
+        theme:
+          type: string
+          description: editorial | brutal-bento | scrapbook | linkedin-executive
+        brand:
+          type: object
+          properties:
+            name: { type: string }
+            handle: { type: string }
+            website: { type: string }
+            accent_override: { type: string, pattern: "^#([0-9a-fA-F]{3,4}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})$" }
+            mark: { type: string, maxLength: 4 }
+        caption:
+          type: object
+          properties:
+            text: { type: string, maxLength: 3200 }
+            hashtags:
+              type: array
+              items: { type: string }
+            first_comment: { type: string, maxLength: 600 }
+        cta_link:
+          type: string
+          maxLength: 200
+        slides:
+          type: array
+          minItems: 2
+          maxItems: 20
+          items:
+            $ref: "#/components/schemas/Slide"
+        meta:
+          type: object
+          properties:
+            author: { type: string }
+            language: { type: string }
+            sources:
+              type: array
+              items: { type: string }
+            notes: { type: string }
+      additionalProperties: true
+    LintIssue:
+      type: object
+      properties:
+        code: { type: string }
+        severity: { type: string, enum: [error, warn, info] }
+        path: { type: string }
+        message: { type: string }
+        hint: { type: string }
+    LintReport:
+      type: object
+      properties:
+        ok: { type: boolean }
+        issues:
+          type: array
+          items: { $ref: "#/components/schemas/LintIssue" }
+        errors:
+          type: array
+          items: { $ref: "#/components/schemas/LintIssue" }
+        warnings:
+          type: array
+          items: { $ref: "#/components/schemas/LintIssue" }
+        infos:
+          type: array
+          items: { $ref: "#/components/schemas/LintIssue" }
+        metrics:
+          type: object
+          properties:
+            slides: { type: integer }
+            totalWords: { type: integer }
+            avgWordsPerSlide: { type: number }
+            readingSeconds: { type: number }
+            layouts:
+              type: object
+              additionalProperties: { type: integer }
+            contrastPairs:
+              type: array
+              items:
+                type: object
+                properties:
+                  pair: { type: string }
+                  ratio: { type: number }
+                  required: { type: number }
+                  pass: { type: boolean }
+    RenderResponse:
+      type: object
+      properties:
+        ok: { type: boolean }
+        renderer: { type: string, enum: [resvg, playwright] }
+        duration_ms: { type: number }
+        dir: { type: string }
+        output_mode: { type: string, enum: [url, path, inline] }
+        slides:
+          type: array
+          items:
+            type: object
+            properties:
+              index: { type: integer }
+              layout: { type: string }
+              width: { type: integer }
+              height: { type: integer }
+              panorama:
+                type: object
+                nullable: true
+        urls:
+          type: object
+          properties:
+            artifact_id: { type: string }
+            expires_in_seconds: { type: integer }
+            slides:
+              type: array
+              items:
+                type: object
+                properties:
+                  index: { type: integer }
+                  url: { type: string }
+            files:
+              type: object
+              properties:
+                pdf: { type: string }
+                zip: { type: string }
+                html: { type: string }
+                spec: { type: string }
+                caption: { type: string }
+                manifest: { type: string }
+        lint:
+          $ref: "#/components/schemas/LintReport"
+        warnings:
+          type: array
+          items: { type: string }
+        caption: { type: string }
+        files:
+          type: object
+          additionalProperties: { type: string }
+paths:
+  /v1/playbook:
+    get:
+      operationId: getPlaybook
+      summary: Read the carousel playbook
+      description: Craft rules, benchmarks and non-negotiables for a platform. Always read before planning a deck.
+      tags: [knowledge]
+      parameters:
+        - name: topic
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [index, instagram, linkedin, hooks, patterns, layouts, all]
+            default: all
+      responses:
+        "200":
+          description: Markdown playbook
+          content:
+            text/markdown:
+              schema:
+                type: string
+  /v1/layouts:
+    get:
+      operationId: listLayouts
+      summary: List the 11 slide layouts
+      tags: [knowledge]
+      responses:
+        "200":
+          description: Layout catalog
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  layouts:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id: { type: string }
+                        name: { type: string }
+                        role: { type: string }
+                        density: { type: string, enum: [sparse, medium, dense] }
+                        useWhen: { type: string }
+  /v1/themes:
+    get:
+      operationId: listThemes
+      summary: List the bundled WCAG-audited themes
+      tags: [knowledge]
+      responses:
+        "200":
+          description: Themes
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  themes:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id: { type: string }
+                        name: { type: string }
+                        description: { type: string }
+                        style: { type: string }
+                        accent: { type: string }
+                        background: { type: string }
+  /v1/themes/{id}:
+    get:
+      operationId: getTheme
+      summary: Read one theme's tokens and measured contrast
+      tags: [knowledge]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string }
+      responses:
+        "200":
+          description: Theme tokens
+          content:
+            application/json:
+              schema:
+                type: object
+  /v1/examples:
+    get:
+      operationId: listExamples
+      summary: List starter specs that render without edits
+      tags: [knowledge]
+      responses:
+        "200":
+          description: Example specs
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  examples:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id: { type: string }
+                        title: { type: string }
+                        platform: { type: string }
+  /v1/validate:
+    post:
+      operationId: validateSpec
+      summary: Validate and lint a CarouselSpec
+      description: Schema validation plus retention, copy budget, cliché, alternation, panorama geometry, contrast and provenance rules.
+      tags: [pipeline]
+      security:
+        - bearerAuth: []
+        - {}
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [spec]
+              properties:
+                spec:
+                  $ref: "#/components/schemas/CarouselSpec"
+      responses:
+        "200":
+          description: Lint result
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok: { type: boolean }
+                  lint:
+                    $ref: "#/components/schemas/LintReport"
+  /v1/render:
+    post:
+      operationId: renderCarousel
+      summary: Render a carousel
+      description: Renders PNG slides, a multi-page PDF, an HTML deck and a ZIP bundle, then returns signed (expiring) links when `output_mode` is `url`.
+      tags: [pipeline]
+      security:
+        - bearerAuth: []
+        - {}
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [spec]
+              properties:
+                spec:
+                  $ref: "#/components/schemas/CarouselSpec"
+                output_mode:
+                  type: string
+                  enum: [url, path, inline]
+                  default: url
+                theme:
+                  type: string
+                formats:
+                  type: array
+                  items:
+                    type: string
+                    enum: [png, pdf, zip, html, json, caption]
+                strict:
+                  type: boolean
+                  description: Refuse to render when the linter reports errors.
+      responses:
+        "200":
+          description: Render result
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RenderResponse"
+        "422":
+          description: Invalid spec
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error: { type: string }
+  /v1/chart:
+    post:
+      operationId: renderChart
+      summary: Render a standalone chart
+      tags: [pipeline]
+      security:
+        - bearerAuth: []
+        - {}
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [chart]
+              properties:
+                chart:
+                  type: object
+                  required: [kind, labels, values]
+                  properties:
+                    kind: { type: string, enum: [bar, horizontal_bar, line, donut] }
+                    labels:
+                      type: array
+                      items: { type: string }
+                    values:
+                      type: array
+                      items: { type: number }
+                    unit: { type: string }
+                    max: { type: number }
+                    highlight: { type: integer }
+                theme: { type: string }
+                title: { type: string }
+      responses:
+        "200":
+          description: Signed chart URL
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  file: { type: string }
+                  url: { type: string }

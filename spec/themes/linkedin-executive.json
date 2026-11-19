@@ -1,0 +1,46 @@
+{
+  "id": "linkedin-executive",
+  "name": "LinkedIn Executive Slate",
+  "description": "Crisp cool slate, authoritative midnight navy, and royal cobalt accents tailored for B2B LinkedIn PDF document posts.",
+  "style": "editorial",
+  "colors": {
+    "bg_primary": "#F8FAFC",
+    "bg_secondary": "#EEF2F6",
+    "bg_surface": "#FFFFFF",
+    "bg_elevated": "#E2E8F0",
+    "text_primary": "#0F172A",
+    "text_secondary": "#334155",
+    "text_muted": "#475569",
+    "accent": "#1D4ED8",
+    "accent_soft": "#DBEAFE",
+    "accent_text": "#FFFFFF",
+    "border": "#CBD5E1",
+    "border_strong": "#0F172A",
+    "success": "#15803D",
+    "success_soft": "#DCFCE7",
+    "danger": "#B91C1C",
+    "danger_soft": "#FEE2E2",
+    "chart_palette": ["#1D4ED8", "#0F172A", "#0284C7", "#0D9488", "#6366F1", "#EA580C"]
+  },
+  "typography": {
+    "display_font": "Space Grotesk",
+    "body_font": "Inter",
+    "mono_font": "JetBrains Mono",
+    "headline_px": 88,
+    "subhead_px": 46,
+    "body_px": 40,
+    "footer_px": 28,
+    "eyebrow_px": 26
+  },
+  "radii": {
+    "card": 18,
+    "pill": 999,
+    "tile": 14
+  },
+  "decoration": {
+    "grid_opacity": 0.04,
+    "grain": false,
+    "border_width": 2,
+    "shadow": "subtle"
+  }
+}

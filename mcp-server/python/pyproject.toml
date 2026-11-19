@@ -1,0 +1,29 @@
+[build-system]
+requires = ["setuptools>=68.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "omni-carousel-mcp"
+version = "0.1.0"
+description = "FastMCP server for omni-carousel — carousel planning, validation and deterministic rendering for Python-first MCP hosts."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+dependencies = [
+    "fastmcp>=2.0.0",
+    "omni-carousel>=0.1.0",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0"]
+
+[project.scripts]
+omni-carousel-mcp-py = "omni_carousel_mcp.server:main"
+
+[tool.setuptools.packages.find]
+include = ["omni_carousel_mcp*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"

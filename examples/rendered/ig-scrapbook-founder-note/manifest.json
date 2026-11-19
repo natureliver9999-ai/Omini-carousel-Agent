@@ -1,0 +1,62 @@
+{
+  "generator": "omni-carousel-agent",
+  "engine": "0.1.0",
+  "renderer": "resvg",
+  "platform": "instagram",
+  "theme": "scrapbook",
+  "canvas": {
+    "width": 1080,
+    "height": 1350
+  },
+  "slides": [
+    {
+      "index": 1,
+      "id": "hook",
+      "layout": "cover_hook",
+      "file": "slides/slide-01.png",
+      "panorama": null
+    },
+    {
+      "index": 2,
+      "id": "note",
+      "layout": "scrapbook",
+      "file": "slides/slide-02.png",
+      "panorama": null
+    },
+    {
+      "index": 3,
+      "id": "turn",
+      "layout": "contrast_split",
+      "file": "slides/slide-03.png",
+      "panorama": null
+    },
+    {
+      "index": 4,
+      "id": "data",
+      "layout": "data_chart",
+      "file": "slides/slide-04.png",
+      "panorama": null
+    },
+    {
+      "index": 5,
+      "id": "recap",
+      "layout": "summary",
+      "file": "slides/slide-05.png",
+      "panorama": null
+    },
+    {
+      "index": 6,
+      "id": "cta",
+      "layout": "cta",
+      "file": "slides/slide-06.png",
+      "panorama": null
+    }
+  ],
+  "lint": {
+    "ok": true,
+    "errors": 0,
+    "warnings": 0
+  },
+  "warnings": [],
+  "duration_ms": 1426
+}

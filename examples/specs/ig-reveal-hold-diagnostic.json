@@ -1,0 +1,100 @@
+{
+  "version": "1.0",
+  "id": "ig-reveal-hold-diagnostic",
+  "title": "Why Your Carousel Dies On Slide Two",
+  "platform": "instagram",
+  "goal": "saves",
+  "theme": "editorial",
+  "brand": { "name": "Omni Carousel", "handle": "omnicarousel" },
+  "caption": {
+    "text": "If your carousel gets impressions but not saves, the problem is almost never the hook.\n\nIt is slide two. Instagram will happily re-serve your post starting at frame two, and if that frame introduces a topic instead of raising a stake, the reader is gone.\n\nDiagnostic:\n1. Does frame two make sense alone?\n2. Does it raise a question or answer one?\n3. Is there a reason to keep swiping?\n\nThree yes answers, or rewrite the frame.",
+    "hashtags": ["carousels", "socialstrategy", "contentdesign"]
+  },
+  "meta": {
+    "language": "en",
+    "sources": ["Socialinsider Instagram benchmarks, Q3 2026", "Buffer State of Social Engagement, 2026"]
+  },
+  "slides": [
+    {
+      "id": "hook",
+      "layout": "cover_hook",
+      "eyebrow": "DIAGNOSTIC",
+      "kicker": "It is almost never the hook.",
+      "headline": "Your carousel dies on slide two",
+      "sub": "Instagram re-serves the post starting there. Most decks waste that second chance.",
+      "icon": "target",
+      "alt_text": "Cover slide reading 'Your carousel dies on slide two'."
+    },
+    {
+      "id": "hold",
+      "layout": "reveal_hold",
+      "eyebrow": "THE FAILURE",
+      "headline": "Frame two introduces. It should raise a stake.",
+      "body": "A frame that sets context — \"here is some background\" — asks the reader to invest before giving them a reason. The next slide has to pay that investment back instantly.",
+      "teaser_label": "The fix is one rule",
+      "bleed_ratio": 0.13,
+      "footer_hook": "Next frame: the rule",
+      "alt_text": "Reveal slide with a teaser card bleeding off the right edge."
+    },
+    {
+      "id": "rule",
+      "layout": "contrast_split",
+      "eyebrow": "THE RULE",
+      "headline": "Answer first, then explain",
+      "left": {
+        "label": "CONTEXT FIRST",
+        "text": "\"Before we get into it, some background on why this matters.\"",
+        "items": ["Reader has no stake yet", "Frame works only in order", "Wasted second entry point"]
+      },
+      "right": {
+        "label": "STAKE FIRST",
+        "text": "\"Most decks lose 60% of readers on frame two. Here is the fix.\"",
+        "items": ["Reader has a reason to stay", "Frame works standalone", "Second entry point earned"]
+      },
+      "verdict": "Every frame should be able to open the deck.",
+      "alt_text": "Contrast slide comparing context-first versus stake-first second frames."
+    },
+    {
+      "id": "chart",
+      "layout": "data_chart",
+      "eyebrow": "THE STAKES",
+      "headline": "Where the attention actually goes",
+      "chart": {
+        "kind": "line",
+        "labels": ["Frame 1", "Frame 2", "Frame 4", "Frame 7", "Frame 10"],
+        "values": [100, 64, 41, 26, 18],
+        "unit": "%",
+        "highlight": 1,
+        "max": 100
+      },
+      "takeaway": "Illustrative retention shape. Measure your own drop with first-party insights.",
+      "source": "Modeled retention curve — not a published benchmark",
+      "alt_text": "Line chart showing a falling retention curve with frame two highlighted."
+    },
+    {
+      "id": "checklist",
+      "layout": "summary",
+      "eyebrow": "RUN THIS",
+      "headline": "The slide-two test",
+      "bullets": [
+        "Does it make sense alone?",
+        "Does it raise a question?",
+        "Is there a stake, not a topic?",
+        "Would you swipe after reading it?",
+        "Does it name a number or a cost?"
+      ],
+      "save_prompt": "Save the test, run every deck",
+      "alt_text": "Five-question checklist for auditing a second slide."
+    },
+    {
+      "id": "cta",
+      "layout": "cta",
+      "action": "comment",
+      "keyword": "FRAME2",
+      "headline": "Want the audit as a prompt?",
+      "text": "Comment FRAME2 and we will send the exact prompt we use to score a second frame before publishing.",
+      "handle": "omnicarousel",
+      "alt_text": "Final slide asking readers to comment FRAME2."
+    }
+  ]
+}

@@ -1,0 +1,46 @@
+{
+  "id": "brutal-bento",
+  "name": "Brutal Bento Dark",
+  "description": "High-contrast obsidian surfaces, crisp architectural borders, and electric acid-lime highlights engineered for technical & data carousels.",
+  "style": "brutal",
+  "colors": {
+    "bg_primary": "#0C0D10",
+    "bg_secondary": "#13151B",
+    "bg_surface": "#181B23",
+    "bg_elevated": "#222632",
+    "text_primary": "#F8FAFC",
+    "text_secondary": "#CBD5E1",
+    "text_muted": "#94A3B8",
+    "accent": "#C8FF32",
+    "accent_soft": "#232D12",
+    "accent_text": "#0C0D10",
+    "border": "#2E3444",
+    "border_strong": "#C8FF32",
+    "success": "#4ADE80",
+    "success_soft": "#143022",
+    "danger": "#F87171",
+    "danger_soft": "#38191D",
+    "chart_palette": ["#C8FF32", "#38BDF8", "#F472B6", "#FBBF24", "#A78BFA", "#34D399"]
+  },
+  "typography": {
+    "display_font": "Space Grotesk",
+    "body_font": "Inter",
+    "mono_font": "JetBrains Mono",
+    "headline_px": 92,
+    "subhead_px": 48,
+    "body_px": 40,
+    "footer_px": 28,
+    "eyebrow_px": 26
+  },
+  "radii": {
+    "card": 24,
+    "pill": 999,
+    "tile": 20
+  },
+  "decoration": {
+    "grid_opacity": 0.05,
+    "grain": false,
+    "border_width": 2,
+    "shadow": "hard"
+  }
+}

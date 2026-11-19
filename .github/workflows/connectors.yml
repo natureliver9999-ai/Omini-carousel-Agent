@@ -1,0 +1,96 @@
+name: Connectors
+
+on:
+  push:
+    branches: [main, 'arena/**']
+    paths: ['connectors/**', 'skills/**', 'mcp-server/rest-facade/openapi.yaml', 'scripts/*.mjs']
+  pull_request:
+    paths: ['connectors/**', 'skills/**', 'mcp-server/rest-facade/openapi.yaml', 'scripts/*.mjs']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    name: Config shapes & OpenAPI sync
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - run: npm run build --workspace=omni-carousel-setup
+      - name: Validate every connector blob (13 hosts)
+        run: node scripts/validate-connectors.mjs
+
+  installer:
+    name: Installer matrix (merge safety, idempotency, uninstall)
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - run: npm run build --workspace=omni-carousel-setup
+      - name: Dry run for every client
+        run: node connectors/setup/dist/index.js --list
+      - name: Install, re-install, uninstall against throwaway HOMEs
+        if: runner.os != 'Windows'
+        run: node scripts/smoke-connectors.mjs
+      - name: Dry run on Windows
+        if: runner.os == 'Windows'
+        shell: bash
+        run: |
+          for client in claude-desktop claude-code cursor windsurf vscode codex opencode antigravity zed; do
+            node connectors/setup/dist/index.js --client "$client" --scope user --dry-run > /dev/null
+          done
+          echo "windows dry runs ok"
+
+  packaging:
+    name: Skill & prompt assets are complete
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Skill bundle
+        run: |
+          set -e
+          test -f skills/carousel-architect/SKILL.md
+          test -f skills/carousel-architect/references/hooks.md
+          test -f skills/carousel-architect/references/layouts.md
+          test -f skills/carousel-architect/references/platform-specs.md
+          test -f skills/carousel-architect/assets/starter-instagram.json
+          test -f skills/carousel-architect/assets/starter-linkedin.json
+          test -f skills/carousel-architect/assets/caption-templates.md
+          head -1 skills/carousel-architect/SKILL.md | grep -q '^---$'
+          echo "skill bundle ok"
+      - name: Claude Code plugin manifest points at the skill
+        run: |
+          python - <<'PY'
+          import json, pathlib
+          manifest = json.loads(pathlib.Path('connectors/claude-code/.claude-plugin/plugin.json').read_text())
+          assert manifest['name'] and manifest['version']
+          for skill in manifest.get('skills', []):
+              target = pathlib.Path(skill['path'])
+              assert target.exists(), f"plugin points at a missing skill: {target}"
+          print('plugin manifest ok')
+          PY
+      - name: ChatGPT action schema is importable
+        run: |
+          pip install pyyaml
+          python - <<'PY'
+          import yaml
+          spec = yaml.safe_load(open('connectors/chatgpt/openapi.yaml'))
+          assert spec['openapi'].startswith('3.1')
+          assert spec['info']['title'] and spec['servers'][0]['url']
+          assert len(spec['paths']) >= 5
+          print(f"chatgpt action ok: {len(spec['paths'])} paths")
+          PY

@@ -1,0 +1,167 @@
+{
+  "version": "1.0",
+  "id": "ig-bento-agent-stack",
+  "title": "The 2026 Creator Agent Stack",
+  "platform": "instagram",
+  "goal": "saves",
+  "theme": "brutal-bento",
+  "brand": {
+    "name": "Omni Carousel",
+    "handle": "omnicarousel",
+    "mark": "OC"
+  },
+  "caption": {
+    "text": "Six boxes, one workflow. This is the stack we actually run to ship a carousel in under a minute.\n\n01 Host — the model that plans\n02 Skill — the playbook it reads\n03 MCP — the tools it calls\n04 Engine — the deterministic renderer\n05 Storage — where artifacts land\n06 Provenance — why you can defend every number\n\nSave it and steal the shape.",
+    "hashtags": [
+      "aiagents",
+      "mcp",
+      "workflow",
+      "contentdesign"
+    ]
+  },
+  "slides": [
+    {
+      "id": "hook",
+      "eyebrow": "THE STACK",
+      "headline": "Six boxes ship a carousel in under a minute",
+      "alt_text": "Cover slide announcing the six-box creator agent stack.",
+      "layout": "cover_hook",
+      "sub": "The exact stack, from plan to published bundle — no design tools, no browser required.",
+      "badge": "STACK 2026",
+      "icon": "grid"
+    },
+    {
+      "id": "stack",
+      "eyebrow": "01-06",
+      "headline": "What is in each box",
+      "alt_text": "Bento grid of six tiles describing host, skill, MCP, engine, storage and provenance.",
+      "layout": "bento_grid",
+      "tiles": [
+        {
+          "label": "01 Host",
+          "value": "Model",
+          "text": "Plans the narrative",
+          "accent": true,
+          "icon": "brain"
+        },
+        {
+          "label": "02 Skill",
+          "value": "Rules",
+          "text": "Benchmarks in context",
+          "icon": "book"
+        },
+        {
+          "label": "03 MCP",
+          "value": "Tools",
+          "text": "Nine callable endpoints",
+          "icon": "cpu"
+        },
+        {
+          "label": "04 Engine",
+          "value": "Pixels",
+          "text": "Deterministic raster",
+          "icon": "layers"
+        },
+        {
+          "label": "05 Storage",
+          "value": "Files",
+          "text": "Slides, PDF, bundle",
+          "icon": "database"
+        },
+        {
+          "label": "06 Proof",
+          "value": "Source",
+          "text": "Every number cited",
+          "icon": "shield-check"
+        }
+      ]
+    },
+    {
+      "id": "flow",
+      "eyebrow": "THE RUN",
+      "headline": "Four calls, start to finish",
+      "alt_text": "Four-step flow of MCP tool calls used to produce a carousel.",
+      "layout": "steps",
+      "steps": [
+        {
+          "title": "get_playbook",
+          "detail": "Rules and benchmarks land in context."
+        },
+        {
+          "title": "validate_spec",
+          "detail": "The plan is linted before a single pixel moves."
+        },
+        {
+          "title": "render_carousel",
+          "detail": "Slides, PDF, deck and bundle."
+        },
+        {
+          "title": "fetch_asset",
+          "detail": "Optional, license-tracked art."
+        }
+      ]
+    },
+    {
+      "id": "why",
+      "eyebrow": "THE TRADE",
+      "headline": "What you give up, what you get",
+      "alt_text": "Bento grid comparing what you trade away and what you gain.",
+      "layout": "bento_grid",
+      "tiles": [
+        {
+          "label": "Give up",
+          "value": "Freeform",
+          "text": "No raw HTML per slide"
+        },
+        {
+          "label": "Get",
+          "value": "Consistency",
+          "text": "Eleven typed layouts",
+          "accent": true
+        },
+        {
+          "label": "Give up",
+          "value": "Luck",
+          "text": "No missing fonts"
+        },
+        {
+          "label": "Get",
+          "value": "Speed",
+          "text": "Half a second per deck"
+        }
+      ]
+    },
+    {
+      "id": "recap",
+      "eyebrow": "SAVE THIS",
+      "headline": "The stack in one breath",
+      "alt_text": "Summary slide with six short lines describing the stack.",
+      "layout": "summary",
+      "bullets": [
+        "Host plans, engine draws",
+        "Skill carries the rules",
+        "MCP is the only interface",
+        "Spec is the only contract",
+        "Bundle carries the proof",
+        "Cache the render, not the prompt"
+      ],
+      "save_prompt": "Save the stack diagram"
+    },
+    {
+      "id": "cta",
+      "headline": "Steal the shape",
+      "alt_text": "Final slide inviting the reader to save and reuse the stack.",
+      "layout": "cta",
+      "action": "save",
+      "text": "Save this deck, then point your own agent at the same nine tools.",
+      "handle": "omnicarousel"
+    }
+  ],
+  "meta": {
+    "language": "en",
+    "sources": [
+      "omni-carousel-agent v0.1.0",
+      "Model Context Protocol spec 2025-11-25"
+    ]
+  }
+}

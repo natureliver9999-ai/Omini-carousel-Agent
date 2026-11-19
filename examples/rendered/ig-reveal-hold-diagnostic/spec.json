@@ -1,0 +1,131 @@
+{
+  "version": "1.0",
+  "id": "ig-reveal-hold-diagnostic",
+  "title": "Why Your Carousel Dies On Slide Two",
+  "platform": "instagram",
+  "goal": "saves",
+  "theme": "editorial",
+  "brand": {
+    "name": "Omni Carousel",
+    "handle": "omnicarousel"
+  },
+  "caption": {
+    "text": "If your carousel gets impressions but not saves, the problem is almost never the hook.\n\nIt is slide two. Instagram will happily re-serve your post starting at frame two, and if that frame introduces a topic instead of raising a stake, the reader is gone.\n\nDiagnostic:\n1. Does frame two make sense alone?\n2. Does it raise a question or answer one?\n3. Is there a reason to keep swiping?\n\nThree yes answers, or rewrite the frame.",
+    "hashtags": [
+      "carousels",
+      "socialstrategy",
+      "contentdesign"
+    ]
+  },
+  "slides": [
+    {
+      "id": "hook",
+      "eyebrow": "DIAGNOSTIC",
+      "headline": "Your carousel dies on slide two",
+      "alt_text": "Cover slide reading 'Your carousel dies on slide two'.",
+      "layout": "cover_hook",
+      "sub": "Instagram re-serves the post starting there. Most decks waste that second chance.",
+      "icon": "target",
+      "kicker": "It is almost never the hook."
+    },
+    {
+      "id": "hold",
+      "eyebrow": "THE FAILURE",
+      "headline": "Frame two introduces. It should raise a stake.",
+      "footer_hook": "Next frame: the rule",
+      "alt_text": "Reveal slide with a teaser card bleeding off the right edge.",
+      "layout": "reveal_hold",
+      "body": "A frame that sets context — \"here is some background\" — asks the reader to invest before giving them a reason. The next slide has to pay that investment back instantly.",
+      "teaser_label": "The fix is one rule",
+      "bleed_ratio": 0.13
+    },
+    {
+      "id": "rule",
+      "eyebrow": "THE RULE",
+      "headline": "Answer first, then explain",
+      "alt_text": "Contrast slide comparing context-first versus stake-first second frames.",
+      "layout": "contrast_split",
+      "mode": "split",
+      "left": {
+        "label": "CONTEXT FIRST",
+        "text": "\"Before we get into it, some background on why this matters.\"",
+        "items": [
+          "Reader has no stake yet",
+          "Frame works only in order",
+          "Wasted second entry point"
+        ]
+      },
+      "right": {
+        "label": "STAKE FIRST",
+        "text": "\"Most decks lose 60% of readers on frame two. Here is the fix.\"",
+        "items": [
+          "Reader has a reason to stay",
+          "Frame works standalone",
+          "Second entry point earned"
+        ]
+      },
+      "verdict": "Every frame should be able to open the deck."
+    },
+    {
+      "id": "chart",
+      "eyebrow": "THE STAKES",
+      "headline": "Where the attention actually goes",
+      "alt_text": "Line chart showing a falling retention curve with frame two highlighted.",
+      "layout": "data_chart",
+      "chart": {
+        "kind": "line",
+        "labels": [
+          "Frame 1",
+          "Frame 2",
+          "Frame 4",
+          "Frame 7",
+          "Frame 10"
+        ],
+        "values": [
+          100,
+          64,
+          41,
+          26,
+          18
+        ],
+        "unit": "%",
+        "max": 100,
+        "highlight": 1
+      },
+      "takeaway": "Illustrative retention shape. Measure your own drop with first-party insights.",
+      "source": "Modeled retention curve — not a published benchmark"
+    },
+    {
+      "id": "checklist",
+      "eyebrow": "RUN THIS",
+      "headline": "The slide-two test",
+      "alt_text": "Five-question checklist for auditing a second slide.",
+      "layout": "summary",
+      "bullets": [
+        "Does it make sense alone?",
+        "Does it raise a question?",
+        "Is there a stake, not a topic?",
+        "Would you swipe after reading it?",
+        "Does it name a number or a cost?"
+      ],
+      "save_prompt": "Save the test, run every deck"
+    },
+    {
+      "id": "cta",
+      "headline": "Want the audit as a prompt?",
+      "alt_text": "Final slide asking readers to comment FRAME2.",
+      "layout": "cta",
+      "action": "comment",
+      "keyword": "FRAME2",
+      "text": "Comment FRAME2 and we will send the exact prompt we use to score a second frame before publishing.",
+      "handle": "omnicarousel"
+    }
+  ],
+  "meta": {
+    "language": "en",
+    "sources": [
+      "Socialinsider Instagram benchmarks, Q3 2026",
+      "Buffer State of Social Engagement, 2026"
+    ]
+  }
+}

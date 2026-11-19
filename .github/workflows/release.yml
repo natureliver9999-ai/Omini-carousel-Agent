@@ -1,0 +1,116 @@
+name: Release
+
+on:
+  push:
+    tags: ['v*.*.*']
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: Build and verify without publishing
+        type: boolean
+        default: true
+
+permissions:
+  contents: write
+  id-token: write
+
+jobs:
+  verify:
+    name: Verify before publishing
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: npm ci
+      - run: npm run build
+      - run: npm test --workspace=@omni-carousel/engine
+      - run: npm test --workspace=omni-carousel-mcp
+      - run: node scripts/check-parity.mjs
+      - run: node scripts/validate-connectors.mjs
+      - name: Version matches the tag
+        if: startsWith(github.ref, 'refs/tags/v')
+        run: |
+          TAG=${GITHUB_REF_NAME#v}
+          for pkg in core-engine mcp-server/typescript mcp-server/rest-facade sdks/node-sdk connectors/setup; do
+            VERSION=$(node -p "require('./$pkg/package.json').version")
+            test "$VERSION" = "$TAG" || (echo "::error::$pkg is $VERSION, tag is $TAG" && exit 1)
+          done
+      - name: Render the examples for the release assets
+        run: node core-engine/dist/cli.js examples --out examples/rendered
+      - uses: actions/upload-artifact@v4
+        with:
+          name: rendered-examples
+          path: examples/rendered
+
+  npm:
+    name: Publish npm packages
+    needs: verify
+    if: startsWith(github.ref, 'refs/tags/v') && inputs.dry_run != true
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          registry-url: 'https://registry.npmjs.org'
+      - run: npm ci
+      - run: npm run build
+      - name: Publish (engine first — everything depends on it)
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          set -e
+          npm publish --workspace=@omni-carousel/engine --access public
+          npm publish --workspace=omni-carousel-mcp --access public
+          npm publish --workspace=@omni-carousel/rest-facade --access public
+          npm publish --workspace=omni-carousel --access public
+          npm publish --workspace=omni-carousel-setup --access public
+
+  pypi:
+    name: Publish PyPI packages
+    needs: verify
+    if: startsWith(github.ref, 'refs/tags/v') && inputs.dry_run != true
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install build
+      - run: python -m build sdks/python-sdk -o dist/python
+      - run: python -m build mcp-server/python -o dist/python
+      - name: Publish via trusted publishing
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          packages-dir: dist/python
+
+  github-release:
+    name: GitHub release
+    needs: [verify]
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: rendered-examples
+          path: examples/rendered
+      - name: Bundle the rendered decks
+        run: |
+          cd examples/rendered
+          zip -r "../../carousels-${{ github.ref_name }}.zip" . -x '*/node_modules/*'
+          cd ../..
+          ls -lh carousels-*.zip
+      - uses: softprops/action-gh-release@v2
+        with:
+          body_path: CHANGELOG.md
+          files: |
+            carousels-*.zip
+          generate_release_notes: true

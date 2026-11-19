@@ -1,0 +1,42 @@
+# Examples
+
+Seven decks, each built to prove one thing. Every spec passes `--strict` lint, and the
+rendered output in `rendered/<id>/` is committed so you can inspect the artefact before
+you run anything.
+
+| Spec | Pattern | Slides | What it demonstrates |
+| --- | --- | --- | --- |
+| `ig-panorama-retention.json` | Panorama | 8 | A 3-slide span on one continuous 3240×1350 canvas, sliced back into seamless 1080×1350 tiles |
+| `ig-contrast-myths.json` | Contrast | 7 | Before/after pairs that share one accent, so the flip reads at thumbnail size |
+| `ig-layer-stack-architecture.json` | Layer stack | 7 | Progressive build-up of a system, one layer per swipe |
+| `ig-reveal-hold-diagnostic.json` | Reveal & hold | 6 | An open loop that is paid off two slides later |
+| `ig-bento-agent-stack.json` | Bento grid | 6 | A dense matrix that still passes the 70-word budget |
+| `ig-scrapbook-founder-note.json` | Scrapbook | 6 | Taped cards, script notes, deliberate imperfection — all deterministic |
+| `li-executive-ai-adoption.json` | Document | 8 | LinkedIn PDF document with 5:4-safe margins and no untappable URLs |
+
+## What is in a rendered bundle
+
+```
+rendered/ig-scrapbook-founder-note/
+├── slides/slide-01.png … slide-06.png   1080×1350, ~60 KB each
+├── ig-scrapbook-founder-note.pdf        multi-page, LinkedIn-ready
+├── deck.html                            self-contained, printable, caption included
+├── caption.md                           caption + first comment + hashtags
+├── attribution.json                     licence + attribution for every fetched asset
+├── manifest.json                        hashes, renderer, timings, lint report
+└── spec.json                            exactly the spec that produced the output
+```
+
+ZIP bundles (`--formats zip`) are produced on demand rather than committed, because
+they duplicate the PNGs.
+
+## Re-render
+
+```bash
+node core-engine/dist/cli.js examples --out examples/rendered      # all seven
+node core-engine/dist/cli.js render examples/specs/ig-contrast-myths.json \
+  --out /tmp/demo --formats png,pdf,html --json
+```
+
+Rendering is deterministic: same spec, same fonts, same bytes. `core-engine/test/golden.test.ts`
+hashes four slides on every CI run to keep that promise honest.
