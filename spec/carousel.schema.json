@@ -1,0 +1,1487 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://omni-carousel.dev/spec/carousel.schema.json",
+  "title": "CarouselSpec",
+  "description": "Canonical contract for omni-carousel-agent. One deck (Instagram PNG slides, a LinkedIn multi-page PDF, or a panorama canvas) described declaratively so any AI host can author it and any renderer can reproduce it pixel for pixel.",
+  "$ref": "#/definitions/CarouselSpec",
+  "definitions": {
+    "CarouselSpec": {
+      "type": "object",
+      "properties": {
+        "version": {
+          "type": "string",
+          "const": "1.0",
+          "default": "1.0"
+        },
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z0-9][a-z0-9-]{0,63}$",
+          "description": "Stable slug for the carousel (used for output folder names and asset attribution)."
+        },
+        "title": {
+          "type": "string",
+          "maxLength": 140,
+          "description": "Human title for filenames and the HTML deck header."
+        },
+        "platform": {
+          "type": "string",
+          "enum": [
+            "instagram",
+            "linkedin",
+            "generic"
+          ],
+          "description": "Target surface. Drives slide-count rules, PDF export and caption limits."
+        },
+        "goal": {
+          "type": "string",
+          "enum": [
+            "awareness",
+            "saves",
+            "authority",
+            "leads",
+            "community"
+          ],
+          "default": "saves",
+          "description": "Primary objective; the linter checks the deck is structured to earn it."
+        },
+        "theme": {
+          "type": "string",
+          "minLength": 1,
+          "default": "editorial",
+          "description": "Theme id from spec/themes (editorial, brutal-bento, scrapbook, linkedin-executive) or an absolute JSON path."
+        },
+        "theme_override": {
+          "type": "object",
+          "properties": {
+            "colors": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "string",
+                "pattern": "^#(?:[0-9a-fA-F]{3,4}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})$"
+              }
+            },
+            "typography": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "number",
+                "exclusiveMinimum": 0
+              }
+            },
+            "radii": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "number",
+                "minimum": 0
+              }
+            }
+          },
+          "additionalProperties": false
+        },
+        "brand": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 48
+            },
+            "handle": {
+              "type": "string",
+              "maxLength": 40
+            },
+            "website": {
+              "type": "string",
+              "maxLength": 90
+            },
+            "accent_override": {
+              "type": "string",
+              "pattern": "^#(?:[0-9a-fA-F]{3,4}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})$",
+              "description": "Overrides the theme accent for brand alignment (contrast re-checked by the linter)."
+            },
+            "mark": {
+              "type": "string",
+              "maxLength": 4,
+              "description": "1-4 character monogram drawn in the footer."
+            }
+          },
+          "required": [
+            "name"
+          ],
+          "additionalProperties": false
+        },
+        "caption": {
+          "type": "object",
+          "properties": {
+            "text": {
+              "type": "string",
+              "maxLength": 3200,
+              "description": "The post caption. Platform length rules are enforced by the linter."
+            },
+            "hashtags": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "maxLength": 40
+              },
+              "maxItems": 30
+            },
+            "first_comment": {
+              "type": "string",
+              "maxLength": 600
+            }
+          },
+          "required": [
+            "text"
+          ],
+          "additionalProperties": false
+        },
+        "cta_link": {
+          "type": "string",
+          "maxLength": 200,
+          "description": "Destination URL for the caption/CTA (never printed inside LinkedIn slide art)."
+        },
+        "slides": {
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "pattern": "^[a-z0-9][a-z0-9-]{0,40}$",
+                    "description": "Optional stable slide id (used for deterministic scrapbook jitter and alt text)."
+                  },
+                  "eyebrow": {
+                    "type": "string",
+                    "maxLength": 48,
+                    "description": "Small kicker line above the headline, e.g. \"RETENTION 101\" or \"SLIDE 04\"."
+                  },
+                  "headline": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 180,
+                    "description": "The single dominant line of the slide."
+                  },
+                  "footer_hook": {
+                    "type": "string",
+                    "maxLength": 64,
+                    "description": "Micro-hook (<= 7 words) teasing the next slide."
+                  },
+                  "bg": {
+                    "type": "string",
+                    "enum": [
+                      "primary",
+                      "secondary",
+                      "surface",
+                      "elevated",
+                      "accent"
+                    ],
+                    "description": "Background token override for this slide."
+                  },
+                  "accent": {
+                    "type": "boolean",
+                    "description": "Render this slide on the theme accent surface for emphasis."
+                  },
+                  "alt_text": {
+                    "type": "string",
+                    "maxLength": 280,
+                    "description": "Accessibility description used in captions and the HTML deck."
+                  },
+                  "notes": {
+                    "type": "string",
+                    "maxLength": 400,
+                    "description": "Private production/speaker notes. Never rendered."
+                  },
+                  "panorama": {
+                    "type": "object",
+                    "properties": {
+                      "span": {
+                        "type": "integer",
+                        "minimum": 2,
+                        "maximum": 6,
+                        "description": "Number of consecutive slides sharing one continuous wide canvas (2-6)."
+                      },
+                      "index": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "description": "Optional 0-based position inside the span. Inferred from slide order when omitted."
+                      }
+                    },
+                    "required": [
+                      "span"
+                    ],
+                    "additionalProperties": false,
+                    "description": "Declares this slide as part of a seamless panorama span."
+                  },
+                  "layout": {
+                    "type": "string",
+                    "const": "cover_hook"
+                  },
+                  "sub": {
+                    "type": "string",
+                    "maxLength": 180,
+                    "description": "One supporting line under the headline."
+                  },
+                  "badge": {
+                    "type": "string",
+                    "maxLength": 40,
+                    "description": "Tiny corner badge, e.g. \"2026 DATA\" or \"PART 2\"."
+                  },
+                  "icon": {
+                    "type": "string",
+                    "maxLength": 40,
+                    "description": "Lucide icon name rendered as a vector glyph (e.g. \"sparkles\", \"trending-up\")."
+                  },
+                  "kicker": {
+                    "type": "string",
+                    "maxLength": 60,
+                    "description": "Lead-in above the headline (\"Most teams get this wrong:\")."
+                  }
+                },
+                "required": [
+                  "headline",
+                  "layout"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "pattern": "^[a-z0-9][a-z0-9-]{0,40}$",
+                    "description": "Optional stable slide id (used for deterministic scrapbook jitter and alt text)."
+                  },
+                  "eyebrow": {
+                    "type": "string",
+                    "maxLength": 48,
+                    "description": "Small kicker line above the headline, e.g. \"RETENTION 101\" or \"SLIDE 04\"."
+                  },
+                  "headline": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 180,
+                    "description": "The single dominant line of the slide."
+                  },
+                  "footer_hook": {
+                    "type": "string",
+                    "maxLength": 64,
+                    "description": "Micro-hook (<= 7 words) teasing the next slide."
+                  },
+                  "bg": {
+                    "type": "string",
+                    "enum": [
+                      "primary",
+                      "secondary",
+                      "surface",
+                      "elevated",
+                      "accent"
+                    ],
+                    "description": "Background token override for this slide."
+                  },
+                  "accent": {
+                    "type": "boolean",
+                    "description": "Render this slide on the theme accent surface for emphasis."
+                  },
+                  "alt_text": {
+                    "type": "string",
+                    "maxLength": 280,
+                    "description": "Accessibility description used in captions and the HTML deck."
+                  },
+                  "notes": {
+                    "type": "string",
+                    "maxLength": 400,
+                    "description": "Private production/speaker notes. Never rendered."
+                  },
+                  "panorama": {
+                    "type": "object",
+                    "properties": {
+                      "span": {
+                        "type": "integer",
+                        "minimum": 2,
+                        "maximum": 6,
+                        "description": "Number of consecutive slides sharing one continuous wide canvas (2-6)."
+                      },
+                      "index": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "description": "Optional 0-based position inside the span. Inferred from slide order when omitted."
+                      }
+                    },
+                    "required": [
+                      "span"
+                    ],
+                    "additionalProperties": false,
+                    "description": "Declares this slide as part of a seamless panorama span."
+                  },
+                  "layout": {
+                    "type": "string",
+                    "const": "contrast_split"
+                  },
+                  "mode": {
+                    "type": "string",
+                    "enum": [
+                      "split",
+                      "before",
+                      "after"
+                    ],
+                    "default": "split",
+                    "description": "`split` shows both halves; `before`/`after` pair across consecutive slides."
+                  },
+                  "pair": {
+                    "type": "string",
+                    "pattern": "^[a-z0-9-]{1,24}$",
+                    "description": "Shared id linking a before/after pair."
+                  },
+                  "left": {
+                    "type": "object",
+                    "properties": {
+                      "label": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 40
+                      },
+                      "text": {
+                        "type": "string",
+                        "maxLength": 220
+                      },
+                      "items": {
+                        "type": "array",
+                        "items": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 90
+                        },
+                        "maxItems": 4
+                      },
+                      "icon": {
+                        "type": "string",
+                        "maxLength": 40
+                      }
+                    },
+                    "required": [
+                      "label"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "right": {
+                    "type": "object",
+                    "properties": {
+                      "label": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 40
+                      },
+                      "text": {
+                        "type": "string",
+                        "maxLength": 220
+                      },
+                      "items": {
+                        "type": "array",
+                        "items": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 90
+                        },
+                        "maxItems": 4
+                      },
+                      "icon": {
+                        "type": "string",
+                        "maxLength": 40
+                      }
+                    },
+                    "required": [
+                      "label"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "verdict": {
+                    "type": "string",
+                    "maxLength": 120,
+                    "description": "One-line takeaway printed under the split."
+                  }
+                },
+                "required": [
+                  "headline",
+                  "layout",
+                  "left",
+                  "right"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "pattern": "^[a-z0-9][a-z0-9-]{0,40}$",
+                    "description": "Optional stable slide id (used for deterministic scrapbook jitter and alt text)."
+                  },
+                  "eyebrow": {
+                    "type": "string",
+                    "maxLength": 48,
+                    "description": "Small kicker line above the headline, e.g. \"RETENTION 101\" or \"SLIDE 04\"."
+                  },
+                  "headline": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 180,
+                    "description": "The single dominant line of the slide."
+                  },
+                  "footer_hook": {
+                    "type": "string",
+                    "maxLength": 64,
+                    "description": "Micro-hook (<= 7 words) teasing the next slide."
+                  },
+                  "bg": {
+                    "type": "string",
+                    "enum": [
+                      "primary",
+                      "secondary",
+                      "surface",
+                      "elevated",
+                      "accent"
+                    ],
+                    "description": "Background token override for this slide."
+                  },
+                  "accent": {
+                    "type": "boolean",
+                    "description": "Render this slide on the theme accent surface for emphasis."
+                  },
+                  "alt_text": {
+                    "type": "string",
+                    "maxLength": 280,
+                    "description": "Accessibility description used in captions and the HTML deck."
+                  },
+                  "notes": {
+                    "type": "string",
+                    "maxLength": 400,
+                    "description": "Private production/speaker notes. Never rendered."
+                  },
+                  "panorama": {
+                    "type": "object",
+                    "properties": {
+                      "span": {
+                        "type": "integer",
+                        "minimum": 2,
+                        "maximum": 6,
+                        "description": "Number of consecutive slides sharing one continuous wide canvas (2-6)."
+                      },
+                      "index": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "description": "Optional 0-based position inside the span. Inferred from slide order when omitted."
+                      }
+                    },
+                    "required": [
+                      "span"
+                    ],
+                    "additionalProperties": false,
+                    "description": "Declares this slide as part of a seamless panorama span."
+                  },
+                  "layout": {
+                    "type": "string",
+                    "const": "layer_stack"
+                  },
+                  "layers": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "label": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 60
+                        },
+                        "detail": {
+                          "type": "string",
+                          "maxLength": 140
+                        }
+                      },
+                      "required": [
+                        "label"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "minItems": 2,
+                    "maxItems": 5,
+                    "description": "Ordered stack of layers; geometry is identical across the sequence."
+                  },
+                  "active_layers": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 5,
+                    "description": "How many layers are lit on this slide (default: inferred from sequence position)."
+                  },
+                  "total_layers": {
+                    "type": "integer",
+                    "minimum": 2,
+                    "maximum": 5
+                  }
+                },
+                "required": [
+                  "headline",
+                  "layout",
+                  "layers"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "pattern": "^[a-z0-9][a-z0-9-]{0,40}$",
+                    "description": "Optional stable slide id (used for deterministic scrapbook jitter and alt text)."
+                  },
+                  "eyebrow": {
+                    "type": "string",
+                    "maxLength": 48,
+                    "description": "Small kicker line above the headline, e.g. \"RETENTION 101\" or \"SLIDE 04\"."
+                  },
+                  "headline": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 180,
+                    "description": "The single dominant line of the slide."
+                  },
+                  "footer_hook": {
+                    "type": "string",
+                    "maxLength": 64,
+                    "description": "Micro-hook (<= 7 words) teasing the next slide."
+                  },
+                  "bg": {
+                    "type": "string",
+                    "enum": [
+                      "primary",
+                      "secondary",
+                      "surface",
+                      "elevated",
+                      "accent"
+                    ],
+                    "description": "Background token override for this slide."
+                  },
+                  "accent": {
+                    "type": "boolean",
+                    "description": "Render this slide on the theme accent surface for emphasis."
+                  },
+                  "alt_text": {
+                    "type": "string",
+                    "maxLength": 280,
+                    "description": "Accessibility description used in captions and the HTML deck."
+                  },
+                  "notes": {
+                    "type": "string",
+                    "maxLength": 400,
+                    "description": "Private production/speaker notes. Never rendered."
+                  },
+                  "panorama": {
+                    "type": "object",
+                    "properties": {
+                      "span": {
+                        "type": "integer",
+                        "minimum": 2,
+                        "maximum": 6,
+                        "description": "Number of consecutive slides sharing one continuous wide canvas (2-6)."
+                      },
+                      "index": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "description": "Optional 0-based position inside the span. Inferred from slide order when omitted."
+                      }
+                    },
+                    "required": [
+                      "span"
+                    ],
+                    "additionalProperties": false,
+                    "description": "Declares this slide as part of a seamless panorama span."
+                  },
+                  "layout": {
+                    "type": "string",
+                    "const": "bento_grid"
+                  },
+                  "tiles": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "label": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 40
+                        },
+                        "value": {
+                          "type": "string",
+                          "maxLength": 16,
+                          "description": "Big number or short token, e.g. \"3.2x\"."
+                        },
+                        "text": {
+                          "type": "string",
+                          "maxLength": 80,
+                          "description": "<= 8 words so the tile stays scannable at phone size."
+                        },
+                        "span": {
+                          "type": "number",
+                          "enum": [
+                            1,
+                            2
+                          ],
+                          "description": "Column span (1 or 2) inside the bento grid."
+                        },
+                        "accent": {
+                          "type": "boolean"
+                        },
+                        "icon": {
+                          "type": "string",
+                          "maxLength": 40
+                        }
+                      },
+                      "required": [
+                        "label"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "minItems": 4,
+                    "maxItems": 9,
+                    "description": "4-9 tiles; the engine picks a deterministic grid topology for the count."
+                  }
+                },
+                "required": [
+                  "headline",
+                  "layout",
+                  "tiles"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "pattern": "^[a-z0-9][a-z0-9-]{0,40}$",
+                    "description": "Optional stable slide id (used for deterministic scrapbook jitter and alt text)."
+                  },
+                  "eyebrow": {
+                    "type": "string",
+                    "maxLength": 48,
+                    "description": "Small kicker line above the headline, e.g. \"RETENTION 101\" or \"SLIDE 04\"."
+                  },
+                  "headline": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 180,
+                    "description": "The single dominant line of the slide."
+                  },
+                  "footer_hook": {
+                    "type": "string",
+                    "maxLength": 64,
+                    "description": "Micro-hook (<= 7 words) teasing the next slide."
+                  },
+                  "bg": {
+                    "type": "string",
+                    "enum": [
+                      "primary",
+                      "secondary",
+                      "surface",
+                      "elevated",
+                      "accent"
+                    ],
+                    "description": "Background token override for this slide."
+                  },
+                  "accent": {
+                    "type": "boolean",
+                    "description": "Render this slide on the theme accent surface for emphasis."
+                  },
+                  "alt_text": {
+                    "type": "string",
+                    "maxLength": 280,
+                    "description": "Accessibility description used in captions and the HTML deck."
+                  },
+                  "notes": {
+                    "type": "string",
+                    "maxLength": 400,
+                    "description": "Private production/speaker notes. Never rendered."
+                  },
+                  "panorama": {
+                    "type": "object",
+                    "properties": {
+                      "span": {
+                        "type": "integer",
+                        "minimum": 2,
+                        "maximum": 6,
+                        "description": "Number of consecutive slides sharing one continuous wide canvas (2-6)."
+                      },
+                      "index": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "description": "Optional 0-based position inside the span. Inferred from slide order when omitted."
+                      }
+                    },
+                    "required": [
+                      "span"
+                    ],
+                    "additionalProperties": false,
+                    "description": "Declares this slide as part of a seamless panorama span."
+                  },
+                  "layout": {
+                    "type": "string",
+                    "const": "reveal_hold"
+                  },
+                  "body": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 360,
+                    "description": "The tension/claim that slide N+1 resolves."
+                  },
+                  "teaser_label": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 32,
+                    "description": "Label on the card that bleeds past the right edge."
+                  },
+                  "bleed_ratio": {
+                    "type": "number",
+                    "minimum": 0.05,
+                    "maximum": 0.2,
+                    "description": "Fraction of the teaser card cut off by the canvas edge (0.08-0.15 recommended)."
+                  }
+                },
+                "required": [
+                  "headline",
+                  "layout",
+                  "body",
+                  "teaser_label"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "pattern": "^[a-z0-9][a-z0-9-]{0,40}$",
+                    "description": "Optional stable slide id (used for deterministic scrapbook jitter and alt text)."
+                  },
+                  "eyebrow": {
+                    "type": "string",
+                    "maxLength": 48,
+                    "description": "Small kicker line above the headline, e.g. \"RETENTION 101\" or \"SLIDE 04\"."
+                  },
+                  "headline": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 180,
+                    "description": "The single dominant line of the slide."
+                  },
+                  "footer_hook": {
+                    "type": "string",
+                    "maxLength": 64,
+                    "description": "Micro-hook (<= 7 words) teasing the next slide."
+                  },
+                  "bg": {
+                    "type": "string",
+                    "enum": [
+                      "primary",
+                      "secondary",
+                      "surface",
+                      "elevated",
+                      "accent"
+                    ],
+                    "description": "Background token override for this slide."
+                  },
+                  "accent": {
+                    "type": "boolean",
+                    "description": "Render this slide on the theme accent surface for emphasis."
+                  },
+                  "alt_text": {
+                    "type": "string",
+                    "maxLength": 280,
+                    "description": "Accessibility description used in captions and the HTML deck."
+                  },
+                  "notes": {
+                    "type": "string",
+                    "maxLength": 400,
+                    "description": "Private production/speaker notes. Never rendered."
+                  },
+                  "panorama": {
+                    "type": "object",
+                    "properties": {
+                      "span": {
+                        "type": "integer",
+                        "minimum": 2,
+                        "maximum": 6,
+                        "description": "Number of consecutive slides sharing one continuous wide canvas (2-6)."
+                      },
+                      "index": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "description": "Optional 0-based position inside the span. Inferred from slide order when omitted."
+                      }
+                    },
+                    "required": [
+                      "span"
+                    ],
+                    "additionalProperties": false,
+                    "description": "Declares this slide as part of a seamless panorama span."
+                  },
+                  "layout": {
+                    "type": "string",
+                    "const": "scrapbook"
+                  },
+                  "note": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 420,
+                    "description": "The hand-written style body copy."
+                  },
+                  "callout": {
+                    "type": "string",
+                    "maxLength": 120,
+                    "description": "Short highlighted phrase."
+                  },
+                  "sticker": {
+                    "type": "string",
+                    "maxLength": 24,
+                    "description": "Tiny sticker word, e.g. \"honestly\" or \"unpopular\"."
+                  },
+                  "underline_word": {
+                    "type": "string",
+                    "maxLength": 40,
+                    "description": "A word inside the headline to underline with a marker scribble."
+                  }
+                },
+                "required": [
+                  "headline",
+                  "layout",
+                  "note"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "pattern": "^[a-z0-9][a-z0-9-]{0,40}$",
+                    "description": "Optional stable slide id (used for deterministic scrapbook jitter and alt text)."
+                  },
+                  "eyebrow": {
+                    "type": "string",
+                    "maxLength": 48,
+                    "description": "Small kicker line above the headline, e.g. \"RETENTION 101\" or \"SLIDE 04\"."
+                  },
+                  "headline": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 180,
+                    "description": "The single dominant line of the slide."
+                  },
+                  "footer_hook": {
+                    "type": "string",
+                    "maxLength": 64,
+                    "description": "Micro-hook (<= 7 words) teasing the next slide."
+                  },
+                  "bg": {
+                    "type": "string",
+                    "enum": [
+                      "primary",
+                      "secondary",
+                      "surface",
+                      "elevated",
+                      "accent"
+                    ],
+                    "description": "Background token override for this slide."
+                  },
+                  "accent": {
+                    "type": "boolean",
+                    "description": "Render this slide on the theme accent surface for emphasis."
+                  },
+                  "alt_text": {
+                    "type": "string",
+                    "maxLength": 280,
+                    "description": "Accessibility description used in captions and the HTML deck."
+                  },
+                  "notes": {
+                    "type": "string",
+                    "maxLength": 400,
+                    "description": "Private production/speaker notes. Never rendered."
+                  },
+                  "panorama": {
+                    "type": "object",
+                    "properties": {
+                      "span": {
+                        "type": "integer",
+                        "minimum": 2,
+                        "maximum": 6,
+                        "description": "Number of consecutive slides sharing one continuous wide canvas (2-6)."
+                      },
+                      "index": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "description": "Optional 0-based position inside the span. Inferred from slide order when omitted."
+                      }
+                    },
+                    "required": [
+                      "span"
+                    ],
+                    "additionalProperties": false,
+                    "description": "Declares this slide as part of a seamless panorama span."
+                  },
+                  "layout": {
+                    "type": "string",
+                    "const": "data_chart"
+                  },
+                  "chart": {
+                    "type": "object",
+                    "properties": {
+                      "kind": {
+                        "type": "string",
+                        "enum": [
+                          "bar",
+                          "horizontal_bar",
+                          "line",
+                          "donut"
+                        ]
+                      },
+                      "labels": {
+                        "type": "array",
+                        "items": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 24
+                        },
+                        "minItems": 2,
+                        "maxItems": 8
+                      },
+                      "values": {
+                        "type": "array",
+                        "items": {
+                          "type": "number"
+                        },
+                        "minItems": 2,
+                        "maxItems": 8
+                      },
+                      "unit": {
+                        "type": "string",
+                        "maxLength": 12,
+                        "description": "Suffix printed on values, e.g. \"%\", \"k\", \"hrs\"."
+                      },
+                      "max": {
+                        "type": "number",
+                        "exclusiveMinimum": 0,
+                        "description": "Optional axis ceiling; defaults to a nice rounded max of the data."
+                      },
+                      "highlight": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "description": "Index of the bar/point to highlight in the accent color."
+                      }
+                    },
+                    "required": [
+                      "kind",
+                      "labels",
+                      "values"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "takeaway": {
+                    "type": "string",
+                    "maxLength": 140
+                  },
+                  "source": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 160,
+                    "description": "Provenance line printed under the chart. Required: no sourced number, no slide."
+                  }
+                },
+                "required": [
+                  "headline",
+                  "layout",
+                  "chart",
+                  "source"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "pattern": "^[a-z0-9][a-z0-9-]{0,40}$",
+                    "description": "Optional stable slide id (used for deterministic scrapbook jitter and alt text)."
+                  },
+                  "eyebrow": {
+                    "type": "string",
+                    "maxLength": 48,
+                    "description": "Small kicker line above the headline, e.g. \"RETENTION 101\" or \"SLIDE 04\"."
+                  },
+                  "headline": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 180,
+                    "description": "The single dominant line of the slide."
+                  },
+                  "footer_hook": {
+                    "type": "string",
+                    "maxLength": 64,
+                    "description": "Micro-hook (<= 7 words) teasing the next slide."
+                  },
+                  "bg": {
+                    "type": "string",
+                    "enum": [
+                      "primary",
+                      "secondary",
+                      "surface",
+                      "elevated",
+                      "accent"
+                    ],
+                    "description": "Background token override for this slide."
+                  },
+                  "accent": {
+                    "type": "boolean",
+                    "description": "Render this slide on the theme accent surface for emphasis."
+                  },
+                  "alt_text": {
+                    "type": "string",
+                    "maxLength": 280,
+                    "description": "Accessibility description used in captions and the HTML deck."
+                  },
+                  "notes": {
+                    "type": "string",
+                    "maxLength": 400,
+                    "description": "Private production/speaker notes. Never rendered."
+                  },
+                  "panorama": {
+                    "type": "object",
+                    "properties": {
+                      "span": {
+                        "type": "integer",
+                        "minimum": 2,
+                        "maximum": 6,
+                        "description": "Number of consecutive slides sharing one continuous wide canvas (2-6)."
+                      },
+                      "index": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "description": "Optional 0-based position inside the span. Inferred from slide order when omitted."
+                      }
+                    },
+                    "required": [
+                      "span"
+                    ],
+                    "additionalProperties": false,
+                    "description": "Declares this slide as part of a seamless panorama span."
+                  },
+                  "layout": {
+                    "type": "string",
+                    "const": "steps"
+                  },
+                  "steps": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "title": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 70
+                        },
+                        "detail": {
+                          "type": "string",
+                          "maxLength": 180
+                        }
+                      },
+                      "required": [
+                        "title"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "minItems": 2,
+                    "maxItems": 5
+                  },
+                  "emphasis": {
+                    "type": "string",
+                    "enum": [
+                      "numbered",
+                      "checklist"
+                    ]
+                  }
+                },
+                "required": [
+                  "headline",
+                  "layout",
+                  "steps"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "pattern": "^[a-z0-9][a-z0-9-]{0,40}$",
+                    "description": "Optional stable slide id (used for deterministic scrapbook jitter and alt text)."
+                  },
+                  "eyebrow": {
+                    "type": "string",
+                    "maxLength": 48,
+                    "description": "Small kicker line above the headline, e.g. \"RETENTION 101\" or \"SLIDE 04\"."
+                  },
+                  "headline": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 180,
+                    "description": "The single dominant line of the slide."
+                  },
+                  "footer_hook": {
+                    "type": "string",
+                    "maxLength": 64,
+                    "description": "Micro-hook (<= 7 words) teasing the next slide."
+                  },
+                  "bg": {
+                    "type": "string",
+                    "enum": [
+                      "primary",
+                      "secondary",
+                      "surface",
+                      "elevated",
+                      "accent"
+                    ],
+                    "description": "Background token override for this slide."
+                  },
+                  "accent": {
+                    "type": "boolean",
+                    "description": "Render this slide on the theme accent surface for emphasis."
+                  },
+                  "alt_text": {
+                    "type": "string",
+                    "maxLength": 280,
+                    "description": "Accessibility description used in captions and the HTML deck."
+                  },
+                  "notes": {
+                    "type": "string",
+                    "maxLength": 400,
+                    "description": "Private production/speaker notes. Never rendered."
+                  },
+                  "panorama": {
+                    "type": "object",
+                    "properties": {
+                      "span": {
+                        "type": "integer",
+                        "minimum": 2,
+                        "maximum": 6,
+                        "description": "Number of consecutive slides sharing one continuous wide canvas (2-6)."
+                      },
+                      "index": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "description": "Optional 0-based position inside the span. Inferred from slide order when omitted."
+                      }
+                    },
+                    "required": [
+                      "span"
+                    ],
+                    "additionalProperties": false,
+                    "description": "Declares this slide as part of a seamless panorama span."
+                  },
+                  "layout": {
+                    "type": "string",
+                    "const": "proof"
+                  },
+                  "metric_value": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 16,
+                    "description": "The single number that carries the slide, e.g. \"-38%\"."
+                  },
+                  "metric_label": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 60
+                  },
+                  "finding": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 400,
+                    "description": "What the number means, in plain language."
+                  },
+                  "source": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 160,
+                    "description": "Named, checkable source. Fabricated proof is a hard product failure."
+                  },
+                  "attribution": {
+                    "type": "string",
+                    "maxLength": 80,
+                    "description": "Person/company behind the result."
+                  }
+                },
+                "required": [
+                  "headline",
+                  "layout",
+                  "metric_value",
+                  "metric_label",
+                  "finding",
+                  "source"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "pattern": "^[a-z0-9][a-z0-9-]{0,40}$",
+                    "description": "Optional stable slide id (used for deterministic scrapbook jitter and alt text)."
+                  },
+                  "eyebrow": {
+                    "type": "string",
+                    "maxLength": 48,
+                    "description": "Small kicker line above the headline, e.g. \"RETENTION 101\" or \"SLIDE 04\"."
+                  },
+                  "headline": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 180,
+                    "description": "The single dominant line of the slide."
+                  },
+                  "footer_hook": {
+                    "type": "string",
+                    "maxLength": 64,
+                    "description": "Micro-hook (<= 7 words) teasing the next slide."
+                  },
+                  "bg": {
+                    "type": "string",
+                    "enum": [
+                      "primary",
+                      "secondary",
+                      "surface",
+                      "elevated",
+                      "accent"
+                    ],
+                    "description": "Background token override for this slide."
+                  },
+                  "accent": {
+                    "type": "boolean",
+                    "description": "Render this slide on the theme accent surface for emphasis."
+                  },
+                  "alt_text": {
+                    "type": "string",
+                    "maxLength": 280,
+                    "description": "Accessibility description used in captions and the HTML deck."
+                  },
+                  "notes": {
+                    "type": "string",
+                    "maxLength": 400,
+                    "description": "Private production/speaker notes. Never rendered."
+                  },
+                  "panorama": {
+                    "type": "object",
+                    "properties": {
+                      "span": {
+                        "type": "integer",
+                        "minimum": 2,
+                        "maximum": 6,
+                        "description": "Number of consecutive slides sharing one continuous wide canvas (2-6)."
+                      },
+                      "index": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "description": "Optional 0-based position inside the span. Inferred from slide order when omitted."
+                      }
+                    },
+                    "required": [
+                      "span"
+                    ],
+                    "additionalProperties": false,
+                    "description": "Declares this slide as part of a seamless panorama span."
+                  },
+                  "layout": {
+                    "type": "string",
+                    "const": "summary"
+                  },
+                  "bullets": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 100
+                    },
+                    "minItems": 3,
+                    "maxItems": 6,
+                    "description": "3-6 bullets, each <= 8 words: this is the save-worthy cheat sheet."
+                  },
+                  "save_prompt": {
+                    "type": "string",
+                    "maxLength": 90
+                  }
+                },
+                "required": [
+                  "headline",
+                  "layout",
+                  "bullets"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "pattern": "^[a-z0-9][a-z0-9-]{0,40}$",
+                    "description": "Optional stable slide id (used for deterministic scrapbook jitter and alt text)."
+                  },
+                  "eyebrow": {
+                    "type": "string",
+                    "maxLength": 48,
+                    "description": "Small kicker line above the headline, e.g. \"RETENTION 101\" or \"SLIDE 04\"."
+                  },
+                  "headline": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 180,
+                    "description": "The single dominant line of the slide."
+                  },
+                  "footer_hook": {
+                    "type": "string",
+                    "maxLength": 64,
+                    "description": "Micro-hook (<= 7 words) teasing the next slide."
+                  },
+                  "bg": {
+                    "type": "string",
+                    "enum": [
+                      "primary",
+                      "secondary",
+                      "surface",
+                      "elevated",
+                      "accent"
+                    ],
+                    "description": "Background token override for this slide."
+                  },
+                  "accent": {
+                    "type": "boolean",
+                    "description": "Render this slide on the theme accent surface for emphasis."
+                  },
+                  "alt_text": {
+                    "type": "string",
+                    "maxLength": 280,
+                    "description": "Accessibility description used in captions and the HTML deck."
+                  },
+                  "notes": {
+                    "type": "string",
+                    "maxLength": 400,
+                    "description": "Private production/speaker notes. Never rendered."
+                  },
+                  "panorama": {
+                    "type": "object",
+                    "properties": {
+                      "span": {
+                        "type": "integer",
+                        "minimum": 2,
+                        "maximum": 6,
+                        "description": "Number of consecutive slides sharing one continuous wide canvas (2-6)."
+                      },
+                      "index": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "description": "Optional 0-based position inside the span. Inferred from slide order when omitted."
+                      }
+                    },
+                    "required": [
+                      "span"
+                    ],
+                    "additionalProperties": false,
+                    "description": "Declares this slide as part of a seamless panorama span."
+                  },
+                  "layout": {
+                    "type": "string",
+                    "const": "cta"
+                  },
+                  "action": {
+                    "type": "string",
+                    "enum": [
+                      "save",
+                      "comment",
+                      "follow",
+                      "link_in_caption",
+                      "share"
+                    ]
+                  },
+                  "keyword": {
+                    "type": "string",
+                    "maxLength": 24,
+                    "description": "Comment keyword when action is `comment`."
+                  },
+                  "text": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 240
+                  },
+                  "handle": {
+                    "type": "string",
+                    "maxLength": 40,
+                    "description": "Handle to follow, without the @."
+                  }
+                },
+                "required": [
+                  "headline",
+                  "layout",
+                  "action",
+                  "text"
+                ],
+                "additionalProperties": false
+              }
+            ]
+          },
+          "minItems": 2,
+          "maxItems": 20,
+          "description": "Ordered slides. 7-10 is the Instagram sweet spot; 5-10 for LinkedIn PDFs."
+        },
+        "meta": {
+          "type": "object",
+          "properties": {
+            "author": {
+              "type": "string",
+              "maxLength": 80
+            },
+            "language": {
+              "type": "string",
+              "minLength": 2,
+              "maxLength": 12,
+              "default": "en",
+              "description": "BCP-47 language tag of the copy."
+            },
+            "sources": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 200
+              },
+              "maxItems": 30
+            },
+            "notes": {
+              "type": "string",
+              "maxLength": 600
+            },
+            "created_at": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false,
+          "default": {
+            "language": "en"
+          }
+        }
+      },
+      "required": [
+        "platform",
+        "slides"
+      ],
+      "additionalProperties": false
+    }
+  }
+}

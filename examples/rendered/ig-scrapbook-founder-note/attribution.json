@@ -1,0 +1,22 @@
+{
+  "assets": [
+    {
+      "provider": "engine",
+      "asset": "Instrument Serif",
+      "license": "SIL Open Font License 1.1",
+      "source_url": "https://github.com/google/fonts"
+    },
+    {
+      "provider": "engine",
+      "asset": "Inter",
+      "license": "SIL Open Font License 1.1",
+      "source_url": "https://github.com/google/fonts"
+    },
+    {
+      "provider": "engine",
+      "asset": "Caveat",
+      "license": "SIL Open Font License 1.1",
+      "source_url": "https://github.com/google/fonts"
+    }
+  ]
+}

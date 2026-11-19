@@ -1,0 +1,30 @@
+{
+  "name": "@omni-carousel/rest-facade",
+  "version": "0.1.0",
+  "description": "OpenAPI 3.1 REST facade and web studio for omni-carousel (ChatGPT Custom GPT Actions, Zapier, any HTTP client).",
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/server.js",
+  "bin": {
+    "omni-carousel-rest": "./dist/server.js"
+  },
+  "files": [
+    "dist",
+    "openapi.yaml"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "start": "node dist/server.js",
+    "test": "vitest run --passWithNoTests"
+  },
+  "dependencies": {
+    "@omni-carousel/engine": "0.1.0",
+    "zod": "3.25.76"
+  },
+  "devDependencies": {
+    "@types/node": "22.15.3",
+    "typescript": "5.8.3",
+    "vitest": "3.1.2"
+  }
+}

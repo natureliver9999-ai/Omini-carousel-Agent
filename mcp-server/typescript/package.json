@@ -1,0 +1,30 @@
+{
+  "name": "omni-carousel-mcp",
+  "version": "0.1.0",
+  "description": "Omni Carousel MCP server — carousel planning, validation and deterministic rendering for any MCP host (stdio + Streamable HTTP).",
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "bin": {
+    "omni-carousel-mcp": "./dist/index.js"
+  },
+  "files": ["dist"],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "start": "node dist/index.js",
+    "http": "node dist/index.js --http",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "1.20.2",
+    "@omni-carousel/engine": "0.1.0",
+    "zod": "3.25.76"
+  },
+  "devDependencies": {
+    "@types/node": "22.15.3",
+    "typescript": "5.8.3",
+    "vitest": "3.1.2"
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "name": "omni-carousel",
+  "description": "Agent-agnostic carousel design engine: 1080x1350 Instagram PNG slides, seamless panoramas, LinkedIn PDFs, captions and provenance.",
+  "version": "0.1.0",
+  "author": {
+    "name": "Omni Carousel Contributors"
+  },
+  "homepage": "https://github.com/natureliver9999-ai/Omini-carousel-Agent",
+  "license": "MIT",
+  "keywords": ["carousel", "instagram", "linkedin", "design", "mcp", "pdf", "content"],
+  "mcpServers": {
+    "omni-carousel": {
+      "command": "npx",
+      "args": ["-y", "omni-carousel-mcp"],
+      "env": {
+        "OMNI_OUTPUT_DIR": "./carousels"
+      }
+    }
+  }
+}

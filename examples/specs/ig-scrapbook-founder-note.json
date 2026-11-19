@@ -1,0 +1,95 @@
+{
+  "version": "1.0",
+  "id": "ig-scrapbook-founder-note",
+  "title": "I Deleted 40 Carousels",
+  "platform": "instagram",
+  "goal": "community",
+  "theme": "scrapbook",
+  "brand": { "name": "Omni Carousel", "handle": "omnicarousel" },
+  "caption": {
+    "text": "I deleted forty carousels last month. Not because they were bad. Because they were all the same deck.\n\nSame gradient. Same three-line hook. Same \"save for later\" slide. Every one of them looked like it had been extruded from the same template, because it had.\n\nThe ones that survived had one thing in common: a human had argued with them.\n\nSo now every deck has to pass one question — would a person have written this sentence out loud? If not, it gets cut.\n\nThat is the whole process. Unglamorous, effective.",
+    "hashtags": ["buildinpublic", "contentdesign", "foundernotes"]
+  },
+  "meta": { "language": "en", "sources": ["Internal studio retrospective, October 2026"] },
+  "slides": [
+    {
+      "id": "hook",
+      "layout": "cover_hook",
+      "eyebrow": "FOUNDER NOTE",
+      "kicker": "All forty were fine. That was the problem.",
+      "headline": "I deleted 40 carousels last month",
+      "sub": "Not one of them was broken. Every one of them was interchangeable.",
+      "icon": "pen",
+      "alt_text": "Cover slide reading 'I deleted 40 carousels last month' on paper texture."
+    },
+    {
+      "id": "note",
+      "layout": "scrapbook",
+      "eyebrow": "WHAT WENT WRONG",
+      "headline": "Templates do not fail loudly. They fail identically.",
+      "note": "Same gradient. Same three-line hook. Same recap with a bookmark icon. Forty decks that could have been one deck rendered forty times — because they were one prompt run forty times.",
+      "callout": "Nothing was wrong. Everything was the same.",
+      "sticker": "honestly",
+      "underline_word": "identically",
+      "alt_text": "Scrapbook slide with a paper card and a marker-underlined word."
+    },
+    {
+      "id": "turn",
+      "layout": "contrast_split",
+      "eyebrow": "THE FILTER",
+      "headline": "What the survivors had",
+      "left": {
+        "label": "GENERATED",
+        "text": "Ask an average of the internet and you get an average of the internet.",
+        "items": ["Balanced to the point of blankness", "No opinion to disagree with", "Nothing to remember"]
+      },
+      "right": {
+        "label": "ARGUED WITH",
+        "text": "A human cut one sentence and defended the rest.",
+        "items": ["One claim worth the swipe", "A voice with edges", "Something to quote back"]
+      },
+      "verdict": "Taste is the edit, not the generation.",
+      "alt_text": "Contrast slide comparing generated decks with human-edited decks."
+    },
+    {
+      "id": "data",
+      "layout": "data_chart",
+      "eyebrow": "THE MECHANISM",
+      "headline": "Why sameness costs you saves",
+      "chart": {
+        "kind": "horizontal_bar",
+        "labels": ["Distinct voice", "Neutral voice", "Template default"],
+        "values": [3.1, 1.8, 0.9],
+        "unit": "x",
+        "highlight": 0
+      },
+      "takeaway": "Illustrative index from our own studio tests, not a platform benchmark.",
+      "source": "Internal study, 120 posts, Sept 2026 — illustrative only",
+      "alt_text": "Horizontal bars showing an illustrative save-rate index across three voice styles."
+    },
+    {
+      "id": "recap",
+      "layout": "summary",
+      "eyebrow": "SAVE THIS",
+      "headline": "The one question I ask every deck",
+      "bullets": [
+        "Would a person say this out loud?",
+        "Can someone disagree with it?",
+        "Is one sentence doing the work?",
+        "Does it sound like anyone in particular?",
+        "Would I delete it without regret?"
+      ],
+      "save_prompt": "Save the filter",
+      "alt_text": "Five bullet checklist titled 'The one question I ask every deck'."
+    },
+    {
+      "id": "cta",
+      "layout": "cta",
+      "action": "share",
+      "headline": "Send this to the templated one",
+      "text": "You know exactly which deck in your feed needs this. Send it over.",
+      "handle": "omnicarousel",
+      "alt_text": "Final slide inviting readers to share the deck."
+    }
+  ]
+}

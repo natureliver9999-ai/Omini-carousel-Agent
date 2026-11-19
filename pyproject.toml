@@ -1,0 +1,32 @@
+[build-system]
+requires = ["setuptools>=68.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "omni-carousel-workspace"
+version = "0.1.0"
+description = "Monorepo workspace root for omni-carousel Python SDK and FastMCP server"
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.10"
+dependencies = [
+    "pydantic>=2.7.0",
+]
+
+[project.optional-dependencies]
+mcp = [
+    "fastmcp>=2.0.0",
+]
+dev = [
+    "pytest>=8.0.0",
+]
+
+[tool.pytest.ini_options]
+testpaths = [
+    "sdks/python-sdk/tests",
+    "mcp-server/python/tests",
+]
+pythonpath = [
+    "sdks/python-sdk",
+    "mcp-server/python",
+]

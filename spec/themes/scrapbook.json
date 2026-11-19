@@ -1,0 +1,46 @@
+{
+  "id": "scrapbook",
+  "name": "Editorial Scrapbook",
+  "description": "Tactile craft paper, masking tape corners, hand-drawn SVG scribble accents, halftone dots, and deterministic micro-rotations that signal human authorship.",
+  "style": "scrapbook",
+  "colors": {
+    "bg_primary": "#F4EFE6",
+    "bg_secondary": "#EAE2D3",
+    "bg_surface": "#FFFDF9",
+    "bg_elevated": "#E6CFA8",
+    "text_primary": "#1E1B18",
+    "text_secondary": "#4A433C",
+    "text_muted": "#60574E",
+    "accent": "#A62620",
+    "accent_soft": "#FFE156",
+    "accent_text": "#FFFFFF",
+    "border": "#C5B9A5",
+    "border_strong": "#1E1B18",
+    "success": "#1E603A",
+    "success_soft": "#D9F2E4",
+    "danger": "#9E1C1C",
+    "danger_soft": "#FADCD9",
+    "chart_palette": ["#A62620", "#1E1B18", "#1D5B79", "#D97706", "#2E6F40", "#6D28D9"]
+  },
+  "typography": {
+    "display_font": "Instrument Serif",
+    "body_font": "Inter",
+    "mono_font": "Caveat",
+    "headline_px": 92,
+    "subhead_px": 48,
+    "body_px": 41,
+    "footer_px": 28,
+    "eyebrow_px": 28
+  },
+  "radii": {
+    "card": 10,
+    "pill": 12,
+    "tile": 10
+  },
+  "decoration": {
+    "grid_opacity": 0.06,
+    "grain": true,
+    "border_width": 3,
+    "shadow": "offset"
+  }
+}

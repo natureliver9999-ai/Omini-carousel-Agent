@@ -1,0 +1,177 @@
+{
+  "version": "1.0",
+  "id": "li-executive-ai-adoption",
+  "title": "AI Adoption: What the 2026 Data Actually Shows",
+  "platform": "linkedin",
+  "goal": "authority",
+  "theme": "linkedin-executive",
+  "brand": {
+    "name": "Omni Carousel",
+    "handle": "omnicarousel",
+    "website": "omni-carousel.dev"
+  },
+  "caption": {
+    "text": "Most AI adoption decks fail for a boring reason: they present ambition as evidence.\n\nThis one is eight slides of published data, with the source printed on every page.\n\nThe short version:\n\n1. Format matters more than volume — LinkedIn document posts still out-engage every other organic format.\n2. Depth beats reach — dwell time is the metric the ranking system rewards.\n3. Provenance is the differentiator — a cited number survives a skeptical executive, an adjective does not.\n\nIf your team is building an adoption case this quarter, start with the measurement, not the roadmap.\n\nWhich of the three findings is hardest to get internal agreement on?",
+    "hashtags": [
+      "aiadoption",
+      "strategy",
+      "measurement"
+    ]
+  },
+  "slides": [
+    {
+      "id": "cover",
+      "eyebrow": "2026 BENCHMARK BRIEF",
+      "headline": "AI adoption: what the data actually shows",
+      "alt_text": "Cover page of a LinkedIn benchmark brief on AI adoption.",
+      "layout": "cover_hook",
+      "sub": "A measurement-first brief for teams building an adoption case this quarter.",
+      "badge": "Q4 2026",
+      "icon": "bar-chart",
+      "kicker": "Eight pages, three findings, zero adjectives."
+    },
+    {
+      "id": "finding-1",
+      "eyebrow": "FINDING 01",
+      "headline": "Format still beats volume on LinkedIn",
+      "alt_text": "Proof page showing 7.00% engagement for LinkedIn document posts.",
+      "layout": "proof",
+      "metric_value": "7.00%",
+      "metric_label": "Engagement by impressions, native document posts",
+      "finding": "Document posts lead every other LinkedIn organic format and rose year over year, while the platform average stayed flat. The variable is not posting frequency — it is whether the format rewards time on post.",
+      "source": "Socialinsider, LinkedIn benchmarks, March 2026 — 2.45M posts",
+      "attribution": "Socialinsider"
+    },
+    {
+      "id": "finding-2",
+      "eyebrow": "FINDING 02",
+      "headline": "The gap is dwell time, not reach",
+      "alt_text": "Horizontal bar chart of LinkedIn engagement by format.",
+      "layout": "data_chart",
+      "chart": {
+        "kind": "horizontal_bar",
+        "labels": [
+          "Documents",
+          "Multi-image",
+          "Video",
+          "Text"
+        ],
+        "values": [
+          7,
+          6.45,
+          5.1,
+          4.5
+        ],
+        "unit": "%",
+        "highlight": 0
+      },
+      "takeaway": "Engagement by impressions across LinkedIn organic formats.",
+      "source": "Socialinsider, March 2026 — 2.45M organic posts"
+    },
+    {
+      "id": "finding-3",
+      "eyebrow": "FINDING 03",
+      "headline": "Reach-weighted, documents look even stronger",
+      "alt_text": "Proof page showing 21.77% median engagement by reach for document posts.",
+      "layout": "proof",
+      "metric_value": "21.77%",
+      "metric_label": "Median engagement by reach, document posts",
+      "finding": "Measured against unique reach rather than impressions, documents roughly triple the engagement rate of video in the same cohort. This is the number to quote when someone asks whether the format is worth the production time.",
+      "source": "Buffer, State of Social Engagement, March 2026 — 52M+ posts",
+      "attribution": "Buffer"
+    },
+    {
+      "id": "pillars",
+      "eyebrow": "THE ADOPTION CASE",
+      "headline": "Three moves that survive scrutiny",
+      "alt_text": "Bento grid of four adoption moves: measure, publish depth, cite, ship weekly.",
+      "layout": "bento_grid",
+      "tiles": [
+        {
+          "label": "Measure first",
+          "value": "Baseline",
+          "text": "Dwell and saves, not likes",
+          "accent": true,
+          "icon": "target"
+        },
+        {
+          "label": "Publish depth",
+          "value": "5-10",
+          "text": "Pages per document",
+          "icon": "file-text"
+        },
+        {
+          "label": "Cite everything",
+          "value": "100%",
+          "text": "Sourced claims",
+          "icon": "shield-check"
+        },
+        {
+          "label": "Ship weekly",
+          "value": "1",
+          "text": "Brief per week, measured",
+          "icon": "repeat"
+        }
+      ]
+    },
+    {
+      "id": "rollout",
+      "eyebrow": "ROLLOUT",
+      "headline": "A four-week pilot you can defend",
+      "alt_text": "Four-step pilot plan spanning four weeks.",
+      "layout": "steps",
+      "steps": [
+        {
+          "title": "Week 1 — baseline",
+          "detail": "Pull 90 days of first-party reach and dwell."
+        },
+        {
+          "title": "Week 2 — publish two briefs",
+          "detail": "Five to eight pages, sourced on every page."
+        },
+        {
+          "title": "Week 3 — compare cohorts",
+          "detail": "Same audience, same offer, format as the only variable."
+        },
+        {
+          "title": "Week 4 — decide with a number",
+          "detail": "Scale, iterate, or kill it. Write down which."
+        }
+      ]
+    },
+    {
+      "id": "recap",
+      "eyebrow": "BRIEF SUMMARY",
+      "headline": "What to take into the room",
+      "alt_text": "Summary page listing six takeaways from the brief.",
+      "layout": "summary",
+      "bullets": [
+        "Documents lead LinkedIn engagement",
+        "Dwell time explains the format gap",
+        "Reach-weighted medians favour documents",
+        "Five to ten pages completes best",
+        "Every number needs a named source",
+        "Baseline before you scale anything"
+      ],
+      "save_prompt": "Save the brief for your next review"
+    },
+    {
+      "id": "cta",
+      "headline": "Want the source deck?",
+      "alt_text": "Closing page inviting readers to comment BRIEF for the source deck.",
+      "layout": "cta",
+      "action": "comment",
+      "keyword": "BRIEF",
+      "text": "Comment BRIEF and I will send the full benchmark deck with every citation attached — no gate, no email required.",
+      "handle": "omnicarousel"
+    }
+  ],
+  "meta": {
+    "language": "en",
+    "sources": [
+      "Socialinsider, LinkedIn benchmarks, March 2026 (2.45M posts)",
+      "Buffer, State of Social Engagement, March 2026 (52M+ posts)",
+      "Socialinsider, Instagram benchmarks, Q3 2026"
+    ]
+  }
+}

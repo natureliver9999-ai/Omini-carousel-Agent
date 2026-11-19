@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "omni-carousel": {
+      "serverUrl": "https://carousel.example.com/mcp",
+      "headers": {
+        "Authorization": "Bearer ${OMNI_AUTH_TOKEN}"
+      }
+    }
+  }
+}

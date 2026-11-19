@@ -1,0 +1,97 @@
+{
+  "generator": "omni-carousel-agent",
+  "engine": "0.1.0",
+  "renderer": "resvg",
+  "platform": "instagram",
+  "theme": "editorial",
+  "canvas": {
+    "width": 1080,
+    "height": 1350
+  },
+  "slides": [
+    {
+      "index": 1,
+      "id": "slide-01",
+      "layout": "cover_hook",
+      "file": "slides/slide-01.png",
+      "panorama": null
+    },
+    {
+      "index": 2,
+      "id": "slide-02",
+      "layout": "contrast_split",
+      "file": "slides/slide-02.png",
+      "panorama": null
+    },
+    {
+      "index": 3,
+      "id": "slide-03",
+      "layout": "layer_stack",
+      "file": "slides/slide-03.png",
+      "panorama": null
+    },
+    {
+      "index": 4,
+      "id": "slide-04",
+      "layout": "steps",
+      "file": "slides/slide-04.png",
+      "panorama": null
+    },
+    {
+      "index": 5,
+      "id": "slide-05",
+      "layout": "bento_grid",
+      "file": "slides/slide-05.png",
+      "panorama": null
+    },
+    {
+      "index": 6,
+      "id": "slide-06",
+      "layout": "data_chart",
+      "file": "slides/slide-06.png",
+      "panorama": null
+    },
+    {
+      "index": 7,
+      "id": "slide-07",
+      "layout": "reveal_hold",
+      "file": "slides/slide-07.png",
+      "panorama": null
+    },
+    {
+      "index": 8,
+      "id": "slide-08",
+      "layout": "scrapbook",
+      "file": "slides/slide-08.png",
+      "panorama": null
+    },
+    {
+      "index": 9,
+      "id": "slide-09",
+      "layout": "proof",
+      "file": "slides/slide-09.png",
+      "panorama": null
+    },
+    {
+      "index": 10,
+      "id": "slide-10",
+      "layout": "summary",
+      "file": "slides/slide-10.png",
+      "panorama": null
+    },
+    {
+      "index": 11,
+      "id": "slide-11",
+      "layout": "cta",
+      "file": "slides/slide-11.png",
+      "panorama": null
+    }
+  ],
+  "lint": {
+    "ok": true,
+    "errors": 0,
+    "warnings": 0
+  },
+  "warnings": [],
+  "duration_ms": 2744
+}

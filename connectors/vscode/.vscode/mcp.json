@@ -1,0 +1,20 @@
+{
+  "servers": {
+    "omni-carousel": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["-y", "omni-carousel-mcp"],
+      "env": {
+        "OMNI_OUTPUT_DIR": "${workspaceFolder}/carousels"
+      }
+    }
+  },
+  "inputs": [
+    {
+      "id": "omni-token",
+      "type": "promptString",
+      "description": "Omni Carousel bearer token (only needed for a remote server)",
+      "password": true
+    }
+  ]
+}

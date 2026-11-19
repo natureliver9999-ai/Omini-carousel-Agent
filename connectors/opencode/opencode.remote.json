@@ -1,0 +1,13 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "mcp": {
+    "omni-carousel": {
+      "type": "remote",
+      "url": "https://carousel.example.com/mcp",
+      "enabled": true,
+      "headers": {
+        "Authorization": "Bearer {env:OMNI_AUTH_TOKEN}"
+      }
+    }
+  }
+}

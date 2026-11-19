@@ -1,0 +1,98 @@
+name: CI
+
+on:
+  push:
+    branches: [main, 'arena/**']
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  typescript:
+    name: TypeScript (node ${{ matrix.node }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        node: ['20', '22']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+          cache: npm
+      - run: npm ci
+      - name: Build all workspaces
+        run: npm run build
+      - name: Typecheck
+        run: npm run lint
+      - name: Engine tests (lint, schema, panorama, golden)
+        run: npm test --workspace=@omni-carousel/engine
+      - name: MCP server tests (contract, signed URLs, traversal)
+        run: npm test --workspace=omni-carousel-mcp
+      - name: Schema is reproducible from the Zod source
+        run: |
+          npm run export:schema
+          git diff --exit-code -- spec/carousel.schema.json core-engine/schema.json spec/layouts.json \
+            || (echo "::error::spec/carousel.schema.json is stale — run npm run export:schema" && exit 1)
+
+  python:
+    name: Python ${{ matrix.python }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python: ['3.10', '3.12']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - run: npm ci
+      - run: npm run build --workspace=@omni-carousel/engine
+      - name: Install Python packages
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e ./sdks/python-sdk -e ./mcp-server/python pytest pytest-asyncio jsonschema
+      - name: Python SDK tests
+        run: pytest sdks/python-sdk -q
+      - name: FastMCP server tests
+        run: pytest mcp-server/python -q
+      - name: CLI smoke (omni-carousel-py)
+        run: |
+          omni-carousel-py doctor
+          omni-carousel-py validate examples/specs/ig-contrast-myths.json
+
+  parity:
+    name: Cross-language parity
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - name: Contract parity (layouts, tools, budgets, themes)
+        run: node scripts/check-parity.mjs
+      - name: Top-level CLI smoke (every subcommand, exit codes, artefacts)
+        run: node scripts/smoke-top.mjs
+      # Connector configs and the installer have their own workflow (connectors.yml).
+      - name: Every shipped example lints clean
+        run: |
+          set -e
+          for spec in examples/specs/*.json; do
+            echo "→ $spec"
+            node core-engine/dist/cli.js validate "$spec" --strict
+          done

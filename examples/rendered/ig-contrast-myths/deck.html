@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Three Carousel Myths, Measured — omni-carousel preview</title>
+<style>
+  :root {
+    --bg: #FAF7F2;
+    --stage: #0b0c0f;
+    --ink: #141413;
+    --muted: #5E5952;
+    --accent: #B8331A;
+    --font: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+    --radius: 20px;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; }
+  body {
+    background: var(--stage);
+    color: var(--ink);
+    font-family: var(--font);
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 360px;
+    gap: 0;
+    overflow: hidden;
+  }
+  .stage { position: relative; display: grid; place-items: center; padding: 28px; }
+  .deck { position: relative; width: min(1080px, calc((100vh - 96px) * 0.8)); aspect-ratio: 4 / 5; }
+  .slide {
+    position: absolute; inset: 0;
+    opacity: 0; visibility: hidden;
+    transform: translateX(28px) scale(.985);
+    transition: opacity .28s ease, transform .28s ease, visibility .28s;
+  }
+  .slide.is-active { opacity: 1; visibility: visible; transform: none; }
+  .frame { width: 100%; height: 100%; border-radius: var(--radius); overflow: hidden; box-shadow: 0 24px 80px rgba(0,0,0,.55); background: var(--bg); }
+  .frame svg { display: block; width: 100%; height: 100%; }
+  .meta { position: absolute; left: 0; right: 0; bottom: -34px; display: flex; gap: 10px; align-items: center; font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: #7b8391; }
+  .meta .layout { color: var(--accent); font-weight: 700; }
+  .meta .pano { color: #9aa4b2; }
+  .meta .count { margin-left: auto; }
+  .alt { position: absolute; top: -26px; font-size: 11px; color: #5d6470; max-width: 80%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .controls { position: absolute; bottom: 12px; left: 50%; transform: translateX(-50%); display: flex; gap: 8px; }
+  .controls button {
+    background: #1b1f27; color: #cfd6e1; border: 1px solid #2b313c; border-radius: 10px;
+    padding: 8px 14px; font: inherit; font-size: 13px; cursor: pointer;
+  }
+  .controls button:hover { border-color: var(--accent); color: #fff; }
+  .dots { position: absolute; top: 4px; left: 50%; transform: translateX(-50%); display: flex; gap: 6px; }
+  .dot { width: 22px; height: 4px; border-radius: 2px; background: #2b313c; border: 0; padding: 0; cursor: pointer; }
+  .dot.on { background: var(--accent); }
+  aside.panel { border-left: 1px solid #1d2129; background: #0f1116; padding: 22px 22px 28px; overflow-y: auto; font-size: 13px; line-height: 1.6; color: #b9c0cc; }
+  aside.panel h1 { font-size: 15px; margin: 0 0 4px; color: #fff; letter-spacing: -.01em; }
+  aside.panel .sub { color: #6f7887; font-size: 12px; margin-bottom: 18px; }
+  aside.panel h2 { font-size: 11px; text-transform: uppercase; letter-spacing: .12em; color: #6f7887; margin: 22px 0 8px; }
+  aside.panel pre { white-space: pre-wrap; font-family: Inter, ui-monospace, monospace; font-size: 12.5px; margin: 0; color: #d5dbe5; }
+  aside.panel .tags { color: var(--accent); word-break: break-word; }
+  aside.panel .stat { display: flex; justify-content: space-between; border-bottom: 1px dashed #222833; padding: 5px 0; }
+  aside.panel .stat span:last-child { color: #fff; }
+  @media (max-width: 900px) { body { grid-template-columns: 1fr; } aside.panel { display: none; } }
+  @media print { body { display: block; background: #fff; } .slide { position: static; opacity: 1; visibility: visible; transform: none; page-break-after: always; } .meta, .alt, .controls, .dots, aside.panel { display: none; } .deck { width: 100%; aspect-ratio: auto; } }
+</style>
+</head>
+<body>
+  <div class="stage">
+    <div class="dots" role="tablist"><button class="dot on" data-goto="0" aria-label="Go to slide 1"></button><button class="dot" data-goto="1" aria-label="Go to slide 2"></button><button class="dot" data-goto="2" aria-label="Go to slide 3"></button><button class="dot" data-goto="3" aria-label="Go to slide 4"></button><button class="dot" data-goto="4" aria-label="Go to slide 5"></button><button class="dot" data-goto="5" aria-label="Go to slide 6"></button><button class="dot" data-goto="6" aria-label="Go to slide 7"></button></div>
+    <div class="deck" id="deck">
+      <section class="slide is-active" data-index="0" aria-label="Slide 1 of 7">
+        <div class="frame"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1080" height="1350" viewBox="0 0 1080 1350"><rect x="0" y="0" width="1080" height="1350" fill="#FAF7F2"/><rect x="0" y="0" width="1080" height="1350" fill="#14141303"/><circle cx="960" cy="-60" r="420" fill="#b8331a0d"/><rect x="90" y="0" width="1" height="1350" fill="#14141305"/><rect x="210" y="0" width="1" height="1350" fill="#14141305"/><rect x="330" y="0" width="1" height="1350" fill="#14141305"/><rect x="450" y="0" width="1" height="1350" fill="#14141305"/><rect x="570" y="0" width="1" height="1350" fill="#14141305"/><rect x="690" y="0" width="1" height="1350" fill="#14141305"/><rect x="810" y="0" width="1" height="1350" fill="#14141305"/><rect x="930" y="0" width="1" height="1350" fill="#14141305"/><rect x="1050" y="0" width="1" height="1350" fill="#14141305"/><rect x="72" y="72" width="244.11" height="52" rx="4" fill="#14141312"/><text x="89" y="107.36" font-family="Inter" font-size="26" font-weight="600" fill="#141413" letter-spacing="3.64">MYTH CHECK</text><rect x="72" y="150" width="936" height="1" fill="#1414132e"/><rect x="72" y="1204" width="936" height="1" fill="#1414132e"/><text x="72" y="1252" font-family="JetBrains Mono" font-size="28" font-weight="500" fill="#5E5952" text-anchor="start" letter-spacing="0.5">@omnicarousel</text><text x="1008" y="1252" font-family="JetBrains Mono" font-size="28" font-weight="500" fill="#5E5952" text-anchor="end" letter-spacing="1">01 / 07</text><rect x="72" y="1304" width="936" height="4" rx="2" fill="#1414131f"/><rect x="72" y="1304" width="133.71" height="4" rx="2" fill="#B8331A"/><circle cx="1040" cy="330" r="330" fill="none" stroke="#b8331a29" stroke-width="2"/><circle cx="1040" cy="330" r="240" fill="none" stroke="#b8331a1a" stroke-width="1.5"/><circle opacity="0.9" cx="950" cy="250" r="10" fill="#B8331A"/><text x="72" y="446.84" font-family="Instrument Serif" font-size="93.5" font-weight="700" fill="#141413" text-anchor="start">Half of what you know about</text><text x="72" y="542.2" font-family="Instrument Serif" font-size="93.5" font-weight="700" fill="#141413" text-anchor="start">carousels is backwards</text><rect x="72" y="590.93" width="618.43" height="12" rx="6" fill="#B8331A"/><text x="72" y="661.01" font-family="Inter" font-size="44" font-weight="400" fill="#4A4640" text-anchor="start">Three claims, three datasets, one</text><text x="72" y="719.09" font-family="Inter" font-size="44" font-weight="400" fill="#4A4640" text-anchor="start">uncomfortable conclusion.</text><rect x="72" y="962" width="96" height="96" rx="26" fill="#B8331A"/><g transform="translate(96 986) scale(2)"><path d="M12 3l9 16H3z" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 9v5" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 17h.01" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></g><rect x="850.45" y="984" width="157.55" height="50" rx="25" fill="#1414130f"/><g transform="translate(870.45 997) scale(1)"><path d="M4 12h16" fill="none" stroke="#4A4640" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M14 6l6 6-6 6" fill="none" stroke="#4A4640" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></g><text x="906.45" y="1017.64" font-family="Inter" font-size="24" font-weight="600" fill="#4A4640" letter-spacing="1.2">SWIPE</text></svg></div>
+        <div class="meta">
+          <span class="layout">cover_hook</span>
+          
+          <span class="count">01 / 07</span>
+        </div>
+        <p class="alt">Cover: 'Half of what you know about carousels is backwards' with a warning icon.</p>
+      </section>
+      <section class="slide" data-index="1" aria-label="Slide 2 of 7" aria-hidden="true">
+        <div class="frame"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1080" height="1350" viewBox="0 0 1080 1350"><rect x="0" y="0" width="1080" height="1350" fill="#FAF7F2"/><rect x="0" y="0" width="1080" height="1350" fill="#14141303"/><circle cx="960" cy="-60" r="420" fill="#b8331a0d"/><rect x="90" y="0" width="1" height="1350" fill="#14141305"/><rect x="210" y="0" width="1" height="1350" fill="#14141305"/><rect x="330" y="0" width="1" height="1350" fill="#14141305"/><rect x="450" y="0" width="1" height="1350" fill="#14141305"/><rect x="570" y="0" width="1" height="1350" fill="#14141305"/><rect x="690" y="0" width="1" height="1350" fill="#14141305"/><rect x="810" y="0" width="1" height="1350" fill="#14141305"/><rect x="930" y="0" width="1" height="1350" fill="#14141305"/><rect x="1050" y="0" width="1" height="1350" fill="#14141305"/><rect x="72" y="72" width="178.13" height="52" rx="4" fill="#14141312"/><text x="89" y="107.36" font-family="Inter" font-size="26" font-weight="600" fill="#141413" letter-spacing="3.64">CLAIM 01</text><rect x="72" y="150" width="936" height="1" fill="#1414132e"/><rect x="72" y="1204" width="936" height="1" fill="#1414132e"/><text x="72" y="1252" font-family="JetBrains Mono" font-size="28" font-weight="500" fill="#5E5952" text-anchor="start" letter-spacing="0.5">@omnicarousel</text><text x="1008" y="1252" font-family="JetBrains Mono" font-size="28" font-weight="500" fill="#5E5952" text-anchor="end" letter-spacing="1">02 / 07</text><rect x="72" y="1304" width="936" height="4" rx="2" fill="#1414131f"/><rect x="72" y="1304" width="267.43" height="4" rx="2" fill="#B8331A"/><text x="72" y="258.65" font-family="Instrument Serif" font-size="93.5" font-weight="700" fill="#141413" text-anchor="start">&quot;Carousels are dead. Video</text><text x="72" y="354.02" font-family="Instrument Serif" font-size="93.5" font-weight="700" fill="#141413" text-anchor="start">ate them.&quot;</text><rect x="72" y="440.74" width="936" height="560" rx="22" fill="#1414130b" stroke="#5e595259" stroke-width="1.5"/><rect x="104" y="472.74" width="181.41" height="50" rx="25" fill="#1414131a"/><text x="124" y="506.38" font-family="Inter" font-size="24" font-weight="600" fill="#4A4640" letter-spacing="1.2">THE CLAIM</text><g transform="translate(930 474.74) scale(1.9167)"><path d="M6 6l12 12" fill="none" stroke="#5E5952" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M18 6L6 18" fill="none" stroke="#5E5952" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></g><text x="104" y="594.82" font-family="Inter" font-size="44" font-weight="400" fill="#4A4640" text-anchor="start">Short-form video owns reach, so static</text><text x="104" y="652.9" font-family="Inter" font-size="44" font-weight="400" fill="#4A4640" text-anchor="start">frames are a waste of a slot.</text><g transform="translate(106 678.9) scale(1.0833)"><path d="M6 6l12 12" fill="none" stroke="#5E5952" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M18 6L6 18" fill="none" stroke="#5E5952" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></g><text x="146" y="719.14" font-family="Inter" font-size="32" font-weight="400" fill="#4A4640" text-anchor="start">Repeated in every 2023 deck</text><g transform="translate(106 740.9) scale(1.0833)"><path d="M6 6l12 12" fill="none" stroke="#5E5952" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M18 6L6 18" fill="none" stroke="#5E5952" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></g><text x="146" y="781.14" font-family="Inter" font-size="32" font-weight="400" fill="#4A4640" text-anchor="start">Based on reach, not engagement</text><g transform="translate(106 802.9) scale(1.0833)"><path d="M6 6l12 12" fill="none" stroke="#5E5952" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M18 6L6 18" fill="none" stroke="#5E5952" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></g><text x="146" y="843.14" font-family="Inter" font-size="32" font-weight="400" fill="#4A4640" text-anchor="start">Never checked per follower</text></svg></div>
+        <div class="meta">
+          <span class="layout">contrast_split</span>
+          
+          <span class="count">02 / 07</span>
+        </div>
+        <p class="alt">Contrast slide: the claim that carousels are dead next to engagement per follower data.</p>
+      </section>
+      <section class="slide" data-index="2" aria-label="Slide 3 of 7" aria-hidden="true">
+        <div class="frame"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1080" height="1350" viewBox="0 0 1080 1350"><rect x="0" y="0" width="1080" height="1350" fill="#FAF7F2"/><rect x="0" y="0" width="1080" height="1350" fill="#14141303"/><circle cx="960" cy="-60" r="420" fill="#b8331a0d"/><rect x="90" y="0" width="1" height="1350" fill="#14141305"/><rect x="210" y="0" width="1" height="1350" fill="#14141305"/><rect x="330" y="0" width="1" height="1350" fill="#14141305"/><rect x="450" y="0" width="1" height="1350" fill="#14141305"/><rect x="570" y="0" width="1" height="1350" fill="#14141305"/><rect x="690" y="0" width="1" height="1350" fill="#14141305"/><rect x="810" y="0" width="1" height="1350" fill="#14141305"/><rect x="930" y="0" width="1" height="1350" fill="#14141305"/><rect x="1050" y="0" width="1" height="1350" fill="#14141305"/><rect x="72" y="72" width="367.55" height="52" rx="4" fill="#14141312"/><text x="89" y="107.36" font-family="Inter" font-size="26" font-weight="600" fill="#141413" letter-spacing="3.64">CLAIM 01 — VERDICT</text><rect x="72" y="150" width="936" height="1" fill="#1414132e"/><rect x="72" y="1204" width="936" height="1" fill="#1414132e"/><text x="72" y="1252" font-family="JetBrains Mono" font-size="28" font-weight="500" fill="#5E5952" text-anchor="start" letter-spacing="0.5">@omnicarousel</text><text x="1008" y="1252" font-family="JetBrains Mono" font-size="28" font-weight="500" fill="#5E5952" text-anchor="end" letter-spacing="1">03 / 07</text><rect x="72" y="1304" width="936" height="4" rx="2" fill="#1414131f"/><rect x="72" y="1304" width="401.14" height="4" rx="2" fill="#B8331A"/><text x="72" y="258.65" font-family="Instrument Serif" font-size="93.5" font-weight="700" fill="#141413" text-anchor="start">Video owns discovery.</text><text x="72" y="354.02" font-family="Instrument Serif" font-size="93.5" font-weight="700" fill="#141413" text-anchor="start">Carousels own intent.</text><rect x="72" y="440.74" width="936" height="560" rx="22" fill="#b8331a1a" stroke="#b8331a59" stroke-width="1.5"/><rect x="104" y="472.74" width="343.75" height="50" rx="25" fill="#B8331A"/><text x="124" y="506.38" font-family="Inter" font-size="24" font-weight="600" fill="#FFFFFF" letter-spacing="1.2">WHAT CAROUSELS WIN</text><g transform="translate(930 474.74) scale(1.9167)"><path d="M4 12.5l5 5L20 6.5" fill="none" stroke="#B8331A" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></g><text x="104" y="594.82" font-family="Inter" font-size="44" font-weight="600" fill="#141413" text-anchor="start">Depth, saves, and dwell time per viewer.</text><g transform="translate(106 620.82) scale(1.0833)"><path d="M4 12.5l5 5L20 6.5" fill="none" stroke="#B8331A" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></g><text x="146" y="661.06" font-family="Inter" font-size="32" font-weight="400" fill="#4A4640" text-anchor="start">Reach rate 4.50%</text><g transform="translate(106 682.82) scale(1.0833)"><path d="M4 12.5l5 5L20 6.5" fill="none" stroke="#B8331A" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></g><text x="146" y="723.06" font-family="Inter" font-size="32" font-weight="400" fill="#4A4640" text-anchor="start">Highest save ratio</text><g transform="translate(106 744.82) scale(1.0833)"><path d="M4 12.5l5 5L20 6.5" fill="none" stroke="#B8331A" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></g><text x="146" y="785.06" font-family="Inter" font-size="32" font-weight="400" fill="#4A4640" text-anchor="start">Reader-initiated pacing</text><text x="72" y="1040.74" font-family="JetBrains Mono" font-size="22" font-weight="600" fill="#5E5952" letter-spacing="2.4">VERDICT</text><text x="72" y="1084.98" font-family="Inter" font-size="32" font-weight="600" font-style="italic" fill="#B8331A" text-anchor="start">Run both. Stop pretending they compete.</text></svg></div>
+        <div class="meta">
+          <span class="layout">contrast_split</span>
+          
+          <span class="count">03 / 07</span>
+        </div>
+        <p class="alt">Contrast slide splitting what video wins from what carousels win.</p>
+      </section>
+      <section class="slide" data-index="3" aria-label="Slide 4 of 7" aria-hidden="true">
+        <div class="frame"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1080" height="1350" viewBox="0 0 1080 1350"><rect x="0" y="0" width="1080" height="1350" fill="#FAF7F2"/><rect x="0" y="0" width="1080" height="1350" fill="#14141303"/><circle cx="960" cy="-60" r="420" fill="#b8331a0d"/><rect x="90" y="0" width="1" height="1350" fill="#14141305"/><rect x="210" y="0" width="1" height="1350" fill="#14141305"/><rect x="330" y="0" width="1" height="1350" fill="#14141305"/><rect x="450" y="0" width="1" height="1350" fill="#14141305"/><rect x="570" y="0" width="1" height="1350" fill="#14141305"/><rect x="690" y="0" width="1" height="1350" fill="#14141305"/><rect x="810" y="0" width="1" height="1350" fill="#14141305"/><rect x="930" y="0" width="1" height="1350" fill="#14141305"/><rect x="1050" y="0" width="1" height="1350" fill="#14141305"/><rect x="72" y="72" width="183.34" height="52" rx="4" fill="#14141312"/><text x="89" y="107.36" font-family="Inter" font-size="26" font-weight="600" fill="#141413" letter-spacing="3.64">CLAIM 02</text><rect x="72" y="150" width="936" height="1" fill="#1414132e"/><rect x="72" y="1204" width="936" height="1" fill="#1414132e"/><text x="72" y="1252" font-family="JetBrains Mono" font-size="28" font-weight="500" fill="#5E5952" text-anchor="start" letter-spacing="0.5">@omnicarousel</text><text x="1008" y="1252" font-family="JetBrains Mono" font-size="28" font-weight="500" fill="#5E5952" text-anchor="end" letter-spacing="1">04 / 07</text><rect x="72" y="1304" width="936" height="4" rx="2" fill="#1414131f"/><rect x="72" y="1304" width="534.86" height="4" rx="2" fill="#B8331A"/><text x="72" y="258.65" font-family="Instrument Serif" font-size="93.5" font-weight="700" fill="#141413" text-anchor="start">&quot;Ten slides is free reach.&quot;</text><rect x="72" y="345.37" width="453" height="600" rx="22" fill="#1414130b" stroke="#5e595259" stroke-width="1.5"/><rect x="104" y="377.37" width="223.94" height="50" rx="25" fill="#1414131a"/><text x="124" y="411.01" font-family="Inter" font-size="24" font-weight="600" fill="#4A4640" letter-spacing="1.2">PADDED DECK</text><g transform="translate(447 379.37) scale(1.9167)"><path d="M6 6l12 12" fill="none" stroke="#5E5952" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M18 6L6 18" fill="none" stroke="#5E5952" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></g><text x="104" y="492.89" font-family="Inter" font-size="36" font-weight="400" fill="#4A4640" text-anchor="start">Fifteen slides, one</text><text x="104" y="540.41" font-family="Inter" font-size="36" font-weight="400" fill="#4A4640" text-anchor="start">idea, four of them</text><text x="104" y="587.93" font-family="Inter" font-size="36" font-weight="400" fill="#4A4640" text-anchor="start">filler.</text><g transform="translate(106 609.93) scale(1.0833)"><path d="M6 6l12 12" fill="none" stroke="#5E5952" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M18 6L6 18" fill="none" stroke="#5E5952" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></g><text x="146" y="646.89" font-family="Inter" font-size="28" font-weight="400" fill="#4A4640" text-anchor="start">Completion drops past</text><text x="146" y="683.85" font-family="Inter" font-size="28" font-weight="400" fill="#4A4640" text-anchor="start">frame nine</text><g transform="translate(106 663.93) scale(1.0833)"><path d="M6 6l12 12" fill="none" stroke="#5E5952" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M18 6L6 18" fill="none" stroke="#5E5952" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></g><text x="146" y="700.89" font-family="Inter" font-size="28" font-weight="400" fill="#4A4640" text-anchor="start">Each skip is a negative</text><text x="146" y="737.85" font-family="Inter" font-size="28" font-weight="400" fill="#4A4640" text-anchor="start">signal</text><g transform="translate(106 717.93) scale(1.0833)"><path d="M6 6l12 12" fill="none" stroke="#5E5952" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M18 6L6 18" fill="none" stroke="#5E5952" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></g><text x="146" y="754.89" font-family="Inter" font-size="28" font-weight="400" fill="#4A4640" text-anchor="start">Readers exit at the first</text><text x="146" y="791.85" font-family="Inter" font-size="28" font-weight="400" fill="#4A4640" text-anchor="start">flat frame</text><rect x="555" y="345.37" width="453" height="600" rx="22" fill="#b8331a1a" stroke="#b8331a59" stroke-width="1.5"/><rect x="587" y="377.37" width="222.2" height="50" rx="25" fill="#B8331A"/><text x="607" y="411.01" font-family="Inter" font-size="24" font-weight="600" fill="#FFFFFF" letter-spacing="1.2">EARNED DECK</text><g transform="translate(930 379.37) scale(1.9167)"><path d="M4 12.5l5 5L20 6.5" fill="none" stroke="#B8331A" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></g><text x="587" y="492.89" font-family="Inter" font-size="36" font-weight="600" fill="#141413" text-anchor="start">Eight slides, eight</text><text x="587" y="540.41" font-family="Inter" font-size="36" font-weight="600" fill="#141413" text-anchor="start">distinct beats.</text><g transform="translate(589 562.41) scale(1.0833)"><path d="M4 12.5l5 5L20 6.5" fill="none" stroke="#B8331A" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></g><text x="629" y="599.37" font-family="Inter" font-size="28" font-weight="400" fill="#4A4640" text-anchor="start">7-10 slides completes</text><text x="629" y="636.33" font-family="Inter" font-size="28" font-weight="400" fill="#4A4640" text-anchor="start">best</text><g transform="translate(589 616.41) scale(1.0833)"><path d="M4 12.5l5 5L20 6.5" fill="none" stroke="#B8331A" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></g><text x="629" y="653.37" font-family="Inter" font-size="28" font-weight="400" fill="#4A4640" text-anchor="start">Every frame pays off the</text><text x="629" y="690.33" font-family="Inter" font-size="28" font-weight="400" fill="#4A4640" text-anchor="start">last</text><g transform="translate(589 670.41) scale(1.0833)"><path d="M4 12.5l5 5L20 6.5" fill="none" stroke="#B8331A" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></g><text x="629" y="707.37" font-family="Inter" font-size="28" font-weight="400" fill="#4A4640" text-anchor="start">Recap slide earns the</text><text x="629" y="744.33" font-family="Inter" font-size="28" font-weight="400" fill="#4A4640" text-anchor="start">save</text><text x="72" y="985.37" font-family="JetBrains Mono" font-size="22" font-weight="600" fill="#5E5952" letter-spacing="2.4">VERDICT</text><text x="72" y="1029.61" font-family="Inter" font-size="32" font-weight="600" font-style="italic" fill="#B8331A" text-anchor="start">Slide count is a budget, not a strategy.</text></svg></div>
+        <div class="meta">
+          <span class="layout">contrast_split</span>
+          
+          <span class="count">04 / 07</span>
+        </div>
+        <p class="alt">Contrast slide comparing padded versus earned carousels.</p>
+      </section>
+      <section class="slide" data-index="4" aria-label="Slide 5 of 7" aria-hidden="true">
+        <div class="frame"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1080" height="1350" viewBox="0 0 1080 1350"><rect x="0" y="0" width="1080" height="1350" fill="#FAF7F2"/><rect x="0" y="0" width="1080" height="1350" fill="#14141303"/><circle cx="960" cy="-60" r="420" fill="#b8331a0d"/><rect x="90" y="0" width="1" height="1350" fill="#14141305"/><rect x="210" y="0" width="1" height="1350" fill="#14141305"/><rect x="330" y="0" width="1" height="1350" fill="#14141305"/><rect x="450" y="0" width="1" height="1350" fill="#14141305"/><rect x="570" y="0" width="1" height="1350" fill="#14141305"/><rect x="690" y="0" width="1" height="1350" fill="#14141305"/><rect x="810" y="0" width="1" height="1350" fill="#14141305"/><rect x="930" y="0" width="1" height="1350" fill="#14141305"/><rect x="1050" y="0" width="1" height="1350" fill="#14141305"/><rect x="72" y="72" width="183.68" height="52" rx="4" fill="#14141312"/><text x="89" y="107.36" font-family="Inter" font-size="26" font-weight="600" fill="#141413" letter-spacing="3.64">CLAIM 03</text><rect x="72" y="150" width="936" height="1" fill="#1414132e"/><rect x="72" y="1204" width="936" height="1" fill="#1414132e"/><text x="72" y="1252" font-family="JetBrains Mono" font-size="28" font-weight="500" fill="#5E5952" text-anchor="start" letter-spacing="0.5">@omnicarousel</text><text x="1008" y="1252" font-family="JetBrains Mono" font-size="28" font-weight="500" fill="#5E5952" text-anchor="end" letter-spacing="1">05 / 07</text><rect x="72" y="1304" width="936" height="4" rx="2" fill="#1414131f"/><rect x="72" y="1304" width="668.57" height="4" rx="2" fill="#B8331A"/><rect x="72" y="200" width="10" height="96" rx="5" fill="#B8331A"/><text x="106" y="226.24" font-family="Inter" font-size="32" font-weight="600" fill="#5E5952" text-anchor="start">LinkedIn&apos;s strongest format is a PDF</text><text x="72" y="462.24" font-family="Instrument Serif" font-size="210" font-weight="700" fill="#B8331A" letter-spacing="-2">7.00%</text><text x="72" y="529.04" font-family="Inter" font-size="40" font-weight="600" fill="#141413" text-anchor="start">Engagement by impressions for native</text><text x="72" y="581.84" font-family="Inter" font-size="40" font-weight="600" fill="#141413" text-anchor="start">document posts</text><text x="106" y="688.14" font-family="Inter" font-size="38" font-weight="400" fill="#4A4640" text-anchor="start">LinkedIn document posts now sit ahead of</text><text x="106" y="740.58" font-family="Inter" font-size="38" font-weight="400" fill="#4A4640" text-anchor="start">multi-image, video and text, and the gap widened</text><text x="106" y="793.02" font-family="Inter" font-size="38" font-weight="400" fill="#4A4640" text-anchor="start">year over year. The mechanism is dwell time:</text><text x="106" y="845.46" font-family="Inter" font-size="38" font-weight="400" fill="#4A4640" text-anchor="start">eight structured pages hold a reader on the post</text><text x="106" y="897.9" font-family="Inter" font-size="38" font-weight="400" fill="#4A4640" text-anchor="start">far longer than a caption.</text><rect x="72" y="651.84" width="3" height="270.2" fill="#b8331a80"/><text x="72" y="1178" font-family="JetBrains Mono" font-size="20.5" font-weight="500" fill="#5E5952" text-anchor="start" letter-spacing="1.2">SOURCE · SOCIALINSIDER, LINKEDIN BENCHMARKS, MARCH 2026 — 2.45M POSTS</text></svg></div>
+        <div class="meta">
+          <span class="layout">proof</span>
+          
+          <span class="count">05 / 07</span>
+        </div>
+        <p class="alt">Proof slide showing 7.00% engagement by impressions for LinkedIn document posts.</p>
+      </section>
+      <section class="slide" data-index="5" aria-label="Slide 6 of 7" aria-hidden="true">
+        <div class="frame"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1080" height="1350" viewBox="0 0 1080 1350"><rect x="0" y="0" width="1080" height="1350" fill="#FAF7F2"/><rect x="0" y="0" width="1080" height="1350" fill="#14141303"/><circle cx="960" cy="-60" r="420" fill="#b8331a0d"/><rect x="90" y="0" width="1" height="1350" fill="#14141305"/><rect x="210" y="0" width="1" height="1350" fill="#14141305"/><rect x="330" y="0" width="1" height="1350" fill="#14141305"/><rect x="450" y="0" width="1" height="1350" fill="#14141305"/><rect x="570" y="0" width="1" height="1350" fill="#14141305"/><rect x="690" y="0" width="1" height="1350" fill="#14141305"/><rect x="810" y="0" width="1" height="1350" fill="#14141305"/><rect x="930" y="0" width="1" height="1350" fill="#14141305"/><rect x="1050" y="0" width="1" height="1350" fill="#14141305"/><rect x="72" y="72" width="200.81" height="52" rx="4" fill="#14141312"/><text x="89" y="107.36" font-family="Inter" font-size="26" font-weight="600" fill="#141413" letter-spacing="3.64">SAVE THIS</text><rect x="72" y="150" width="936" height="1" fill="#1414132e"/><rect x="72" y="1204" width="936" height="1" fill="#1414132e"/><text x="72" y="1252" font-family="JetBrains Mono" font-size="28" font-weight="500" fill="#5E5952" text-anchor="start" letter-spacing="0.5">@omnicarousel</text><text x="1008" y="1252" font-family="JetBrains Mono" font-size="28" font-weight="500" fill="#5E5952" text-anchor="end" letter-spacing="1">06 / 07</text><rect x="72" y="1304" width="936" height="4" rx="2" fill="#1414131f"/><rect x="72" y="1304" width="802.29" height="4" rx="2" fill="#B8331A"/><text x="72" y="258.65" font-family="Instrument Serif" font-size="93.5" font-weight="700" fill="#141413" text-anchor="start">What the data actually</text><text x="72" y="354.02" font-family="Instrument Serif" font-size="93.5" font-weight="700" fill="#141413" text-anchor="start">says</text><rect x="72" y="444.74" width="936" height="120.65" rx="16" fill="#1414130a"/><g transform="translate(98 470.74) scale(1.3333)"><path d="M4 12.5l5 5L20 6.5" fill="none" stroke="#B8331A" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></g><text x="150" y="493.9" font-family="Inter" font-size="38" font-weight="500" fill="#141413" text-anchor="start">Carousels lead engagement, not reach</text><rect x="72" y="579.39" width="936" height="120.65" rx="16" fill="#1414130a"/><g transform="translate(98 605.39) scale(1.3333)"><path d="M4 12.5l5 5L20 6.5" fill="none" stroke="#B8331A" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></g><text x="150" y="628.55" font-family="Inter" font-size="38" font-weight="500" fill="#141413" text-anchor="start">7-10 frames is the completion zone</text><rect x="72" y="714.04" width="936" height="120.65" rx="16" fill="#1414130a"/><g transform="translate(98 740.04) scale(1.3333)"><path d="M4 12.5l5 5L20 6.5" fill="none" stroke="#B8331A" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></g><text x="150" y="763.2" font-family="Inter" font-size="38" font-weight="500" fill="#141413" text-anchor="start">LinkedIn PDFs are the top format</text><rect x="72" y="848.7" width="936" height="120.65" rx="16" fill="#1414130a"/><g transform="translate(98 874.7) scale(1.3333)"><path d="M4 12.5l5 5L20 6.5" fill="none" stroke="#B8331A" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></g><text x="150" y="897.86" font-family="Inter" font-size="38" font-weight="500" fill="#141413" text-anchor="start">Dwell time explains all three</text><rect x="72" y="983.35" width="936" height="120.65" rx="16" fill="#1414130a"/><g transform="translate(98 1009.35) scale(1.3333)"><path d="M4 12.5l5 5L20 6.5" fill="none" stroke="#B8331A" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></g><text x="150" y="1032.51" font-family="Inter" font-size="38" font-weight="500" fill="#141413" text-anchor="start">Cite the dataset, every time</text></svg></div>
+        <div class="meta">
+          <span class="layout">summary</span>
+          
+          <span class="count">06 / 07</span>
+        </div>
+        <p class="alt">Summary slide with five data-backed takeaways.</p>
+      </section>
+      <section class="slide" data-index="6" aria-label="Slide 7 of 7" aria-hidden="true">
+        <div class="frame"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1080" height="1350" viewBox="0 0 1080 1350"><rect x="0" y="0" width="1080" height="1350" fill="#B8331A"/><rect x="0" y="0" width="1080" height="1350" fill="#ffffff03"/><circle cx="960" cy="-60" r="420" fill="#ffffff0d"/><rect x="90" y="0" width="1" height="1350" fill="#ffffff05"/><rect x="210" y="0" width="1" height="1350" fill="#ffffff05"/><rect x="330" y="0" width="1" height="1350" fill="#ffffff05"/><rect x="450" y="0" width="1" height="1350" fill="#ffffff05"/><rect x="570" y="0" width="1" height="1350" fill="#ffffff05"/><rect x="690" y="0" width="1" height="1350" fill="#ffffff05"/><rect x="810" y="0" width="1" height="1350" fill="#ffffff05"/><rect x="930" y="0" width="1" height="1350" fill="#ffffff05"/><rect x="1050" y="0" width="1" height="1350" fill="#ffffff05"/><text x="72" y="116" font-family="Inter" font-size="22" font-weight="600" fill="#ffffffb8" text-anchor="start" letter-spacing="3">@OMNICAROUSEL</text><rect x="72" y="150" width="936" height="1" fill="#ffffff59"/><rect x="72" y="1204" width="936" height="1" fill="#ffffff59"/><text x="72" y="1252" font-family="JetBrains Mono" font-size="28" font-weight="500" fill="#ffffffb8" text-anchor="start" letter-spacing="0.5">@omnicarousel</text><text x="1008" y="1252" font-family="JetBrains Mono" font-size="28" font-weight="500" fill="#ffffffb8" text-anchor="end" letter-spacing="1">07 / 07</text><rect x="72" y="1304" width="936" height="4" rx="2" fill="#ffffff1f"/><rect x="72" y="1304" width="936" height="4" rx="2" fill="#FFFFFF"/><circle cx="1040" cy="220" r="260" fill="#ffffff24"/><circle cx="1040" cy="220" r="260" fill="none" stroke="#ffffff4d" stroke-width="2"/><rect x="72" y="216" width="255.7" height="62" rx="999" fill="#FFFFFF"/><g transform="translate(94 234) scale(1.0833)"><path d="M6 3h12v18l-6-4.5L6 21z" fill="none" stroke="#B8331A" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"/></g><text x="134" y="257" font-family="Inter" font-size="26" font-weight="700" fill="#B8331A" letter-spacing="2.6">SAVE THIS</text><text x="72" y="398.65" font-family="Instrument Serif" font-size="93.5" font-weight="700" fill="#FFFFFF" text-anchor="start">Keep this for the next</text><text x="72" y="494.02" font-family="Instrument Serif" font-size="93.5" font-weight="700" fill="#FFFFFF" text-anchor="start">planning meeting</text><text x="72" y="599.54" font-family="Inter" font-size="40" font-weight="400" fill="#ffffffe0" text-anchor="start">Save the deck now — the sources are on</text><text x="72" y="652.34" font-family="Inter" font-size="40" font-weight="400" fill="#ffffffe0" text-anchor="start">every slide, so it survives a fact check.</text><rect x="72" y="1008" width="936" height="150" rx="24" fill="#ffffff0f" stroke="#ffffff1a" stroke-width="1.5"/><text x="112" y="1096" font-family="Instrument Serif" font-size="56" font-weight="700" fill="#FFFFFF">@omnicarousel</text><g transform="translate(908 1040) scale(2.6667)"><path d="M6 3h12v18l-6-4.5L6 21z" fill="none" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></g></svg></div>
+        <div class="meta">
+          <span class="layout">cta</span>
+          
+          <span class="count">07 / 07</span>
+        </div>
+        <p class="alt">Final slide asking readers to save the deck.</p>
+      </section></div>
+    <div class="controls">
+      <button data-step="-1" aria-label="Previous slide">← Prev</button>
+      <button data-step="1" aria-label="Next slide">Next →</button>
+    </div>
+  </div>
+  <aside class="panel">
+    <h1>Three Carousel Myths, Measured</h1>
+    <div class="sub">Omni Carousel · instagram · authority · Editorial Print</div>
+    <div class="stat"><span>Slides</span><span>7</span></div>
+    <div class="stat"><span>Canvas</span><span>1080 × 1350</span></div>
+    <div class="stat"><span>Theme</span><span>editorial</span></div>
+    <h2>Caption</h2>
+    <pre>Three things people still say about carousels, checked against 2026 data.
+
+Myth: carousels are dead.
+2026: carousels hold the highest engagement per follower on Instagram, seven quarters running.
+
+Myth: more slides means more reach.
+2026: 7-10 slides finish; 18 slides get abandoned at frame four.
+
+Myth: LinkedIn is text-only.
+2026: native PDF documents are the top-engaging LinkedIn format.
+
+Save this for your next planning argument.</pre>
+    <h2>Hashtags</h2><p class="tags">carousels socialdata linkedin contentmarketing</p>
+    <h2>Keyboard</h2>
+    <pre>← → navigate · 1-9 jump · Home reset · P print</pre>
+  </aside>
+  <script>
+  (function () {
+    var slides = Array.prototype.slice.call(document.querySelectorAll('.slide'));
+    var dots = Array.prototype.slice.call(document.querySelectorAll('.dot'));
+    var current = 0;
+    function render(index) {
+      current = Math.max(0, Math.min(slides.length - 1, index));
+      slides.forEach(function (slide, i) {
+        var active = i === current;
+        slide.classList.toggle('is-active', active);
+        slide.setAttribute('aria-hidden', active ? 'false' : 'true');
+      });
+      dots.forEach(function (dot, i) { dot.classList.toggle('on', i === current); });
+      window.__slideIndex = current;
+    }
+    // Deterministic capture hooks, GSAP-timeline compatible.
+    window.__seekSlide = function (value) {
+      if (value > 0 && value <= 1 && value % 1 !== 0) value = Math.round(value * (slides.length - 1));
+      render(value);
+      return current;
+    };
+    window.__gsapSeek = window.__seekSlide;
+    window.__deckReady = true;
+    window.__deckSlides = slides.length;
+    document.addEventListener('keydown', function (event) {
+      if (event.key === 'ArrowRight' || event.key === ' ') { render(current + 1); event.preventDefault(); }
+      else if (event.key === 'ArrowLeft') { render(current - 1); event.preventDefault(); }
+      else if (event.key === 'Home') render(0);
+      else if (event.key === 'End') render(slides.length - 1);
+      else if (event.key === 'p' || event.key === 'P') window.print();
+      else if (/^[1-9]$/.test(event.key)) render(Number(event.key) - 1);
+    });
+    document.querySelectorAll('[data-step]').forEach(function (button) {
+      button.addEventListener('click', function () { render(current + Number(button.dataset.step)); });
+    });
+    document.querySelectorAll('[data-goto]').forEach(function (button) {
+      button.addEventListener('click', function () { render(Number(button.dataset.goto)); });
+    });
+    var startX = null;
+    document.addEventListener('touchstart', function (event) { startX = event.touches[0].clientX; }, { passive: true });
+    document.addEventListener('touchend', function (event) {
+      if (startX === null) return;
+      var dx = event.changedTouches[0].clientX - startX;
+      if (Math.abs(dx) > 40) render(current + (dx < 0 ? 1 : -1));
+      startX = null;
+    }, { passive: true });
+    if (/[?&]capture=1/.test(location.search)) {
+      slides.forEach(function (slide) { slide.style.transition = 'none'; });
+    }
+  })();
+  </script>
+</body>
+</html>

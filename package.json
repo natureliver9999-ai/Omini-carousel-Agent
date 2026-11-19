@@ -1,0 +1,38 @@
+{
+  "name": "omni-carousel-agent",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Free, open-source, agent-agnostic AI carousel generator for Instagram PNG slides (1080x1350) and LinkedIn multi-page PDFs.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/natureliver9999-ai/Omini-carousel-Agent.git"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "workspaces": [
+    "core-engine",
+    "mcp-server/typescript",
+    "mcp-server/rest-facade",
+    "sdks/node-sdk",
+    "connectors/setup"
+  ],
+  "scripts": {
+    "build": "npm run build --workspaces --if-present",
+    "export:schema": "npm run export-schema --workspace=@omni-carousel/engine",
+    "test": "npm run test --workspaces --if-present",
+    "lint": "npm run typecheck --workspaces --if-present",
+    "render:examples": "node core-engine/dist/cli.js examples --out examples/rendered && node core-engine/dist/cli.js gallery",
+    "studio": "node mcp-server/rest-facade/dist/server.js --host 0.0.0.0 --port 8765 --allow-unauthenticated",
+    "test:py": "pytest sdks/python-sdk mcp-server/python",
+    "golden": "UPDATE_GOLDEN=1 npx vitest run --root core-engine test/golden.test.ts",
+    "gallery": "node core-engine/dist/cli.js gallery"
+  },
+  "devDependencies": {
+    "@types/node": "22.15.3",
+    "typescript": "5.8.3",
+    "vitest": "3.1.2",
+    "yaml": "^2.6.1"
+  }
+}

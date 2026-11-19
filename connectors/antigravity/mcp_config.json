@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "omni-carousel": {
+      "command": "npx",
+      "args": ["-y", "omni-carousel-mcp"],
+      "env": {
+        "OMNI_OUTPUT_DIR": "./carousels"
+      }
+    }
+  }
+}

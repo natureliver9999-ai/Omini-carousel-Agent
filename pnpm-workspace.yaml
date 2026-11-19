@@ -1,0 +1,6 @@
+packages:
+  - "core-engine"
+  - "mcp-server/typescript"
+  - "mcp-server/rest-facade"
+  - "sdks/node-sdk"
+  - "connectors/setup"

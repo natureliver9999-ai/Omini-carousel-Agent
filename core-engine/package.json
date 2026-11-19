@@ -1,0 +1,48 @@
+{
+  "name": "@omni-carousel/engine",
+  "version": "0.1.0",
+  "description": "Deterministic dual-backend carousel engine: typed layouts, linter, 1080x1350 PNG / panorama / PDF renderer.",
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./schema": {
+      "types": "./dist/schema.d.ts",
+      "default": "./dist/schema.js"
+    }
+  },
+  "bin": {
+    "omni-carousel": "./dist/cli.js"
+  },
+  "files": [
+    "dist",
+    "fonts",
+    "themes",
+    "playbook",
+    "schema.json"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json && node ./scripts/sync-themes.mjs",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "export-schema": "node ./scripts/export-schema.mjs",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@resvg/resvg-js": "2.6.2",
+    "jszip": "3.10.1",
+    "pdf-lib": "1.17.1",
+    "sharp": "0.34.1",
+    "zod": "3.25.76",
+    "zod-to-json-schema": "3.24.6"
+  },
+  "devDependencies": {
+    "@types/node": "22.15.3",
+    "typescript": "5.8.3",
+    "vitest": "3.1.2"
+  }
+}

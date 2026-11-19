@@ -1,0 +1,187 @@
+{
+  "version": "1.0",
+  "id": "ig-layer-stack-architecture",
+  "title": "Anatomy of an Agent-Made Carousel",
+  "platform": "instagram",
+  "goal": "authority",
+  "theme": "brutal-bento",
+  "brand": {
+    "name": "Omni Carousel",
+    "handle": "omnicarousel",
+    "mark": "OC"
+  },
+  "caption": {
+    "text": "An agent does not \"design\" a carousel. It fills a contract, and a deterministic engine renders it.\n\nThat split is the whole trick:\n\n· The model decides what to say\n· The playbook decides the structure\n· The spec is the only contract\n· The engine decides every pixel\n· The bundle carries the provenance\n\nSwipe to see the five layers, then read the last slide for what it buys you.",
+    "hashtags": [
+      "aiagents",
+      "mcp",
+      "contentdesign",
+      "buildinpublic"
+    ]
+  },
+  "slides": [
+    {
+      "id": "hook",
+      "eyebrow": "ARCHITECTURE",
+      "headline": "An agent cannot draw. It can only decide.",
+      "alt_text": "Cover slide announcing the five-layer architecture behind an agent-made carousel.",
+      "layout": "cover_hook",
+      "sub": "Five layers between a prompt and ten pixel-exact slides.",
+      "badge": "MCP 2025-11-25",
+      "icon": "layers"
+    },
+    {
+      "id": "layer-1",
+      "eyebrow": "THE STACK",
+      "headline": "Layer one: intent",
+      "alt_text": "Layer stack with only the intent layer active.",
+      "layout": "layer_stack",
+      "layers": [
+        {
+          "label": "Intent",
+          "detail": "Platform, goal, audience, one claim worth nine frames."
+        },
+        {
+          "label": "Playbook",
+          "detail": "Benchmarks and retention rules, in context."
+        },
+        {
+          "label": "Spec",
+          "detail": "A typed contract. No free-form HTML."
+        },
+        {
+          "label": "Render",
+          "detail": "Deterministic raster. Same input, same pixels."
+        },
+        {
+          "label": "Bundle",
+          "detail": "Slides, PDF, caption, provenance."
+        }
+      ],
+      "active_layers": 1,
+      "total_layers": 5
+    },
+    {
+      "id": "layer-2",
+      "eyebrow": "THE STACK",
+      "headline": "Layer two: the playbook",
+      "alt_text": "Layer stack with intent and playbook active.",
+      "layout": "layer_stack",
+      "layers": [
+        {
+          "label": "Intent",
+          "detail": "Platform, goal, audience, one claim worth nine frames."
+        },
+        {
+          "label": "Playbook",
+          "detail": "Benchmarks and retention rules, in context."
+        },
+        {
+          "label": "Spec",
+          "detail": "A typed contract. No free-form HTML."
+        },
+        {
+          "label": "Render",
+          "detail": "Deterministic raster. Same input, same pixels."
+        },
+        {
+          "label": "Bundle",
+          "detail": "Slides, PDF, caption, provenance."
+        }
+      ],
+      "active_layers": 2,
+      "total_layers": 5
+    },
+    {
+      "id": "layer-3",
+      "eyebrow": "THE STACK",
+      "headline": "Layer three: the contract",
+      "alt_text": "Layer stack with the spec layer now active.",
+      "layout": "layer_stack",
+      "layers": [
+        {
+          "label": "Intent",
+          "detail": "Platform, goal, audience, one claim worth nine frames."
+        },
+        {
+          "label": "Playbook",
+          "detail": "Benchmarks and retention rules, in context."
+        },
+        {
+          "label": "Spec",
+          "detail": "A typed contract. No free-form HTML."
+        },
+        {
+          "label": "Render",
+          "detail": "Deterministic raster. Same input, same pixels."
+        },
+        {
+          "label": "Bundle",
+          "detail": "Slides, PDF, caption, provenance."
+        }
+      ],
+      "active_layers": 3,
+      "total_layers": 5
+    },
+    {
+      "id": "why",
+      "eyebrow": "WHAT IT BUYS",
+      "headline": "Why a contract beats a prompt",
+      "alt_text": "Bento grid of four benefits: determinism, validation, render speed and portability.",
+      "layout": "bento_grid",
+      "tiles": [
+        {
+          "label": "Determinism",
+          "value": "1:1",
+          "text": "Same spec, same pixels",
+          "accent": true
+        },
+        {
+          "label": "Validation",
+          "value": "22",
+          "text": "Lint rules before render"
+        },
+        {
+          "label": "Render speed",
+          "value": "40ms",
+          "text": "Per slide, no browser"
+        },
+        {
+          "label": "Portability",
+          "value": "12+",
+          "text": "Hosts, one server"
+        }
+      ]
+    },
+    {
+      "id": "recap",
+      "eyebrow": "SAVE THIS",
+      "headline": "The five layers, in order",
+      "alt_text": "Summary slide listing the five architecture layers.",
+      "layout": "summary",
+      "bullets": [
+        "Intent: one claim, one goal",
+        "Playbook: rules, not vibes",
+        "Spec: typed, linted, portable",
+        "Render: deterministic, offline-capable",
+        "Bundle: ships with provenance"
+      ],
+      "save_prompt": "Save the architecture"
+    },
+    {
+      "id": "cta",
+      "headline": "We publish one teardown a week",
+      "alt_text": "Final slide asking readers to follow for weekly teardowns.",
+      "layout": "cta",
+      "action": "follow",
+      "text": "Follow for the next layer, and the schema that makes it portable across every agent host.",
+      "handle": "omnicarousel"
+    }
+  ],
+  "meta": {
+    "language": "en",
+    "sources": [
+      "omni-carousel-agent v0.1.0 architecture notes"
+    ]
+  }
+}

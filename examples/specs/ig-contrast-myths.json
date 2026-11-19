@@ -1,0 +1,124 @@
+{
+  "version": "1.0",
+  "id": "ig-contrast-myths",
+  "title": "Three Carousel Myths, Measured",
+  "platform": "instagram",
+  "goal": "authority",
+  "theme": "editorial",
+  "brand": { "name": "Omni Carousel", "handle": "omnicarousel" },
+  "caption": {
+    "text": "Three things people still say about carousels, checked against 2026 data.\n\nMyth: carousels are dead.\n2026: carousels hold the highest engagement per follower on Instagram, seven quarters running.\n\nMyth: more slides means more reach.\n2026: 7-10 slides finish; 18 slides get abandoned at frame four.\n\nMyth: LinkedIn is text-only.\n2026: native PDF documents are the top-engaging LinkedIn format.\n\nSave this for your next planning argument.",
+    "hashtags": ["carousels", "socialdata", "linkedin", "contentmarketing"]
+  },
+  "meta": {
+    "language": "en",
+    "sources": [
+      "Socialinsider Instagram benchmarks, Q3 2026",
+      "Socialinsider LinkedIn benchmarks, March 2026 (2.45M posts)",
+      "Buffer State of Social Engagement, March 2026 (52M+ posts)"
+    ]
+  },
+  "slides": [
+    {
+      "id": "hook",
+      "layout": "cover_hook",
+      "eyebrow": "MYTH CHECK",
+      "headline": "Half of what you know about carousels is backwards",
+      "sub": "Three claims, three datasets, one uncomfortable conclusion.",
+      "icon": "alert-triangle",
+      "alt_text": "Cover: 'Half of what you know about carousels is backwards' with a warning icon."
+    },
+    {
+      "id": "myth-1a",
+      "layout": "contrast_split",
+      "mode": "before",
+      "pair": "myth-1",
+      "eyebrow": "CLAIM 01",
+      "headline": "\"Carousels are dead. Video ate them.\"",
+      "left": {
+        "label": "THE CLAIM",
+        "text": "Short-form video owns reach, so static frames are a waste of a slot.",
+        "items": ["Repeated in every 2023 deck", "Based on reach, not engagement", "Never checked per follower"]
+      },
+      "right": {
+        "label": "THE MEASUREMENT",
+        "text": "Engagement per follower, 67.5M posts, Q3 2026.",
+        "items": ["Carousels 0.50%", "Reels 0.48%", "Images 0.35%"]
+      },
+      "alt_text": "Contrast slide: the claim that carousels are dead next to engagement per follower data."
+    },
+    {
+      "id": "myth-1b",
+      "layout": "contrast_split",
+      "mode": "after",
+      "pair": "myth-1",
+      "eyebrow": "CLAIM 01 — VERDICT",
+      "headline": "Video owns discovery. Carousels own intent.",
+      "left": {
+        "label": "WHAT VIDEO WINS",
+        "text": "Cold reach, especially under 50K followers.",
+        "items": ["Reels reach rate 4.10%", "Best on small accounts", "Sound-on, passive"]
+      },
+      "right": {
+        "label": "WHAT CAROUSELS WIN",
+        "text": "Depth, saves, and dwell time per viewer.",
+        "items": ["Reach rate 4.50%", "Highest save ratio", "Reader-initiated pacing"]
+      },
+      "verdict": "Run both. Stop pretending they compete.",
+      "alt_text": "Contrast slide splitting what video wins from what carousels win."
+    },
+    {
+      "id": "myth-2",
+      "layout": "contrast_split",
+      "eyebrow": "CLAIM 02",
+      "headline": "\"Ten slides is free reach.\"",
+      "left": {
+        "label": "PADDED DECK",
+        "text": "Fifteen slides, one idea, four of them filler.",
+        "items": ["Completion drops past frame nine", "Each skip is a negative signal", "Readers exit at the first flat frame"]
+      },
+      "right": {
+        "label": "EARNED DECK",
+        "text": "Eight slides, eight distinct beats.",
+        "items": ["7-10 slides completes best", "Every frame pays off the last", "Recap slide earns the save"]
+      },
+      "verdict": "Slide count is a budget, not a strategy.",
+      "alt_text": "Contrast slide comparing padded versus earned carousels."
+    },
+    {
+      "id": "li-proof",
+      "layout": "proof",
+      "eyebrow": "CLAIM 03",
+      "headline": "LinkedIn's strongest format is a PDF",
+      "metric_value": "7.00%",
+      "metric_label": "Engagement by impressions for native document posts",
+      "finding": "LinkedIn document posts now sit ahead of multi-image, video and text, and the gap widened year over year. The mechanism is dwell time: eight structured pages hold a reader on the post far longer than a caption.",
+      "source": "Socialinsider, LinkedIn benchmarks, March 2026 — 2.45M posts",
+      "attribution": "Socialinsider",
+      "alt_text": "Proof slide showing 7.00% engagement by impressions for LinkedIn document posts."
+    },
+    {
+      "id": "recap",
+      "layout": "summary",
+      "eyebrow": "SAVE THIS",
+      "headline": "What the data actually says",
+      "bullets": [
+        "Carousels lead engagement, not reach",
+        "7-10 frames is the completion zone",
+        "LinkedIn PDFs are the top format",
+        "Dwell time explains all three",
+        "Cite the dataset, every time"
+      ],
+      "alt_text": "Summary slide with five data-backed takeaways."
+    },
+    {
+      "id": "cta",
+      "layout": "cta",
+      "action": "save",
+      "headline": "Keep this for the next planning meeting",
+      "text": "Save the deck now — the sources are on every slide, so it survives a fact check.",
+      "handle": "omnicarousel",
+      "alt_text": "Final slide asking readers to save the deck."
+    }
+  ]
+}

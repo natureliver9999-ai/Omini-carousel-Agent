@@ -1,0 +1,13 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "mcp": {
+    "omni-carousel": {
+      "type": "local",
+      "command": ["npx", "-y", "omni-carousel-mcp"],
+      "enabled": true,
+      "environment": {
+        "OMNI_OUTPUT_DIR": "./carousels"
+      }
+    }
+  }
+}
