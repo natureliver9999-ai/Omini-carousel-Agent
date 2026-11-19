@@ -239,7 +239,8 @@ npx serve site/out                               # or look at it locally
 ```
 
 Any static host works — there is no server, no API key and no runtime at
-request time. The build is the engine running on its own examples.
+request time. The build is the engine running on its own examples. Full
+walkthrough (dashboard import, CLI, GitHub Action): [`docs/deploy.md`](docs/deploy.md).
 
 ## Security model
 

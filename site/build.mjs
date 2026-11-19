@@ -11,7 +11,7 @@
  *   node site/build.mjs    # → site/out
  */
 import { execFileSync } from 'node:child_process';
-import { existsSync, rmSync } from 'node:fs';
+import { existsSync, rmSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -34,6 +34,13 @@ rmSync(out, { recursive: true, force: true });
 run(['examples', '--out', path.join(out, 'decks')]);
 run(['gallery', '--rendered', path.join(out, 'decks'), '--out', path.join(out, 'index.html')]);
 run(['canvas', '--out', path.join(out, 'atlas.html')]);
+// A deployment of site/out is pure static: no build step, no framework.
+writeFileSync(path.join(out, 'vercel.json'), JSON.stringify({
+  $schema: 'https://openapi.vercel.sh/vercel.json',
+  cleanUrls: true,
+  headers: [{ source: '/(.*)', headers: [{ key: 'X-Content-Type-Options', value: 'nosniff' }] }],
+}, null, 2));
+
 // Vercel serves 404.html for unknown paths; point it at the gallery.
 execFileSync('node', ['-e', `
   const fs = require('node:fs');
