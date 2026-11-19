@@ -21,21 +21,31 @@ if (!existsSync(cli)) {
   process.exit(1);
 }
 
+// Paths are resolved by the installer itself (they are platform-dependent, e.g.
+// Claude Desktop uses ~/Library/Application Support on macOS), so each case runs a
+// dry run first and reads the target path back out of the report.
 const HOSTS = [
-  { client: 'claude-desktop', scope: 'user', file: '.config/Claude/claude_desktop_config.json' },
-  { client: 'claude-code', scope: 'user', file: '.claude.json', expectBackup: false },
-  { client: 'claude-code', scope: 'project', file: '.mcp.json' },
-  { client: 'cursor', scope: 'user', file: '.cursor/mcp.json' },
-  { client: 'cursor', scope: 'project', file: '.cursor/mcp.json' },
-  { client: 'windsurf', scope: 'user', file: '.codeium/windsurf/mcp_config.json' },
-  { client: 'vscode', scope: 'project', file: '.vscode/mcp.json' },
-  { client: 'codex', scope: 'user', file: '.codex/config.toml' },
-  { client: 'opencode', scope: 'project', file: 'opencode.json' },
-  { client: 'opencode', scope: 'user', file: '.config/opencode/opencode.json' },
-  { client: 'antigravity', scope: 'user', file: '.gemini/config/mcp_config.json' },
-  { client: 'antigravity', scope: 'project', file: '.agents/mcp_config.json' },
-  { client: 'zed', scope: 'user', file: '.config/zed/settings.json' },
+  { client: 'claude-desktop', scope: 'user', expectBackup: false },
+  { client: 'claude-code', scope: 'user', expectBackup: false },
+  { client: 'claude-code', scope: 'project' },
+  { client: 'cursor', scope: 'user' },
+  { client: 'cursor', scope: 'project' },
+  { client: 'windsurf', scope: 'user' },
+  { client: 'vscode', scope: 'project' },
+  { client: 'codex', scope: 'user' },
+  { client: 'opencode', scope: 'project' },
+  { client: 'opencode', scope: 'user' },
+  { client: 'antigravity', scope: 'user' },
+  { client: 'antigravity', scope: 'project' },
+  { client: 'zed', scope: 'user' },
 ];
+
+function resolveTarget(client, scope, cwd, env) {
+  const output = run(['--client', client, '--scope', scope, '--dry-run'], { cwd, env });
+  const match = output.match(/^\s{2}(\/\S+)$/m) ?? output.match(/^\s{2}([A-Za-z]:\\\S+)$/m);
+  if (!match) throw new Error(`could not parse target path from dry run:\n${output}`);
+  return match[1];
+}
 
 let failures = 0;
 const ok = (message) => console.log(`  ok   ${message}`);
@@ -52,8 +62,14 @@ for (const host of HOSTS) {
   const home = mkdtempSync(path.join(tmpdir(), `omni-home-${host.client}-`));
   const project = mkdtempSync(path.join(tmpdir(), `omni-proj-${host.client}-`));
   const env = { ...process.env, HOME: home, USERPROFILE: home };
-  const target = path.join(host.scope === 'user' ? home : project, host.file);
   const label = `${host.client} (${host.scope})`;
+  let target;
+  try {
+    target = resolveTarget(host.client, host.scope, project, env);
+  } catch (error) {
+    bad(`${label}: ${error.message.split('\n')[0]}`);
+    continue;
+  }
 
   // Seed a sibling entry, so the merge path is exercised rather than the create path.
   mkdirSync(path.dirname(target), { recursive: true });
@@ -71,7 +87,7 @@ for (const host of HOSTS) {
   }
 
   if (!existsSync(target)) {
-    bad(`${label}: expected config at ${path.relative(host.scope === 'user' ? home : project, target)}`);
+    bad(`${label}: expected config at ${target}`);
     continue;
   }
 

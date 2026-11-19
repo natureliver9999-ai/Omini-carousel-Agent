@@ -89,12 +89,13 @@ jobs:
           assert payload['ok'] is True, payload
           assert payload['lint']['ok'] is True, payload['lint']
           assert len(payload['slides']) == 6, len(payload['slides'])
-          urls = [slide['url'] for slide in payload['slides']]
+          urls = [slide['url'] for slide in payload['urls']['slides']]
+          assert len(urls) == 6, urls
           assert all('sig=' in url and 'exp=' in url for url in urls), urls[0]
           print(f"render ok: {len(urls)} signed slide URLs, {payload['duration_ms']}ms")
           PY
           echo "--- tampered signature must 403"
-          FIRST=$(python -c "import json;print(json.load(open('/tmp/render.json'))['slides'][0]['url'])")
+          FIRST=$(python -c "import json;print(json.load(open('/tmp/render.json'))['urls']['slides'][0]['url'])")
           TAMPERED=$(python -c "import sys;u=sys.argv[1];print(u[:-4]+'dead')" "$FIRST")
           code=$(curl -s -o /dev/null -w '%{http_code}' "$TAMPERED")
           test "$code" = "403" || (echo "::error::tampered signature returned $code" && exit 1)
